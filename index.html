@@ -8,7 +8,7 @@
         body { font-family: Arial, sans-serif; text-align: center; background-color: #f0f4f8; margin: 0; padding: 0; }
         .header { background-color: #1E3A8A; color: white; padding: 20px; font-size: 26px; font-weight: bold; }
         .calendar-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; padding: 20px; max-width: 1000px; margin: auto; }
-        .calendar { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); text-align: center; transition: transform 0.2s; }
+        .calendar { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); text-align: center; transition: transform 0.2s; cursor: pointer; }
         .calendar:hover { transform: scale(1.05); }
         .calendar h3 { background-color: #1E3A8A; color: white; padding: 10px; border-radius: 5px; font-size: 18px; margin: 0; }
         .calendar table { width: 100%; margin-top: 10px; border-collapse: collapse; font-size: 14px; }
@@ -26,14 +26,14 @@
     </div>
     <div class="info-container" id="infoContainer">
         <h2>Informações da Suspensão</h2>
-        <p id="infoDetails">Clique em uma data para ver os detalhes das suspensões.</p>
+        <p id="infoDetails">Clique em um mês para ver as suspensões desse período.</p>
     </div>
     <script>
         const months = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
         const suspensionsData = {
-            "Janeiro": {"20": "Suspensão - Altamira. Motivo: Feriado Municipal. Portaria Nº 2/2025-GP"},
-            "Fevereiro": {"10": "Suspensão - Tailândia. Motivo: Obras no fórum. Portaria Nº 10/2025-GP"},
-            "Março": {}, "Abril": {}, "Maio": {}, "Junho": {}, "Julho": {}, "Agosto": {}, "Setembro": {}, "Outubro": {}, "Novembro": {}, "Dezembro": {}
+            "Janeiro": ["Suspensão - Altamira. Motivo: Feriado Municipal. Portaria Nº 2/2025-GP"],
+            "Fevereiro": ["Suspensão - Tailândia. Motivo: Obras no fórum. Portaria Nº 10/2025-GP"],
+            "Março": [], "Abril": [], "Maio": [], "Junho": [], "Julho": [], "Agosto": [], "Setembro": [], "Outubro": [], "Novembro": [], "Dezembro": []
         };
 
         function generateCalendar() {
@@ -42,12 +42,11 @@
             months.forEach((month, index) => {
                 let firstDay = new Date(2025, index, 1).getDay();
                 let daysInMonth = new Date(2025, index + 1, 0).getDate();
-                let calendar = `<div class='calendar'><h3>${month} 2025</h3><table>`;
+                let calendar = `<div class='calendar' onclick="showSuspensions('${month}')"><h3>${month} 2025</h3><table>`;
                 calendar += "<tr><th>D</th><th>S</th><th>T</th><th>Q</th><th>Q</th><th>S</th><th>S</th></tr><tr>";
                 for (let i = 0; i < firstDay; i++) calendar += "<td></td>";
                 for (let day = 1; day <= daysInMonth; day++) {
-                    let hasSuspension = suspensionsData[month][day] !== undefined;
-                    calendar += `<td class='${hasSuspension ? "highlight" : ""}' onclick="showSuspensions('${month}', ${day})">${day}</td>`;
+                    calendar += `<td>${day}</td>`;
                     if ((day + firstDay) % 7 === 0) calendar += "</tr><tr>";
                 }
                 calendar += "</tr></table></div>";
@@ -55,9 +54,9 @@
             });
         }
 
-        function showSuspensions(month, day) {
+        function showSuspensions(month) {
             let infoDetails = document.getElementById("infoDetails");
-            let suspensionInfo = suspensionsData[month][day] || `Nenhuma suspensão registrada para ${day} de ${month}.`;
+            let suspensionInfo = suspensionsData[month].length > 0 ? suspensionsData[month].join("<br>") : `Nenhuma suspensão registrada para ${month}.`;
             infoDetails.innerHTML = suspensionInfo;
         }
 
