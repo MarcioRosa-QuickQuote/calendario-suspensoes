@@ -3,25 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendário de Suspensões de Expedientes</title>
+    <title>Calendário de Suspensões</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; background-color: #f0f4f8; margin: 0; padding: 0; }
-        .header {
-            background-color: #1E3A8A;
-            color: white;
-            padding: 20px;
-            font-size: 26px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .header-image {
-            height: 60px;
-            margin-right: 20px;
-        }
+        .header { background-color: #1E3A8A; color: white; padding: 20px; font-size: 26px; font-weight: bold; }
         .calendar-container { display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; padding: 20px; max-width: 1200px; margin: auto; }
-        .calendar { background: white; padding: 8px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); text-align: center; }
+        .calendar { background: white; padding: 8px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); text-align: center; transition: transform 0.2s; cursor: pointer; }
         .calendar:hover { transform: scale(1.05); }
         .calendar h3 { background-color: #1E3A8A; color: white; padding: 6px; border-radius: 5px; font-size: 14px; margin: 0; }
         .calendar table { width: 100%; margin-top: 5px; border-collapse: collapse; font-size: 10px; }
@@ -31,18 +18,14 @@
         .highlight:hover { background-color: darkred; }
         .info-container { margin-top: 10px; padding: 10px; background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); text-align: left; max-width: 800px; margin-left: auto; margin-right: auto; }
         .info-container h2 { color: #1E3A8A; }
-        .info-container strong { font-weight: bold; }
     </style>
 </head>
 <body>
-    <div class="header">
-        <img src="https://i.imgur.com/bcjzam8.png" alt="Logo TJPA" class="header-image">
-        Calendário de Suspensões de Expedientes - 2025
-    </div>
+    <div class="header">Calendário de Suspensões - 2025</div>
     <div class="calendar-container" id="calendarContainer"></div>
     <div class="info-container" id="infoContainer">
-        <h2>Informações da Suspensão de Expediente</h2>
-        <p id="infoDetails">Clique em um dia para ver as suspensões desse período.</p>
+        <h2>Informações da Suspensão</h2>
+        <p id="infoDetails">Clique em um mês para ver as suspensões desse período.</p>
     </div>
     <script>
         const apiUrl = "https://docs.google.com/spreadsheets/d/1XXfkwIzqUgM8rLeWN5lRqiyhIGRfMI9C/gviz/tq?tqx=out:json&sheet=SUSPENSÕES DE EXPEDIENTE";
@@ -54,50 +37,28 @@
                 .then(response => response.text())
                 .then(data => {
                     try {
-                        console.log("Dados brutos recebidos:", data);
+                        // Remover o cabeçalho e o rodapé do JSON retornado pela API
                         const jsonData = JSON.parse(data.substring(47, data.length - 2));
-                        console.log("JSON parseado:", jsonData);
                         const rows = jsonData.table.rows;
 
-                        suspensionsData = {};
-
                         rows.forEach(row => {
-                            if (!row.c || row.c.length < 6 || row.c.some(col => col === null || col.v === undefined)) return;
-                            const monthRaw = row.c[0].v; // Ex.: "1º de janeiro"
-                            const startDay = parseInt(row.c[1].v); // Dia de início
-                            const endDay = parseInt(row.c[2].v); // Dia de fim
-                            const motivo = row.c[3].v || "Não especificado";
-                            const portaria = row.c[4].v || "Não especificada";
-                            const fundamento = row.c[5].v || "Não especificado";
+                            if (!row.c || row.c.some(col => col === null || col.v === undefined)) return; // Ignora linhas incompletas
+                            const month = row.c[0].v; // Coluna 0: Mês
+                            const day = row.c[1].v;   // Coluna 1: Dia
+                            const start = row.c[1].v; // Coluna 1: Data inicial
+                            const end = row.c[2].v;   // Coluna 2: Data final
+                            const motivo = row.c[3].v || "Não especificado"; // Coluna 3: Motivo
+                            const portaria = row.c[4].v || "Não especificada"; // Coluna 4: Portaria
+                            const fundamento = row.c[5].v || "Não especificado"; // Coluna 5: Fundamento
 
-                            // Extrair o nome do mês
-                            let monthName = monthRaw.split(" ").pop();
-                            monthName = monthName.charAt(0).toUpperCase() + monthName.slice(1).toLowerCase();
-                            console.log(`Mês extraído: ${monthName}, Start: ${startDay}, End: ${endDay}`);
+                            const info = `${start} - (${start}) a (${end}). Motivo: ${motivo}. Portaria ${portaria} (${fundamento}).`;
 
-                            // Formatar a data
-                            const year = 2025;
-                            const monthIndex = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"].indexOf(monthName.toLowerCase());
-                            const formattedStartDate = `${startDay.toString().padStart(2, '0')}/${(monthIndex + 1).toString().padStart(2, '0')}/${year}`;
-                            const formattedEndDate = `${endDay.toString().padStart(2, '0')}/${(monthIndex + 1).toString().padStart(2, '0')}/${year}`;
-                            const formattedDate = `${monthName} - ${formattedStartDate} a ${formattedEndDate} (TJPA-MEM-2025/XXXX)`;
-                            const info = `
-                                <strong>${formattedDate}</strong><br>
-                                Motivo: ${motivo}<br>
-                                Portaria ${portaria} - Nº EDIÇÃO DJE Nº ${fundamento}
-                            `;
-
-                            if (!suspensionsData[monthName]) {
-                                suspensionsData[monthName] = {};
+                            if (!suspensionsData[month]) {
+                                suspensionsData[month] = {};
                             }
-
-                            // Associar a suspensão a todos os dias do intervalo
-                            for (let day = startDay; day <= endDay; day++) {
-                                suspensionsData[monthName][day] = info;
-                            }
+                            suspensionsData[month][day] = { start, end, motivo, portaria, fundamento, info };
                         });
-
-                        console.log("Dados mapeados:", suspensionsData);
+                        console.log("Dados extraídos:", suspensionsData);
                         generateCalendar();
                     } catch (error) {
                         console.error("Erro ao processar JSON:", error);
@@ -113,17 +74,15 @@
         function generateCalendar() {
             let container = document.getElementById("calendarContainer");
             container.innerHTML = "";
-            const months = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
-            
-            months.forEach((month, index) => {
+            ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"].forEach((month, index) => {
                 let firstDay = new Date(2025, index, 1).getDay();
                 let daysInMonth = new Date(2025, index + 1, 0).getDate();
-                let calendar = `<div class='calendar'><h3>${month} 2025</h3><table>`;
+                let calendar = `<div class='calendar' onclick="showSuspensions('${month}')"><h3>${month} 2025</h3><table>`;
                 calendar += "<tr><th>D</th><th>S</th><th>T</th><th>Q</th><th>Q</th><th>S</th><th>S</th></tr><tr>";
                 for (let i = 0; i < firstDay; i++) calendar += "<td></td>";
                 for (let day = 1; day <= daysInMonth; day++) {
                     let highlightClass = (suspensionsData[month] && suspensionsData[month][day]) ? "highlight" : "";
-                    calendar += `<td class='${highlightClass}' onclick="showSuspension('${month}', ${day})" data-day='${day}'>${day}</td>`;
+                    calendar += `<td class='${highlightClass}' data-day='${day}'>${day}</td>`;
                     if ((day + firstDay) % 7 === 0) calendar += "</tr><tr>";
                 }
                 calendar += "</tr></table></div>";
@@ -131,15 +90,17 @@
             });
         }
 
-        function showSuspension(month, day) {
+        function showSuspensions(month) {
             let infoDetails = document.getElementById("infoDetails");
-            if (suspensionsData[month] && suspensionsData[month][day]) {
-                infoDetails.innerHTML = suspensionsData[month][day];
+            if (suspensionsData[month]) {
+                let suspensionInfo = Object.values(suspensionsData[month]).map(susp => susp.info).join("<br>");
+                infoDetails.innerHTML = suspensionInfo || `Nenhuma suspensão registrada para ${month}.`;
             } else {
-                infoDetails.innerHTML = `Nenhuma suspensão registrada para ${day} de ${month}.`;
+                infoDetails.innerHTML = `Nenhuma suspensão registrada para ${month}.`;
             }
         }
 
+        // Chama a função para carregar os dados e gerar o calendário
         window.onload = fetchSuspensions;
     </script>
 </body>
