@@ -7,16 +7,16 @@
     <style>
         body { font-family: Arial, sans-serif; text-align: center; background-color: #f0f4f8; margin: 0; padding: 0; }
         .header { background-color: #1E3A8A; color: white; padding: 20px; font-size: 26px; font-weight: bold; }
-        .calendar-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; padding: 20px; max-width: 1000px; margin: auto; }
-        .calendar { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); text-align: center; transition: transform 0.2s; cursor: pointer; }
+        .calendar-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; padding: 20px; max-width: 1200px; margin: auto; }
+        .calendar { background: white; padding: 10px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); text-align: center; transition: transform 0.2s; cursor: pointer; }
         .calendar:hover { transform: scale(1.05); }
-        .calendar h3 { background-color: #1E3A8A; color: white; padding: 10px; border-radius: 5px; font-size: 18px; margin: 0; }
-        .calendar table { width: 100%; margin-top: 10px; border-collapse: collapse; font-size: 14px; }
-        .calendar th, .calendar td { padding: 8px; text-align: center; cursor: pointer; }
+        .calendar h3 { background-color: #1E3A8A; color: white; padding: 8px; border-radius: 5px; font-size: 16px; margin: 0; }
+        .calendar table { width: 100%; margin-top: 5px; border-collapse: collapse; font-size: 12px; }
+        .calendar th, .calendar td { padding: 6px; text-align: center; cursor: pointer; }
         .calendar th { color: #1E3A8A; font-weight: bold; }
-        .highlight { background-color: #2563EB; color: white; border-radius: 50%; padding: 6px; transition: 0.3s; }
-        .highlight:hover { background-color: #1D4ED8; }
-        .info-container { margin-top: 20px; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); text-align: left; max-width: 800px; margin-left: auto; margin-right: auto; }
+        .highlight { background-color: red; color: white; border-radius: 50%; padding: 6px; transition: 0.3s; }
+        .highlight:hover { background-color: darkred; }
+        .info-container { margin-top: 20px; padding: 15px; background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); text-align: left; max-width: 800px; margin-left: auto; margin-right: auto; }
         .info-container h2 { color: #1E3A8A; }
     </style>
 </head>
@@ -41,12 +41,13 @@
                 .then(data => {
                     const jsonData = JSON.parse(data.substring(47, data.length - 2));
                     jsonData.table.rows.forEach(row => {
-                        const month = row.c[1].v; // Coluna do mês
+                        const month = row.c[1].v;
+                        const day = row.c[2].v;
                         const info = `${row.c[0].v} - ${row.c[2].v} a ${row.c[3].v}. Motivo: ${row.c[4].v}. Portaria ${row.c[5].v} (${row.c[6].v}).`;
                         if (!suspensionsData[month]) {
-                            suspensionsData[month] = [];
+                            suspensionsData[month] = {};
                         }
-                        suspensionsData[month].push(info);
+                        suspensionsData[month][day] = info;
                     });
                     generateCalendar();
                 })
@@ -63,7 +64,8 @@
                 calendar += "<tr><th>D</th><th>S</th><th>T</th><th>Q</th><th>Q</th><th>S</th><th>S</th></tr><tr>";
                 for (let i = 0; i < firstDay; i++) calendar += "<td></td>";
                 for (let day = 1; day <= daysInMonth; day++) {
-                    calendar += `<td>${day}</td>`;
+                    let highlightClass = (suspensionsData[month] && suspensionsData[month][day]) ? "highlight" : "";
+                    calendar += `<td class='${highlightClass}'>${day}</td>`;
                     if ((day + firstDay) % 7 === 0) calendar += "</tr><tr>";
                 }
                 calendar += "</tr></table></div>";
@@ -73,8 +75,8 @@
         
         function showSuspensions(month) {
             let infoDetails = document.getElementById("infoDetails");
-            let suspensionInfo = suspensionsData[month] && suspensionsData[month].length > 0 ? suspensionsData[month].join("<br>") : `Nenhuma suspensão registrada para ${month}.`;
-            infoDetails.innerHTML = suspensionInfo;
+            let suspensions = suspensionsData[month] ? Object.values(suspensionsData[month]).join("<br>") : `Nenhuma suspensão registrada para ${month}.`;
+            infoDetails.innerHTML = suspensions;
         }
         
         fetchSuspensions();
