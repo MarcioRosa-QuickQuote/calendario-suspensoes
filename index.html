@@ -54,13 +54,15 @@
                 .then(response => response.text())
                 .then(data => {
                     try {
+                        console.log("Dados brutos recebidos:", data);
                         const jsonData = JSON.parse(data.substring(47, data.length - 2));
+                        console.log("JSON parseado:", jsonData);
                         const rows = jsonData.table.rows;
 
                         suspensionsData = {};
 
                         rows.forEach(row => {
-                            if (!row.c || row.c.some(col => col === null || col.v === undefined)) return;
+                            if (!row.c || row.c.length < 6 || row.c.some(col => col === null || col.v === undefined)) return;
                             const monthRaw = row.c[0].v; // Ex.: "1º de janeiro"
                             const startDay = parseInt(row.c[1].v); // Dia de início
                             const endDay = parseInt(row.c[2].v); // Dia de fim
@@ -71,10 +73,14 @@
                             // Extrair o nome do mês
                             let monthName = monthRaw.split(" ").pop();
                             monthName = monthName.charAt(0).toUpperCase() + monthName.slice(1).toLowerCase();
+                            console.log(`Mês extraído: ${monthName}, Start: ${startDay}, End: ${endDay}`);
 
-                            // Formatar a data no estilo solicitado
-                            const year = 2025; // Ano fixo para 2025
-                            const formattedDate = `${monthName} - ${startDay.toString().padStart(2, '0')}/${year} a ${endDay.toString().padStart(2, '0')}/${year} (TJPA-MEM-2025/XXXX)`;
+                            // Formatar a data
+                            const year = 2025;
+                            const monthIndex = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"].indexOf(monthName.toLowerCase());
+                            const formattedStartDate = `${startDay.toString().padStart(2, '0')}/${(monthIndex + 1).toString().padStart(2, '0')}/${year}`;
+                            const formattedEndDate = `${endDay.toString().padStart(2, '0')}/${(monthIndex + 1).toString().padStart(2, '0')}/${year}`;
+                            const formattedDate = `${monthName} - ${formattedStartDate} a ${formattedEndDate} (TJPA-MEM-2025/XXXX)`;
                             const info = `
                                 <strong>${formattedDate}</strong><br>
                                 Motivo: ${motivo}<br>
@@ -91,7 +97,7 @@
                             }
                         });
 
-                        console.log("Dados extraídos:", suspensionsData);
+                        console.log("Dados mapeados:", suspensionsData);
                         generateCalendar();
                     } catch (error) {
                         console.error("Erro ao processar JSON:", error);
