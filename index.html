@@ -28,36 +28,29 @@
         <p id="infoDetails">Clique em um mês para ver as suspensões desse período.</p>
     </div>
     <script>
-        const apiUrl = "https://docs.google.com/spreadsheets/d/1XXfkwIzqUgM8rLeWN5lRqiyhIGRfMI9C/gviz/tq?tqx=out:json&sheet=Suspensões de Expediente";
-        
-        let suspensionsData = {};
-        
-        function fetchSuspensions() {
-            fetch(apiUrl)
-                .then(response => response.text())
-                .then(data => {
-                    try {
-                        console.log("JSON recebido:", data);
-                        const jsonData = JSON.parse(data.substring(47, data.length - 2));
-                        jsonData.table.rows.forEach(row => {
-                            if (!row.c || !row.c[1] || !row.c[2]) return; // Evita erros ao acessar colunas vazias
-                            const month = row.c[1].v;
-                            const day = row.c[2].v;
-                            const info = `${row.c[0].v} - ${row.c[2].v} a ${row.c[3].v}. Motivo: ${row.c[4].v}. Portaria ${row.c[5].v} (${row.c[6].v}).`;
-                            if (!suspensionsData[month]) {
-                                suspensionsData[month] = {};
-                            }
-                            suspensionsData[month][day] = info;
-                        });
-                        console.log("Dados extraídos:", suspensionsData);
-                        generateCalendar();
-                    } catch (error) {
-                        console.error("Erro ao processar JSON:", error);
-                    }
-                })
-                .catch(error => console.error("Erro ao buscar dados da planilha:", error));
-        }
-        
+        // Simulação dos dados da aba "Suspensões de Expediente" com base na imagem fornecida
+        const suspensionsData = {
+            "Março": {
+                "3": { start: "3", end: "4", motivo: "Abate de gado", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" },
+                "4": { start: "3", end: "4", motivo: "Abate de gado", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 1.408/1951" }
+            },
+            "Abril": {
+                "17": { start: "17", end: "18", motivo: "Mostra borda do frame", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 1.408/1951" },
+                "18": { start: "17", end: "18", motivo: "Mostra borda do frame", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 1.408/1951" }
+            },
+            "Maio": {
+                "1": { start: "1", end: "1", motivo: "Dia do Trabalho", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" },
+                "2": { start: "2", end: "2", motivo: "Ponto Facultativo com compensação", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" }
+            },
+            "Junho": {
+                "19": { start: "19", end: "20", motivo: "Corpus Christi", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Municipal nº 6306/67" },
+                "20": { start: "19", end: "20", motivo: "Corpus Christi", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Municipal nº 6306/67" }
+            },
+            "Agosto": {
+                "15": { start: "15", end: "15", motivo: "Adesão do Gra-Pa à independência do Brasil", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Estadual nº 5.991/1986" }
+            }
+        };
+
         function generateCalendar() {
             let container = document.getElementById("calendarContainer");
             container.innerHTML = "";
@@ -69,21 +62,28 @@
                 for (let i = 0; i < firstDay; i++) calendar += "<td></td>";
                 for (let day = 1; day <= daysInMonth; day++) {
                     let highlightClass = (suspensionsData[month] && suspensionsData[month][day]) ? "highlight" : "";
-                    calendar += `<td class='${highlightClass}'>${day}</td>`;
+                    calendar += `<td class='${highlightClass}' data-day='${day}'>${day}</td>`;
                     if ((day + firstDay) % 7 === 0) calendar += "</tr><tr>";
                 }
                 calendar += "</tr></table></div>";
                 container.innerHTML += calendar;
             });
         }
-        
+
         function showSuspensions(month) {
             let infoDetails = document.getElementById("infoDetails");
-            let suspensions = suspensionsData[month] ? Object.values(suspensionsData[month]).join("<br>") : `Nenhuma suspensão registrada para ${month}.`;
-            infoDetails.innerHTML = suspensions;
+            if (suspensionsData[month]) {
+                let suspensionInfo = Object.values(suspensionsData[month]).map(susp => {
+                    return `${susp.start} - (${susp.start}) a (${susp.end}). Motivo: ${susp.motivo}. Portaria ${susp.portaria} (${susp.fundamento}).`;
+                }).join("<br>");
+                infoDetails.innerHTML = suspensionInfo || `Nenhuma suspensão registrada para ${month}.`;
+            } else {
+                infoDetails.innerHTML = `Nenhuma suspensão registrada para ${month}.`;
+            }
         }
-        
-        fetchSuspensions();
+
+        // Chama a função para gerar o calendário ao carregar a página
+        window.onload = generateCalendar;
     </script>
 </body>
 </html>
