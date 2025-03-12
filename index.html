@@ -3,10 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendário de Suspensões</title>
+    <title>Calendário de Suspensões de Expedientes</title>
     <style>
         body { font-family: Arial, sans-serif; text-align: center; background-color: #f0f4f8; margin: 0; padding: 0; }
-        .header { background-color: #1E3A8A; color: white; padding: 20px; font-size: 26px; font-weight: bold; }
+        .header {
+            background-color: #1E3A8A;
+            color: white;
+            padding: 20px;
+            font-size: 26px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header-image {
+            height: 60px;
+            margin-right: 20px;
+        }
         .calendar-container { display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; padding: 20px; max-width: 1200px; margin: auto; }
         .calendar { background: white; padding: 8px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); text-align: center; transition: transform 0.2s; cursor: pointer; }
         .calendar:hover { transform: scale(1.05); }
@@ -18,13 +31,17 @@
         .highlight:hover { background-color: darkred; }
         .info-container { margin-top: 10px; padding: 10px; background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); text-align: left; max-width: 800px; margin-left: auto; margin-right: auto; }
         .info-container h2 { color: #1E3A8A; }
+        .info-container strong { font-weight: bold; }
     </style>
 </head>
 <body>
-    <div class="header">Calendário de Suspensões - 2025</div>
+    <div class="header">
+        <img src="https://i.imgur.com/bcjzam8.png" alt="Logo TJPA" class="header-image">
+        Calendário de Suspensões de Expedientes - 2025
+    </div>
     <div class="calendar-container" id="calendarContainer"></div>
     <div class="info-container" id="infoContainer">
-        <h2>Informações da Suspensão</h2>
+        <h2>Informações da Suspensão de Expediente</h2>
         <p id="infoDetails">Clique em um mês para ver as suspensões desse período.</p>
     </div>
     <script>
@@ -43,20 +60,36 @@
 
                         rows.forEach(row => {
                             if (!row.c || row.c.some(col => col === null || col.v === undefined)) return; // Ignora linhas incompletas
-                            const month = row.c[0].v; // Coluna 0: Mês
-                            const day = row.c[1].v;   // Coluna 1: Dia
-                            const start = row.c[1].v; // Coluna 1: Data inicial
-                            const end = row.c[2].v;   // Coluna 2: Data final
+                            const month = row.c[0].v; // Coluna 0: Mês (ex.: "1º de janeiro")
+                            const startDay = parseInt(row.c[1].v); // Coluna 1: Dia de início
+                            const endDay = parseInt(row.c[2].v); // Coluna 2: Dia de fim
                             const motivo = row.c[3].v || "Não especificado"; // Coluna 3: Motivo
                             const portaria = row.c[4].v || "Não especificada"; // Coluna 4: Portaria
                             const fundamento = row.c[5].v || "Não especificado"; // Coluna 5: Fundamento
 
-                            const info = `${start} - (${start}) a (${end}). Motivo: ${motivo}. Portaria ${portaria} (${fundamento}).`;
+                            // Extrair o nome do mês
+                            let monthName = month.split(" ").pop();
+                            monthName = monthName.charAt(0).toUpperCase() + monthName.slice(1).toLowerCase();
 
-                            if (!suspensionsData[month]) {
-                                suspensionsData[month] = {};
+                            // Formatar a data no estilo solicitado
+                            const year = 2025;
+                            const monthIndex = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"].indexOf(monthName.toLowerCase());
+                            const formattedStartDate = `${startDay.toString().padStart(2, '0')}/${(monthIndex + 1).toString().padStart(2, '0')}/${year}`;
+                            const formattedEndDate = `${endDay.toString().padStart(2, '0')}/${(monthIndex + 1).toString().padStart(2, '0')}/${year}`;
+                            const info = `
+                                <strong>Comarca de Marapanim - ${formattedStartDate} a ${formattedEndDate} (TJPA-MEM-2025/XXXX)</strong><br>
+                                Motivo: ${motivo}<br>
+                                Portaria ${portaria} - Nº EDIÇÃO DJE Nº ${fundamento}
+                            `;
+
+                            if (!suspensionsData[monthName]) {
+                                suspensionsData[monthName] = {};
                             }
-                            suspensionsData[month][day] = { start, end, motivo, portaria, fundamento, info };
+
+                            // Associar a suspensão a todos os dias do intervalo
+                            for (let day = startDay; day <= endDay; day++) {
+                                suspensionsData[monthName][day] = info;
+                            }
                         });
                         console.log("Dados extraídos:", suspensionsData);
                         generateCalendar();
