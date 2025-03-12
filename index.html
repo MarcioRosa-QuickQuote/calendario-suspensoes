@@ -29,8 +29,8 @@
         .calendar th { color: #1E3A8A; font-weight: bold; }
         .highlight { background-color: red; color: white; border-radius: 50%; padding: 4px; transition: 0.3s; }
         .highlight:hover { background-color: darkred; }
-        .info-container { margin-top: 10px; padding: 10px; background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); text-align: left; max-width: 800px; margin-left: auto; margin-right: auto; }
-        .info-container h2 { color: #1E3A8A; }
+        .info-container { margin-top: 10px; padding: 10px; background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); text-align: center; max-width: 800px; margin-left: auto; margin-right: auto; }
+        .info-container h2 { color: #1E3A8A; text-align: center; }
         .info-container strong { font-weight: bold; }
     </style>
 </head>
@@ -45,19 +45,15 @@
         <p id="infoDetails">Clique em um mês para ver as suspensões desse período.</p>
     </div>
     <script>
-        // Dados simulados baseados na imagem fornecida
+        // Dados atualizados com base na nova captura de tela
         const suspensionsData = {
             "Março": {
                 "3": { start: "3", end: "4", motivo: "Abate de gado", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" },
                 "4": { start: "3", end: "4", motivo: "Abate de gado", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 1.408/1951" }
             },
-            "Abril": {
-                "17": { start: "17", end: "18", motivo: "Mostra borda do frame", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 1.408/1951" },
-                "18": { start: "17", end: "18", motivo: "Mostra borda do frame", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 1.408/1951" }
-            },
             "Maio": {
-                "1": { start: "1", end: "1", motivo: "Dia do Trabalho", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" },
-                "2": { start: "2", end: "2", motivo: "Ponto Facultativo com compensação", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" }
+                "1": { start: "1", end: "2", motivo: "Dia do Trabalho", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" },
+                "2": { start: "1", end: "2", motivo: "Dia do Trabalho", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" }
             },
             "Junho": {
                 "19": { start: "19", end: "20", motivo: "Corpus Christi", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Municipal nº 6306/67" },
@@ -90,19 +86,21 @@
         function showSuspensions(month) {
             let infoDetails = document.getElementById("infoDetails");
             if (suspensionsData[month]) {
-                let suspensionInfo = Object.values(suspensionsData[month]).map(susp => {
-                    // Formatar a data para o novo padrão
+                // Remover repetições usando um Set para os intervalos
+                let uniqueInfos = new Set();
+                Object.values(suspensionsData[month]).forEach(susp => {
                     const year = 2025;
                     const monthIndex = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"].indexOf(month);
                     const formattedStartDate = `${susp.start.toString().padStart(2, '0')}/${(monthIndex + 1).toString().padStart(2, '0')}/${year}`;
                     const formattedEndDate = `${susp.end.toString().padStart(2, '0')}/${(monthIndex + 1).toString().padStart(2, '0')}/${year}`;
-                    return `
-                        <strong>Comarca de Marapanim - ${formattedStartDate} a ${formattedEndDate} (TJPA-MEM-2025/XXXX)</strong><br>
-                        Motivo: ${susp.motivo}<br>
-                        Portaria ${susp.portaria} - Nº EDIÇÃO DJE Nº ${susp.fundamento}
+                    const info = `
+                        <strong>Comarca de Marapanim - ${formattedStartDate} a ${formattedEndDate}</strong><br>
+                        Motivo: ${susp.motivo} (TJPA-MEM-2024/66074)<br>
+                        Portaria ${susp.portaria} - EDIÇÃO DJE nº ${susp.fundamento}
                     `;
-                }).join("<br>");
-                infoDetails.innerHTML = suspensionInfo || `Nenhuma suspensão registrada para ${month}.`;
+                    uniqueInfos.add(info);
+                });
+                infoDetails.innerHTML = Array.from(uniqueInfos).join("<br>") || `Nenhuma suspensão registrada para ${month}.`;
             } else {
                 infoDetails.innerHTML = `Nenhuma suspensão registrada para ${month}.`;
             }
