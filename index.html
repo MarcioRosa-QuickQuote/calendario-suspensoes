@@ -22,8 +22,7 @@
 </head>
 <body>
     <div class="header">Calendário de Suspensões - 2025</div>
-    <div class="calendar-container" id="calendarContainer">
-    </div>
+    <div class="calendar-container" id="calendarContainer"></div>
     <div class="info-container" id="infoContainer">
         <h2>Informações da Suspensão</h2>
         <p id="infoDetails">Clique em um mês para ver as suspensões desse período.</p>
@@ -37,17 +36,24 @@
             fetch(apiUrl)
                 .then(response => response.text())
                 .then(data => {
-                    const jsonData = JSON.parse(data.substring(47, data.length - 2));
-                    jsonData.table.rows.forEach(row => {
-                        const month = row.c[1].v;
-                        const day = row.c[2].v;
-                        const info = `${row.c[0].v} - ${row.c[2].v} a ${row.c[3].v}. Motivo: ${row.c[4].v}. Portaria ${row.c[5].v} (${row.c[6].v}).`;
-                        if (!suspensionsData[month]) {
-                            suspensionsData[month] = {};
-                        }
-                        suspensionsData[month][day] = info;
-                    });
-                    generateCalendar();
+                    try {
+                        console.log("JSON recebido:", data);
+                        const jsonData = JSON.parse(data.substring(47, data.length - 2));
+                        jsonData.table.rows.forEach(row => {
+                            if (!row.c || !row.c[1] || !row.c[2]) return; // Evita erros ao acessar colunas vazias
+                            const month = row.c[1].v;
+                            const day = row.c[2].v;
+                            const info = `${row.c[0].v} - ${row.c[2].v} a ${row.c[3].v}. Motivo: ${row.c[4].v}. Portaria ${row.c[5].v} (${row.c[6].v}).`;
+                            if (!suspensionsData[month]) {
+                                suspensionsData[month] = {};
+                            }
+                            suspensionsData[month][day] = info;
+                        });
+                        console.log("Dados extraídos:", suspensionsData);
+                        generateCalendar();
+                    } catch (error) {
+                        console.error("Erro ao processar JSON:", error);
+                    }
                 })
                 .catch(error => console.error("Erro ao buscar dados da planilha:", error));
         }
