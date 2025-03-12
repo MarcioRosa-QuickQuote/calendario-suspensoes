@@ -21,7 +21,7 @@
             margin-right: 20px;
         }
         .calendar-container { display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; padding: 20px; max-width: 1200px; margin: auto; }
-        .calendar { background: white; padding: 8px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); text-align: center; transition: transform 0.2s; }
+        .calendar { background: white; padding: 8px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); text-align: center; }
         .calendar:hover { transform: scale(1.05); }
         .calendar h3 { background-color: #1E3A8A; color: white; padding: 6px; border-radius: 5px; font-size: 14px; margin: 0; }
         .calendar table { width: 100%; margin-top: 5px; border-collapse: collapse; font-size: 10px; }
@@ -61,19 +61,20 @@
 
                         rows.forEach(row => {
                             if (!row.c || row.c.some(col => col === null || col.v === undefined)) return;
-                            const month = row.c[0].v; // Coluna 0: Mês (ex.: "1º de janeiro")
-                            const startDay = parseInt(row.c[1].v); // Coluna 1: Dia de início
-                            const endDay = parseInt(row.c[2].v); // Coluna 2: Dia de fim
-                            const motivo = row.c[3].v || "Não especificado"; // Coluna 3: Motivo
-                            const portaria = row.c[4].v || "Não especificada"; // Coluna 4: Portaria
-                            const fundamento = row.c[5].v || "Não especificado"; // Coluna 5: Fundamento
+                            const monthRaw = row.c[0].v; // Ex.: "1º de janeiro"
+                            const startDay = parseInt(row.c[1].v); // Dia de início
+                            const endDay = parseInt(row.c[2].v); // Dia de fim
+                            const motivo = row.c[3].v || "Não especificado";
+                            const portaria = row.c[4].v || "Não especificada";
+                            const fundamento = row.c[5].v || "Não especificado";
 
                             // Extrair o nome do mês
-                            let monthName = month.split(" ").pop();
+                            let monthName = monthRaw.split(" ").pop();
                             monthName = monthName.charAt(0).toUpperCase() + monthName.slice(1).toLowerCase();
 
-                            // Formatar a data no estilo solicitado (ex.: "Marapanim - 11/11/2024 a 12/11/2024")
-                            const formattedDate = `${monthName} - ${startDay.toString().padStart(2, '0')}/${new Date(2025, ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"].indexOf(monthName), startDay).getFullYear()} a ${endDay.toString().padStart(2, '0')}/${new Date(2025, ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"].indexOf(monthName), endDay).getFullYear()} (TJPA-MEM-2025/XXXX)`;
+                            // Formatar a data no estilo solicitado
+                            const year = 2025; // Ano fixo para 2025
+                            const formattedDate = `${monthName} - ${startDay.toString().padStart(2, '0')}/${year} a ${endDay.toString().padStart(2, '0')}/${year} (TJPA-MEM-2025/XXXX)`;
                             const info = `
                                 <strong>${formattedDate}</strong><br>
                                 Motivo: ${motivo}<br>
@@ -84,7 +85,7 @@
                                 suspensionsData[monthName] = {};
                             }
 
-                            // Adicionar a suspensão para cada dia no intervalo
+                            // Associar a suspensão a todos os dias do intervalo
                             for (let day = startDay; day <= endDay; day++) {
                                 suspensionsData[monthName][day] = info;
                             }
