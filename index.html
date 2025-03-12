@@ -28,48 +28,28 @@
         <p id="infoDetails">Clique em um mês para ver as suspensões desse período.</p>
     </div>
     <script>
-        const apiUrl = "https://docs.google.com/spreadsheets/d/1XXfkwIzqUgM8rLeWN5lRqiyhIGRfMI9C/gviz/tq?tqx=out:json&sheet=SUSPENSÕES DE EXPEDIENTE";
-
-        let suspensionsData = {};
-
-        function fetchSuspensions() {
-            fetch(apiUrl)
-                .then(response => response.text())
-                .then(data => {
-                    try {
-                        // Remover o cabeçalho e o rodapé do JSON retornado pela API
-                        const jsonData = JSON.parse(data.substring(47, data.length - 2));
-                        const rows = jsonData.table.rows;
-
-                        rows.forEach(row => {
-                            if (!row.c || row.c.some(col => col === null || col.v === undefined)) return; // Ignora linhas incompletas
-                            const month = row.c[0].v; // Coluna 0: Mês
-                            const day = row.c[1].v;   // Coluna 1: Dia
-                            const start = row.c[1].v; // Coluna 1: Data inicial
-                            const end = row.c[2].v;   // Coluna 2: Data final
-                            const motivo = row.c[3].v || "Não especificado"; // Coluna 3: Motivo
-                            const portaria = row.c[4].v || "Não especificada"; // Coluna 4: Portaria
-                            const fundamento = row.c[5].v || "Não especificado"; // Coluna 5: Fundamento
-
-                            const info = `${start} - (${start}) a (${end}). Motivo: ${motivo}. Portaria ${portaria} (${fundamento}).`;
-
-                            if (!suspensionsData[month]) {
-                                suspensionsData[month] = {};
-                            }
-                            suspensionsData[month][day] = { start, end, motivo, portaria, fundamento, info };
-                        });
-                        console.log("Dados extraídos:", suspensionsData);
-                        generateCalendar();
-                    } catch (error) {
-                        console.error("Erro ao processar JSON:", error);
-                        document.getElementById("infoDetails").innerHTML = "Erro ao carregar dados da planilha. Verifique o console para mais detalhes.";
-                    }
-                })
-                .catch(error => {
-                    console.error("Erro ao buscar dados da planilha:", error);
-                    document.getElementById("infoDetails").innerHTML = "Erro ao conectar à planilha. Verifique a URL ou a conexão.";
-                });
-        }
+        // Simulação dos dados da aba "Suspensões de Expediente" com base na imagem fornecida
+        const suspensionsData = {
+            "Março": {
+                "3": { start: "3", end: "4", motivo: "Abate de gado", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" },
+                "4": { start: "3", end: "4", motivo: "Abate de gado", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 1.408/1951" }
+            },
+            "Abril": {
+                "17": { start: "17", end: "18", motivo: "Mostra borda do frame", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 1.408/1951" },
+                "18": { start: "17", end: "18", motivo: "Mostra borda do frame", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 1.408/1951" }
+            },
+            "Maio": {
+                "1": { start: "1", end: "1", motivo: "Dia do Trabalho", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" },
+                "2": { start: "2", end: "2", motivo: "Ponto Facultativo com compensação", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" }
+            },
+            "Junho": {
+                "19": { start: "19", end: "20", motivo: "Corpus Christi", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Municipal nº 6306/67" },
+                "20": { start: "19", end: "20", motivo: "Corpus Christi", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Municipal nº 6306/67" }
+            },
+            "Agosto": {
+                "15": { start: "15", end: "15", motivo: "Adesão do Gra-Pa à independência do Brasil", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Estadual nº 5.991/1986" }
+            }
+        };
 
         function generateCalendar() {
             let container = document.getElementById("calendarContainer");
@@ -93,15 +73,17 @@
         function showSuspensions(month) {
             let infoDetails = document.getElementById("infoDetails");
             if (suspensionsData[month]) {
-                let suspensionInfo = Object.values(suspensionsData[month]).map(susp => susp.info).join("<br>");
+                let suspensionInfo = Object.values(suspensionsData[month]).map(susp => {
+                    return `${susp.start} - (${susp.start}) a (${susp.end}). Motivo: ${susp.motivo}. Portaria ${susp.portaria} (${susp.fundamento}).`;
+                }).join("<br>");
                 infoDetails.innerHTML = suspensionInfo || `Nenhuma suspensão registrada para ${month}.`;
             } else {
                 infoDetails.innerHTML = `Nenhuma suspensão registrada para ${month}.`;
             }
         }
 
-        // Chama a função para carregar os dados e gerar o calendário
-        window.onload = fetchSuspensions;
+        // Chama a função para gerar o calendário ao carregar a página
+        window.onload = generateCalendar;
     </script>
 </body>
 </html>
