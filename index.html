@@ -29,17 +29,34 @@
         <p id="infoDetails">Clique em um mês para ver as suspensões desse período.</p>
     </div>
     <script>
-        const months = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
-        const suspensionsData = {
-            "Janeiro": ["Suspensão - Altamira. Motivo: Feriado Municipal. Portaria Nº 2/2025-GP"],
-            "Fevereiro": ["Suspensão - Tailândia. Motivo: Obras no fórum. Portaria Nº 10/2025-GP"],
-            "Março": [], "Abril": [], "Maio": [], "Junho": [], "Julho": [], "Agosto": [], "Setembro": [], "Outubro": [], "Novembro": [], "Dezembro": []
-        };
-
+        const sheetID = "1XXfkwIzqUgM8rLeWN5lRqiyhIGRfMI9C"; // Substitua pelo ID real da sua planilha
+        const sheetName = "Suspensões de Expediente"; // Nome da aba
+        const apiUrl = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
+        
+        let suspensionsData = {};
+        
+        function fetchSuspensions() {
+            fetch(apiUrl)
+                .then(response => response.text())
+                .then(data => {
+                    const jsonData = JSON.parse(data.substring(47, data.length - 2));
+                    jsonData.table.rows.forEach(row => {
+                        const month = row.c[1].v; // Coluna do mês
+                        const info = `${row.c[0].v} - ${row.c[2].v} a ${row.c[3].v}. Motivo: ${row.c[4].v}. Portaria ${row.c[5].v} (${row.c[6].v}).`;
+                        if (!suspensionsData[month]) {
+                            suspensionsData[month] = [];
+                        }
+                        suspensionsData[month].push(info);
+                    });
+                    generateCalendar();
+                })
+                .catch(error => console.error("Erro ao buscar dados da planilha:", error));
+        }
+        
         function generateCalendar() {
             let container = document.getElementById("calendarContainer");
             container.innerHTML = "";
-            months.forEach((month, index) => {
+            ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"].forEach((month, index) => {
                 let firstDay = new Date(2025, index, 1).getDay();
                 let daysInMonth = new Date(2025, index + 1, 0).getDate();
                 let calendar = `<div class='calendar' onclick="showSuspensions('${month}')"><h3>${month} 2025</h3><table>`;
@@ -53,14 +70,14 @@
                 container.innerHTML += calendar;
             });
         }
-
+        
         function showSuspensions(month) {
             let infoDetails = document.getElementById("infoDetails");
-            let suspensionInfo = suspensionsData[month].length > 0 ? suspensionsData[month].join("<br>") : `Nenhuma suspensão registrada para ${month}.`;
+            let suspensionInfo = suspensionsData[month] && suspensionsData[month].length > 0 ? suspensionsData[month].join("<br>") : `Nenhuma suspensão registrada para ${month}.`;
             infoDetails.innerHTML = suspensionInfo;
         }
-
-        generateCalendar();
+        
+        fetchSuspensions();
     </script>
 </body>
 </html>
