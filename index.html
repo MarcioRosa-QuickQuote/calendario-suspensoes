@@ -104,8 +104,8 @@
                             const monthName = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"][startMonth - 1];
                             console.log(`Mês extraído: ${monthName}, Start: ${startDay}, End: ${endDay}`);
 
-                            // Formatar a data para o padrão solicitado
-                            const year = 2025; // Forçar ano 2025
+                            // Formatar a data para 2025
+                            const year = 2025;
                             const formattedStartDate = `${startDay.toString().padStart(2, '0')}/${startMonth.toString().padStart(2, '0')}/${year}`;
                             const formattedEndDate = `${endDay.toString().padStart(2, '0')}/${endMonth.toString().padStart(2, '0')}/${year}`;
                             const info = `
@@ -126,7 +126,8 @@
 
                         console.log("Dados mapeados:", suspensionsData);
                         if (Object.keys(suspensionsData).length === 0) {
-                            console.warn("Nenhum dado foi mapeado da planilha.");
+                            console.warn("Nenhum dado foi mapeado da planilha. Usando dados simulados como fallback.");
+                            suspensionsData = fallbackData;
                         }
                         generateCalendar();
                     } catch (error) {
@@ -138,7 +139,7 @@
                 })
                 .catch(error => {
                     console.error("Erro ao buscar dados da planilha:", error);
-                    document.getElementById("infoDetails").innerHTML = "Erro ao conectar à planilha. Certifique-se de que a planilha está pública. Usando dados simulados como fallback.";
+                    document.getElementById("infoDetails").innerHTML = "Erro ao conectar à planilha. Certifique-se de que a planilha está pública e a aba 'Expediente' existe. Usando dados simulados como fallback.";
                     suspensionsData = fallbackData;
                     generateCalendar();
                 });
