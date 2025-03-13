@@ -45,29 +45,76 @@
         <p id="infoDetails">Clique em um mês para ver as suspensões desse período.</p>
     </div>
     <script>
-        // Dados atualizados com base na nova captura de tela
-        const suspensionsData = {
-            "Março": {
-                "3": { start: "3", end: "4", motivo: "Abate de gado", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" },
-                "4": { start: "3", end: "4", motivo: "Abate de gado", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 1.408/1951" }
-            },
-            "Maio": {
-                "1": { start: "1", end: "2", motivo: "Dia do Trabalho", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" },
-                "2": { start: "1", end: "2", motivo: "Dia do Trabalho", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" }
-            },
-            "Junho": {
-                "19": { start: "19", end: "20", motivo: "Corpus Christi", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Municipal nº 6306/67" },
-                "20": { start: "19", end: "20", motivo: "Corpus Christi", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Municipal nº 6306/67" }
-            },
-            "Agosto": {
-                "15": { start: "15", end: "15", motivo: "Adesão do Gra-Pa à independência do Brasil", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Estadual nº 5.991/1986" }
-            }
-        };
+        const apiUrl = "https://docs.google.com/spreadsheets/d/1XXfkwIzqUgM8rLeWN5lRqiyhIGRfMI9C/gviz/tq?tqx=out:json&sheet=SUSPENSÕES DE EXPEDIENTE";
+
+        let suspensionsData = {};
+
+        function fetchSuspensions() {
+            fetch(apiUrl)
+                .then(response => response.text())
+                .then(data => {
+                    try {
+                        console.log("Dados brutos recebidos:", data);
+                        const jsonData = JSON.parse(data.substring(47, data.length - 2));
+                        console.log("JSON parseado:", jsonData);
+                        const rows = jsonData.table.rows;
+
+                        suspensionsData = {};
+
+                        rows.forEach(row => {
+                            if (!row.c || row.c.length < 6 || row.c.some(col => col === null || col.v === undefined)) return;
+                            const monthRaw = row.c[0].v; // Ex.: "1º de março"
+                            const startDay = parseInt(row.c[1].v); // Dia de início
+                            const endDay = parseInt(row.c[2].v); // Dia de fim
+                            const motivo = row.c[3].v || "Não especificado";
+                            const portaria = row.c[4].v || "Não especificada";
+                            const fundamento = row.c[5].v || "Não especificado";
+
+                            // Extrair o nome do mês
+                            let monthName = monthRaw.split(" ").pop();
+                            monthName = monthName.charAt(0).toUpperCase() + monthName.slice(1).toLowerCase();
+                            console.log(`Mês extraído: ${monthName}, Start: ${startDay}, End: ${endDay}`);
+
+                            // Formatar a data para 2025
+                            const year = 2025;
+                            const monthIndex = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"].indexOf(monthName.toLowerCase());
+                            const formattedStartDate = `${startDay.toString().padStart(2, '0')}/${(monthIndex + 1).toString().padStart(2, '0')}/${year}`;
+                            const formattedEndDate = `${endDay.toString().padStart(2, '0')}/${(monthIndex + 1).toString().padStart(2, '0')}/${year}`;
+                            const info = `
+                                <strong>Comarca de Marapanim - ${formattedStartDate} a ${formattedEndDate}</strong><br>
+                                Motivo: ${motivo} (TJPA-MEM-2025/XXXX)<br>
+                                Portaria ${portaria} - EDIÇÃO DJE nº ${fundamento}
+                            `;
+
+                            if (!suspensionsData[monthName]) {
+                                suspensionsData[monthName] = {};
+                            }
+
+                            // Associar a suspensão a todos os dias do intervalo
+                            for (let day = startDay; day <= endDay; day++) {
+                                suspensionsData[monthName][day] = info;
+                            }
+                        });
+
+                        console.log("Dados mapeados:", suspensionsData);
+                        generateCalendar();
+                    } catch (error) {
+                        console.error("Erro ao processar JSON:", error);
+                        document.getElementById("infoDetails").innerHTML = "Erro ao carregar dados da planilha. Verifique o console para mais detalhes.";
+                    }
+                })
+                .catch(error => {
+                    console.error("Erro ao buscar dados da planilha:", error);
+                    document.getElementById("infoDetails").innerHTML = "Erro ao conectar à planilha. Verifique a URL ou a conexão.";
+                });
+        }
 
         function generateCalendar() {
             let container = document.getElementById("calendarContainer");
             container.innerHTML = "";
-            ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"].forEach((month, index) => {
+            const months = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+            
+            months.forEach((month, index) => {
                 let firstDay = new Date(2025, index, 1).getDay();
                 let daysInMonth = new Date(2025, index + 1, 0).getDate();
                 let calendar = `<div class='calendar' onclick="showSuspensions('${month}')"><h3>${month} 2025</h3><table>`;
@@ -89,16 +136,7 @@
                 // Remover repetições usando um Set para os intervalos
                 let uniqueInfos = new Set();
                 Object.values(suspensionsData[month]).forEach(susp => {
-                    const year = 2025;
-                    const monthIndex = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"].indexOf(month);
-                    const formattedStartDate = `${susp.start.toString().padStart(2, '0')}/${(monthIndex + 1).toString().padStart(2, '0')}/${year}`;
-                    const formattedEndDate = `${susp.end.toString().padStart(2, '0')}/${(monthIndex + 1).toString().padStart(2, '0')}/${year}`;
-                    const info = `
-                        <strong>Comarca de Marapanim - ${formattedStartDate} a ${formattedEndDate}</strong><br>
-                        Motivo: ${susp.motivo} (TJPA-MEM-2024/66074)<br>
-                        Portaria ${susp.portaria} - EDIÇÃO DJE nº ${susp.fundamento}
-                    `;
-                    uniqueInfos.add(info);
+                    uniqueInfos.add(susp);
                 });
                 infoDetails.innerHTML = Array.from(uniqueInfos).join("<br>") || `Nenhuma suspensão registrada para ${month}.`;
             } else {
@@ -106,8 +144,7 @@
             }
         }
 
-        // Chama a função para gerar o calendário ao carregar a página
-        window.onload = generateCalendar;
+        window.onload = fetchSuspensions;
     </script>
 </body>
 </html>
