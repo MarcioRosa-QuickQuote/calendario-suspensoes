@@ -45,7 +45,7 @@
         <p id="infoDetails">Clique em um mês para ver as suspensões desse período.</p>
     </div>
     <script>
-        const apiUrl = "https://docs.google.com/spreadsheets/d/1XXfkwIzqUgM8rLeWN5lRqiyhIGRfMI9C/gviz/tq?tqx=out:json&sheet=SUSPENSAO_EXPEDIENTE.xlsx";
+        const apiUrl = "https://docs.google.com/spreadsheets/d/1XXfkwIzqUgM8rLeWN5lRqiyhIGRfMI9C/gviz/tq?tqx=out:json&sheet=SUSPENSAO_EXPEDIENTE";
 
         let suspensionsData = {};
 
@@ -55,9 +55,26 @@
             return { year, month: month - 1, day }; // Mês é 0-based no JavaScript
         }
 
+        // Função para obter todos os dias entre duas datas
+        function getDaysBetweenDates(startDate, endDate) {
+            const days = [];
+            let currentDate = new Date(startDate.year, startDate.month, startDate.day);
+            const end = new Date(endDate.year, endDate.month, endDate.day);
+            while (currentDate <= end) {
+                days.push({
+                    year: currentDate.getFullYear(),
+                    month: currentDate.getMonth(),
+                    day: currentDate.getDate()
+                });
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+            return days;
+        }
+
         function fetchSuspensions() {
             fetch(apiUrl)
                 .then(response => {
+                    console.log("Status da resposta:", response.status, response.statusText);
                     if (!response.ok) {
                         throw new Error(`Erro na requisição: ${response.status} - ${response.statusText}. Certifique-se de que a planilha está pública ("Qualquer pessoa com o link pode visualizar").`);
                     }
@@ -65,6 +82,7 @@
                 })
                 .then(data => {
                     try {
+                        console.log("Dados brutos recebidos:", data);
                         // Remover o prefixo /*O_o*/ se existir
                         let cleanedData = data.replace(/\/\*O_o\*\//, '');
                         // Extrair o JSON da resposta do Google Sheets
@@ -76,7 +94,9 @@
                         let jsonString = cleanedData.substring(startIndex, endIndex);
                         // Limpar a string JSON de caracteres inesperados
                         jsonString = jsonString.replace(/\n/g, '').replace(/\r/g, '').trim();
+                        console.log("JSON string extraída:", jsonString);
                         const jsonData = JSON.parse(jsonString);
+                        console.log("JSON parseado:", jsonData);
                         const rows = jsonData.table.rows;
 
                         suspensionsData = {};
@@ -101,13 +121,15 @@
                             const startDate = parseDateFromString(startDateStr);
                             const endDate = parseDateFromString(endDateStr);
 
+                            console.log(`Linha ${index} - Início: ${startDateStr}, Fim: ${endDateStr}, StartDate:`, startDate, "EndDate:", endDate);
+
                             // Filtrar apenas suspensões de 2025
-                            if (startDate.year !== 2025) {
-                                console.log(`Linha ${index} ignorada: Data fora de 2025 (startYear: ${startDate.year})`);
+                            if (startDate.year !== 2025 && endDate.year !== 2025) {
+                                console.log(`Linha ${index} ignorada: Data fora de 2025 (startYear: ${startDate.year}, endYear: ${endDate.year})`);
                                 return;
                             }
 
-                            const monthName = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"][startDate.month];
+                            // Formatar as datas para exibição
                             const formattedStartDate = `${startDate.day.toString().padStart(2, '0')}/${(startDate.month + 1).toString().padStart(2, '0')}/${startDate.year}`;
                             const formattedEndDate = `${endDate.day.toString().padStart(2, '0')}/${(endDate.month + 1).toString().padStart(2, '0')}/${endDate.year}`;
                             const info = `
@@ -116,16 +138,19 @@
                                 Portaria ${portaria} - EDIÇÃO DJE nº ${fundamento}
                             `;
 
-                            if (!suspensionsData[monthName]) {
-                                suspensionsData[monthName] = {};
-                            }
-
-                            // Associar a suspensão a todos os dias do intervalo
-                            for (let day = startDate.day; day <= endDate.day; day++) {
-                                suspensionsData[monthName][day] = info;
-                            }
+                            // Obter todos os dias no intervalo, considerando meses diferentes
+                            const daysInRange = getDaysBetweenDates(startDate, endDate);
+                            daysInRange.forEach(day => {
+                                if (day.year !== 2025) return; // Ignorar dias fora de 2025
+                                const monthName = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"][day.month];
+                                if (!suspensionsData[monthName]) {
+                                    suspensionsData[monthName] = {};
+                                }
+                                suspensionsData[monthName][day.day] = info;
+                            });
                         });
 
+                        console.log("Dados mapeados:", suspensionsData);
                         if (Object.keys(suspensionsData).length === 0) {
                             document.getElementById("infoDetails").innerHTML = "Nenhum dado encontrado para 2025 na planilha.";
                         } else {
