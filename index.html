@@ -79,13 +79,16 @@
                 .then(data => {
                     try {
                         console.log("Dados brutos recebidos:", data);
+                        // Remover o prefixo /*O_o*/ se existir
+                        let cleanedData = data.replace(/\/\*O_o\*\//, '');
+                        console.log("Dados após remover prefixo:", cleanedData);
                         // Extrair o JSON da resposta do Google Sheets
-                        const startIndex = data.indexOf('(') + 1;
-                        const endIndex = data.lastIndexOf(')');
+                        const startIndex = cleanedData.indexOf('(') + 1;
+                        const endIndex = cleanedData.lastIndexOf(')');
                         if (startIndex === 0 || endIndex === -1) {
                             throw new Error("Não foi possível extrair o JSON da resposta.");
                         }
-                        let jsonString = data.substring(startIndex, endIndex);
+                        let jsonString = cleanedData.substring(startIndex, endIndex);
                         console.log("JSON string extraída (antes de limpeza):", jsonString);
                         // Limpar a string JSON de caracteres inesperados
                         jsonString = jsonString.replace(/\n/g, '').replace(/\r/g, '').trim();
@@ -118,6 +121,13 @@
                             }
                             const [, startYear, startMonth, startDay] = startDateMatch;
                             const [, endYear, endMonth, endDay] = endDateMatch;
+
+                            // Filtrar apenas suspensões de 2025
+                            if (parseInt(startYear) !== 2025) {
+                                console.log(`Linha ${index} ignorada: Data fora de 2025 (startYear: ${startYear})`);
+                                return;
+                            }
+
                             const monthName = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"][parseInt(startMonth)];
                             console.log(`Mês extraído: ${monthName}, Start: ${startDay}, End: ${endDay}`);
 
@@ -127,7 +137,7 @@
                             const formattedEndDate = `${endDay.toString().padStart(2, '0')}/${(parseInt(endMonth) + 1).toString().padStart(2, '0')}/${year}`;
                             const info = `
                                 <strong>${comarca} - ${formattedStartDate} a ${formattedEndDate}</strong><br>
-                                Motivo: ${motivo} (TJPA-MEM-${startYear}/${row.c[0].v.split('/')[1] || 'XXXX'})<br>
+                                Motivo: ${motivo} (${row.c[0].v || 'TJPA-MEM-2025/XXXX'})<br>
                                 Portaria ${portaria} - EDIÇÃO DJE nº ${fundamento}
                             `;
 
