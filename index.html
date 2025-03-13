@@ -45,43 +45,28 @@
         <p id="infoDetails">Clique em um mês para ver as suspensões desse período.</p>
     </div>
     <script>
-        const apiUrl = "https://docs.google.com/spreadsheets/d/1XXfkwIzqUgM8rLeWN5lRqiyhIGRfMI9C/gviz/tq?tqx=out:json&sheet=Expediente";
+        const apiUrl = "https://docs.google.com/spreadsheets/d/1XXfkwIzqUgM8rLeWN5lRqiyhIGRfMI9C/gviz/tq?tqx=out:json&sheet=SUSPENSAO_EXPEDIENTE.xlsx";
 
         let suspensionsData = {};
 
-        // Dados simulados como fallback
-        const fallbackData = {
-            "Março": {
-                "3": { start: "3", end: "4", comarca: "Comarca de Marapanim", motivo: "Abate de gado", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" },
-                "4": { start: "3", end: "4", comarca: "Comarca de Marapanim", motivo: "Abate de gado", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 1.408/1951" }
-            },
-            "Maio": {
-                "1": { start: "1", end: "2", comarca: "Comarca de Marapanim", motivo: "Dia do Trabalho", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" },
-                "2": { start: "1", end: "2", comarca: "Comarca de Marapanim", motivo: "Dia do Trabalho", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" }
-            },
-            "Junho": {
-                "19": { start: "19", end: "20", comarca: "Comarca de Marapanim", motivo: "Corpus Christi", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Municipal nº 6306/67" },
-                "20": { start: "19", end: "20", comarca: "Comarca de Marapanim", motivo: "Corpus Christi", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Municipal nº 6306/67" }
-            },
-            "Agosto": {
-                "15": { start: "15", end: "15", comarca: "Comarca de Marapanim", motivo: "Adesão do Gra-Pa à independência do Brasil", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Estadual nº 5.991/1986" }
-            }
-        };
+        // Função para parsear datas no formato DD/MM/YYYY
+        function parseDateFromString(dateStr) {
+            const [day, month, year] = dateStr.split('/').map(Number);
+            return { year, month: month - 1, day }; // Mês é 0-based no JavaScript
+        }
 
         function fetchSuspensions() {
             fetch(apiUrl)
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error(`Erro na requisição: ${response.status} - ${response.statusText}`);
+                        throw new Error(`Erro na requisição: ${response.status} - ${response.statusText}. Certifique-se de que a planilha está pública ("Qualquer pessoa com o link pode visualizar").`);
                     }
                     return response.text();
                 })
                 .then(data => {
                     try {
-                        console.log("Dados brutos recebidos:", data);
                         // Remover o prefixo /*O_o*/ se existir
                         let cleanedData = data.replace(/\/\*O_o\*\//, '');
-                        console.log("Dados após remover prefixo:", cleanedData);
                         // Extrair o JSON da resposta do Google Sheets
                         const startIndex = cleanedData.indexOf('(') + 1;
                         const endIndex = cleanedData.lastIndexOf(')');
@@ -89,52 +74,42 @@
                             throw new Error("Não foi possível extrair o JSON da resposta.");
                         }
                         let jsonString = cleanedData.substring(startIndex, endIndex);
-                        console.log("JSON string extraída (antes de limpeza):", jsonString);
                         // Limpar a string JSON de caracteres inesperados
                         jsonString = jsonString.replace(/\n/g, '').replace(/\r/g, '').trim();
-                        console.log("JSON string extraída (após limpeza):", jsonString);
                         const jsonData = JSON.parse(jsonString);
-                        console.log("JSON parseado:", jsonData);
                         const rows = jsonData.table.rows;
 
                         suspensionsData = {};
 
                         rows.forEach((row, index) => {
-                            console.log(`Linha ${index}:`, row.c);
+                            // Ignorar a primeira linha (cabeçalho)
+                            if (index === 0) return;
+
                             if (!row.c || row.c.length < 7 || row.c.some(col => col === null || col.v === undefined)) {
-                                console.log(`Linha ${index} ignorada por dados incompletos`);
+                                console.log(`Linha ${index} ignorada por dados incompletos:`, row.c);
                                 return;
                             }
-                            const comarca = row.c[1].v || "Comarca de Marapanim"; // Coluna B: UNIDADE
-                            const startDateObj = row.c[2].v; // Coluna C: INÍCIO
-                            const endDateObj = row.c[3].v; // Coluna D: FIM
+
+                            const comarca = row.c[1].v || "Não especificada"; // Coluna B: UNIDADE
+                            const startDateStr = row.c[2].v; // Coluna C: INÍCIO (ex.: "20/01/2025")
+                            const endDateStr = row.c[3].v; // Coluna D: FIM (ex.: "24/01/2025")
                             const motivo = row.c[4].v || "Não especificado"; // Coluna E: MOTIVO
                             const portaria = row.c[5].v || "Não especificada"; // Coluna F: PORTARIA
-                            const fundamento = row.c[6].v || "Não especificado"; // Coluna G: EDIÇÃO DJE
+                            const fundamento = row.c[6].v || "Não especificado"; // Coluna G: EDG
 
-                            // Extrair data do formato Date(YYYY, MM, DD)
-                            const startDateMatch = startDateObj.match(/Date\((\d+),(\d+),(\d+)\)/);
-                            const endDateMatch = endDateObj.match(/Date\((\d+),(\d+),(\d+)\)/);
-                            if (!startDateMatch || !endDateMatch) {
-                                console.warn(`Data inválida na linha ${index}: ${startDateObj} ou ${endDateObj}`);
-                                return;
-                            }
-                            const [, startYear, startMonth, startDay] = startDateMatch;
-                            const [, endYear, endMonth, endDay] = endDateMatch;
+                            // Parsear as datas no formato DD/MM/YYYY
+                            const startDate = parseDateFromString(startDateStr);
+                            const endDate = parseDateFromString(endDateStr);
 
                             // Filtrar apenas suspensões de 2025
-                            if (parseInt(startYear) !== 2025) {
-                                console.log(`Linha ${index} ignorada: Data fora de 2025 (startYear: ${startYear})`);
+                            if (startDate.year !== 2025) {
+                                console.log(`Linha ${index} ignorada: Data fora de 2025 (startYear: ${startDate.year})`);
                                 return;
                             }
 
-                            const monthName = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"][parseInt(startMonth)];
-                            console.log(`Mês extraído: ${monthName}, Start: ${startDay}, End: ${endDay}`);
-
-                            // Formatar a data para 2025
-                            const year = 2025;
-                            const formattedStartDate = `${startDay.toString().padStart(2, '0')}/${(parseInt(startMonth) + 1).toString().padStart(2, '0')}/${year}`;
-                            const formattedEndDate = `${endDay.toString().padStart(2, '0')}/${(parseInt(endMonth) + 1).toString().padStart(2, '0')}/${year}`;
+                            const monthName = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"][startDate.month];
+                            const formattedStartDate = `${startDate.day.toString().padStart(2, '0')}/${(startDate.month + 1).toString().padStart(2, '0')}/${startDate.year}`;
+                            const formattedEndDate = `${endDate.day.toString().padStart(2, '0')}/${(endDate.month + 1).toString().padStart(2, '0')}/${endDate.year}`;
                             const info = `
                                 <strong>${comarca} - ${formattedStartDate} a ${formattedEndDate}</strong><br>
                                 Motivo: ${motivo} (${row.c[0].v || 'TJPA-MEM-2025/XXXX'})<br>
@@ -146,29 +121,24 @@
                             }
 
                             // Associar a suspensão a todos os dias do intervalo
-                            for (let day = parseInt(startDay); day <= parseInt(endDay); day++) {
+                            for (let day = startDate.day; day <= endDate.day; day++) {
                                 suspensionsData[monthName][day] = info;
                             }
                         });
 
-                        console.log("Dados mapeados:", suspensionsData);
                         if (Object.keys(suspensionsData).length === 0) {
-                            console.warn("Nenhum dado foi mapeado da planilha. Usando dados simulados como fallback.");
-                            suspensionsData = fallbackData;
+                            document.getElementById("infoDetails").innerHTML = "Nenhum dado encontrado para 2025 na planilha.";
+                        } else {
+                            generateCalendar();
                         }
-                        generateCalendar();
                     } catch (error) {
                         console.error("Erro ao processar JSON:", error);
-                        document.getElementById("infoDetails").innerHTML = "Erro ao carregar dados da planilha. Verifique o console para mais detalhes. Usando dados simulados como fallback.";
-                        suspensionsData = fallbackData;
-                        generateCalendar();
+                        document.getElementById("infoDetails").innerHTML = "Erro ao processar os dados da planilha. Verifique o console para mais detalhes.";
                     }
                 })
                 .catch(error => {
                     console.error("Erro ao buscar dados da planilha:", error);
-                    document.getElementById("infoDetails").innerHTML = "Erro ao conectar à planilha. Certifique-se de que a planilha está pública e a aba 'Expediente' existe. Usando dados simulados como fallback.";
-                    suspensionsData = fallbackData;
-                    generateCalendar();
+                    document.getElementById("infoDetails").innerHTML = error.message;
                 });
         }
 
