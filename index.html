@@ -51,8 +51,16 @@
 
         // Função para parsear datas no formato DD/MM/YYYY
         function parseDateFromString(dateStr) {
-            const [day, month, year] = dateStr.split('/').map(Number);
-            return { year, month: month - 1, day }; // Mês é 0-based no JavaScript
+            try {
+                const [day, month, year] = dateStr.split('/').map(Number);
+                if (!day || !month || !year) {
+                    throw new Error("Data inválida");
+                }
+                return { year, month: month - 1, day }; // Mês é 0-based no JavaScript
+            } catch (error) {
+                console.error(`Erro ao parsear data: ${dateStr}`, error);
+                return null;
+            }
         }
 
         // Função para obter todos os dias entre duas datas
@@ -103,23 +111,39 @@
 
                         rows.forEach((row, index) => {
                             // Ignorar a primeira linha (cabeçalho)
-                            if (index === 0) return;
-
-                            if (!row.c || row.c.length < 7 || row.c.some(col => col === null || col.v === undefined)) {
-                                console.log(`Linha ${index} ignorada por dados incompletos:`, row.c);
+                            if (index === 0) {
+                                console.log("Ignorando cabeçalho:", row.c);
                                 return;
                             }
 
-                            const comarca = row.c[1].v || "Não especificada"; // Coluna B: UNIDADE
-                            const startDateStr = row.c[2].v; // Coluna C: INÍCIO (ex.: "20/01/2025")
-                            const endDateStr = row.c[3].v; // Coluna D: FIM (ex.: "24/01/2025")
-                            const motivo = row.c[4].v || "Não especificado"; // Coluna E: MOTIVO
-                            const portaria = row.c[5].v || "Não especificada"; // Coluna F: PORTARIA
-                            const fundamento = row.c[6].v || "Não especificado"; // Coluna G: EDG
+                            // Verificar se a linha tem dados
+                            if (!row.c || row.c.length < 7) {
+                                console.log(`Linha ${index} ignorada: dados insuficientes`, row.c);
+                                return;
+                            }
 
-                            // Parsear as datas no formato DD/MM/YYYY
+                            // Tratar valores nulos ou indefinidos
+                            const comarca = row.c[1]?.v || "Não especificada"; // Coluna B: UNIDADE
+                            const startDateStr = row.c[2]?.v; // Coluna C: INÍCIO (ex.: "20/01/2025")
+                            const endDateStr = row.c[3]?.v; // Coluna D: FIM (ex.: "24/01/2025")
+                            const motivo = row.c[4]?.v || "Não especificado"; // Coluna E: MOTIVO
+                            const portaria = row.c[5]?.v || "Não especificada"; // Coluna F: PORTARIA
+                            const fundamento = row.c[6]?.v || "Não especificado"; // Coluna G: EDG
+
+                            // Verificar se as datas estão presentes
+                            if (!startDateStr || !endDateStr) {
+                                console.log(`Linha ${index} ignorada: data de início ou fim ausente`, { startDateStr, endDateStr });
+                                return;
+                            }
+
+                            // Parsear as datas
                             const startDate = parseDateFromString(startDateStr);
                             const endDate = parseDateFromString(endDateStr);
+
+                            if (!startDate || !endDate) {
+                                console.log(`Linha ${index} ignorada: data inválida`, { startDateStr, endDateStr });
+                                return;
+                            }
 
                             console.log(`Linha ${index} - Início: ${startDateStr}, Fim: ${endDateStr}, StartDate:`, startDate, "EndDate:", endDate);
 
@@ -134,11 +158,11 @@
                             const formattedEndDate = `${endDate.day.toString().padStart(2, '0')}/${(endDate.month + 1).toString().padStart(2, '0')}/${endDate.year}`;
                             const info = `
                                 <strong>${comarca} - ${formattedStartDate} a ${formattedEndDate}</strong><br>
-                                Motivo: ${motivo} (${row.c[0].v || 'TJPA-MEM-2025/XXXX'})<br>
+                                Motivo: ${motivo} (${row.c[0]?.v || 'TJPA-MEM-2025/XXXX'})<br>
                                 Portaria ${portaria} - EDIÇÃO DJE nº ${fundamento}
                             `;
 
-                            // Obter todos os dias no intervalo, considerando meses diferentes
+                            // Obter todos os dias no intervalo
                             const daysInRange = getDaysBetweenDates(startDate, endDate);
                             daysInRange.forEach(day => {
                                 if (day.year !== 2025) return; // Ignorar dias fora de 2025
@@ -191,7 +215,6 @@
         function showSuspensions(month) {
             let infoDetails = document.getElementById("infoDetails");
             if (suspensionsData[month]) {
-                // Remover repetições usando um Set
                 let uniqueInfos = new Set();
                 Object.values(suspensionsData[month]).forEach(susp => {
                     uniqueInfos.add(susp);
