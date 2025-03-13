@@ -51,7 +51,12 @@
 
         function fetchSuspensions() {
             fetch(apiUrl)
-                .then(response => response.text())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Erro na requisição: ${response.status} - ${response.statusText}`);
+                    }
+                    return response.text();
+                })
                 .then(data => {
                     try {
                         console.log("Dados brutos recebidos:", data);
@@ -105,7 +110,7 @@
                 })
                 .catch(error => {
                     console.error("Erro ao buscar dados da planilha:", error);
-                    document.getElementById("infoDetails").innerHTML = "Erro ao conectar à planilha. Verifique a URL ou a conexão.";
+                    document.getElementById("infoDetails").innerHTML = "Erro ao conectar à planilha. Verifique a URL ou a conexão. Certifique-se de que a planilha está pública.";
                 });
         }
 
@@ -133,7 +138,7 @@
         function showSuspensions(month) {
             let infoDetails = document.getElementById("infoDetails");
             if (suspensionsData[month]) {
-                // Remover repetições usando um Set para os intervalos
+                // Remover repetições usando um Set
                 let uniqueInfos = new Set();
                 Object.values(suspensionsData[month]).forEach(susp => {
                     uniqueInfos.add(susp);
