@@ -45,7 +45,7 @@
         <p id="infoDetails">Clique em um mês para ver as suspensões desse período.</p>
     </div>
     <script>
-        const apiUrl = "https://docs.google.com/spreadsheets/d/1XXfkwIzqUgM8rLeWN5lRqiyhIGRfMI9C/gviz/tq?tqx=out:json&sheet=SUSPENSÕES DE EXPEDIENTE";
+        const apiUrl = "https://docs.google.com/spreadsheets/d/1XXfkwIzqUgM8rLeWN5lRqiyhIGRfMI9C/gviz/tq?tqx=out:json&sheet=Expediente";
 
         let suspensionsData = {};
 
@@ -110,7 +110,7 @@
                 })
                 .catch(error => {
                     console.error("Erro ao buscar dados da planilha:", error);
-                    document.getElementById("infoDetails").innerHTML = "Erro ao conectar à planilha. Verifique a URL ou a conexão. Certifique-se de que a planilha está pública.";
+                    document.getElementById("infoDetails").innerHTML = "Erro ao conectar à planilha. Certifique-se de que a planilha está pública.";
                 });
         }
 
