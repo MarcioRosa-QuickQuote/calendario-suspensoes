@@ -79,7 +79,7 @@
                 .then(data => {
                     try {
                         console.log("Dados brutos recebidos:", data);
-                        // Ajustar o parsing para remover a parte inicial e final
+                        // Extrair o JSON da resposta do Google Sheets
                         const startIndex = data.indexOf('(') + 1;
                         const endIndex = data.lastIndexOf(')');
                         if (startIndex === 0 || endIndex === -1) {
@@ -103,29 +103,31 @@
                                 return;
                             }
                             const comarca = row.c[1].v || "Comarca de Marapanim"; // Coluna B: UNIDADE
-                            const startDate = row.c[2].v; // Coluna C: INÍCIO (DD/MM/AAAA)
-                            const endDate = row.c[3].v; // Coluna D: FIM (DD/MM/AAAA)
+                            const startDateObj = row.c[2].v; // Coluna C: INÍCIO
+                            const endDateObj = row.c[3].v; // Coluna D: FIM
                             const motivo = row.c[4].v || "Não especificado"; // Coluna E: MOTIVO
                             const portaria = row.c[5].v || "Não especificada"; // Coluna F: PORTARIA
                             const fundamento = row.c[6].v || "Não especificado"; // Coluna G: EDIÇÃO DJE
 
-                            // Extrair dia, mês e ano das datas
-                            const [startDay, startMonth, startYear] = startDate.split('/').map(Number);
-                            const [endDay, endMonth, endYear] = endDate.split('/').map(Number);
-                            if (isNaN(startDay) || isNaN(startMonth) || isNaN(endDay) || isNaN(endMonth)) {
-                                console.warn(`Data inválida na linha ${index}: ${startDate} ou ${endDate}`);
+                            // Extrair data do formato Date(YYYY, MM, DD)
+                            const startDateMatch = startDateObj.match(/Date\((\d+),(\d+),(\d+)\)/);
+                            const endDateMatch = endDateObj.match(/Date\((\d+),(\d+),(\d+)\)/);
+                            if (!startDateMatch || !endDateMatch) {
+                                console.warn(`Data inválida na linha ${index}: ${startDateObj} ou ${endDateObj}`);
                                 return;
                             }
-                            const monthName = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"][startMonth - 1];
+                            const [, startYear, startMonth, startDay] = startDateMatch;
+                            const [, endYear, endMonth, endDay] = endDateMatch;
+                            const monthName = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"][parseInt(startMonth)];
                             console.log(`Mês extraído: ${monthName}, Start: ${startDay}, End: ${endDay}`);
 
                             // Formatar a data para 2025
                             const year = 2025;
-                            const formattedStartDate = `${startDay.toString().padStart(2, '0')}/${startMonth.toString().padStart(2, '0')}/${year}`;
-                            const formattedEndDate = `${endDay.toString().padStart(2, '0')}/${endMonth.toString().padStart(2, '0')}/${year}`;
+                            const formattedStartDate = `${startDay.toString().padStart(2, '0')}/${(parseInt(startMonth) + 1).toString().padStart(2, '0')}/${year}`;
+                            const formattedEndDate = `${endDay.toString().padStart(2, '0')}/${(parseInt(endMonth) + 1).toString().padStart(2, '0')}/${year}`;
                             const info = `
                                 <strong>${comarca} - ${formattedStartDate} a ${formattedEndDate}</strong><br>
-                                Motivo: ${motivo} (TJPA-MEM-2025/XXXX)<br>
+                                Motivo: ${motivo} (TJPA-MEM-${startYear}/${row.c[0].v.split('/')[1] || 'XXXX'})<br>
                                 Portaria ${portaria} - EDIÇÃO DJE nº ${fundamento}
                             `;
 
@@ -134,7 +136,7 @@
                             }
 
                             // Associar a suspensão a todos os dias do intervalo
-                            for (let day = startDay; day <= endDay; day++) {
+                            for (let day = parseInt(startDay); day <= parseInt(endDay); day++) {
                                 suspensionsData[monthName][day] = info;
                             }
                         });
