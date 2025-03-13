@@ -32,6 +32,7 @@
         .info-container { margin-top: 10px; padding: 10px; background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); text-align: center; max-width: 800px; margin-left: auto; margin-right: auto; }
         .info-container h2 { color: #1E3A8A; text-align: center; }
         .info-container strong { font-weight: bold; }
+        .data-table { display: none; } /* Tabela oculta, para edição manual */
     </style>
 </head>
 <body>
@@ -44,119 +45,86 @@
         <h2>Informações da Suspensão de Expediente</h2>
         <p id="infoDetails">Clique em um mês para ver as suspensões desse período.</p>
     </div>
+    <!-- Tabela para copiar os dados da planilha -->
+    <div class="data-table">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>UNIDADE</th>
+                    <th>INÍCIO</th>
+                    <th>FIM</th>
+                    <th>MOTIVO</th>
+                    <th>PORTARIA</th>
+                    <th>EDIÇÃO DJE</th>
+                </tr>
+            </thead>
+            <tbody id="dataTableBody">
+                <!-- Copie os dados da planilha aqui, ex.:
+                <tr>
+                    <td>Comarca de Santarém</td>
+                    <td>20/01/2025</td>
+                    <td>20/01/2025</td>
+                    <td>Calendário de feriados</td>
+                    <td>Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024</td>
+                    <td>Lei Federal nº 682/1949</td>
+                </tr>
+                -->
+            </tbody>
+        </table>
+        <p>Instruções: Copie os dados da aba 'Expediente' da planilha para esta tabela e salve o arquivo.</p>
+    </div>
     <script>
-        const apiUrl = "https://docs.google.com/spreadsheets/d/1XXfkwIzqUgM8rLeWN5lRqiyhIGRfMI9C/gviz/tq?tqx=out:json&sheet=Expediente";
-
         let suspensionsData = {};
 
-        // Dados simulados como fallback
-        const fallbackData = {
-            "Março": {
-                "3": { start: "3", end: "4", comarca: "Comarca de Marapanim", motivo: "Abate de gado", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" },
-                "4": { start: "3", end: "4", comarca: "Comarca de Marapanim", motivo: "Abate de gado", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 1.408/1951" }
-            },
-            "Maio": {
-                "1": { start: "1", end: "2", comarca: "Comarca de Marapanim", motivo: "Dia do Trabalho", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" },
-                "2": { start: "1", end: "2", comarca: "Comarca de Marapanim", motivo: "Dia do Trabalho", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" }
-            },
-            "Junho": {
-                "19": { start: "19", end: "20", comarca: "Comarca de Marapanim", motivo: "Corpus Christi", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Municipal nº 6306/67" },
-                "20": { start: "19", end: "20", comarca: "Comarca de Marapanim", motivo: "Corpus Christi", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Municipal nº 6306/67" }
-            },
-            "Agosto": {
-                "15": { start: "15", end: "15", comarca: "Comarca de Marapanim", motivo: "Adesão do Gra-Pa à independência do Brasil", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Estadual nº 5.991/1986" }
+        // Função para processar a tabela manual
+        function processManualData() {
+            const tableBody = document.getElementById('dataTableBody');
+            const rows = tableBody.getElementsByTagName('tr');
+
+            suspensionsData = {};
+
+            for (let row of rows) {
+                const cells = row.getElementsByTagName('td');
+                if (cells.length < 6) continue; // Verifica se a linha tem todos os campos
+
+                const comarca = cells[0].textContent.trim();
+                const startDate = cells[1].textContent.trim();
+                const endDate = cells[2].textContent.trim();
+                const motivo = cells[3].textContent.trim();
+                const portaria = cells[4].textContent.trim();
+                const fundamento = cells[5].textContent.trim();
+
+                // Extrair dia, mês e ano das datas
+                const [startDay, startMonth, startYear] = startDate.split('/').map(Number);
+                const [endDay, endMonth, endYear] = endDate.split('/').map(Number);
+                const monthName = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"][startMonth - 1];
+                console.log(`Mês extraído: ${monthName}, Start: ${startDay}, End: ${endDay}`);
+
+                // Formatar a data para 2025
+                const year = 2025;
+                const formattedStartDate = `${startDay.toString().padStart(2, '0')}/${startMonth.toString().padStart(2, '0')}/${year}`;
+                const formattedEndDate = `${endDay.toString().padStart(2, '0')}/${endMonth.toString().padStart(2, '0')}/${year}`;
+                const info = `
+                    <strong>${comarca} - ${formattedStartDate} a ${formattedEndDate}</strong><br>
+                    Motivo: ${motivo} (TJPA-MEM-2025/XXXX)<br>
+                    Portaria ${portaria} - EDIÇÃO DJE nº ${fundamento}
+                `;
+
+                if (!suspensionsData[monthName]) {
+                    suspensionsData[monthName] = {};
+                }
+
+                // Associar a suspensão a todos os dias do intervalo
+                for (let day = startDay; day <= endDay; day++) {
+                    suspensionsData[monthName][day] = info;
+                }
             }
-        };
 
-        function fetchSuspensions() {
-            fetch(apiUrl)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`Erro na requisição: ${response.status} - ${response.statusText}`);
-                    }
-                    return response.text();
-                })
-                .then(data => {
-                    try {
-                        console.log("Dados brutos recebidos:", data);
-                        // Extrair o JSON da resposta do Google Sheets
-                        const startIndex = data.indexOf('(') + 1;
-                        const endIndex = data.lastIndexOf(')');
-                        if (startIndex === 0 || endIndex === -1) {
-                            throw new Error("Não foi possível extrair o JSON da resposta.");
-                        }
-                        const jsonString = data.substring(startIndex, endIndex);
-                        console.log("JSON string extraída:", jsonString);
-                        const jsonData = JSON.parse(jsonString);
-                        console.log("JSON parseado:", jsonData);
-                        const rows = jsonData.table.rows;
-
-                        suspensionsData = {};
-
-                        rows.forEach((row, index) => {
-                            console.log(`Linha ${index}:`, row.c);
-                            if (!row.c || row.c.length < 7 || row.c.some(col => col === null || col.v === undefined)) {
-                                console.log(`Linha ${index} ignorada por dados incompletos`);
-                                return;
-                            }
-                            const comarca = row.c[1].v || "Comarca de Marapanim"; // Coluna B: UNIDADE
-                            const startDate = row.c[2].v; // Coluna C: INÍCIO (DD/MM/AAAA)
-                            const endDate = row.c[3].v; // Coluna D: FIM (DD/MM/AAAA)
-                            const motivo = row.c[4].v || "Não especificado"; // Coluna E: MOTIVO
-                            const portaria = row.c[5].v || "Não especificada"; // Coluna F: PORTARIA
-                            const fundamento = row.c[6].v || "Não especificado"; // Coluna G: EDIÇÃO DJE
-
-                            // Extrair dia, mês e ano das datas
-                            const [startDay, startMonth, startYear] = startDate.split('/').map(Number);
-                            const [endDay, endMonth, endYear] = endDate.split('/').map(Number);
-                            if (isNaN(startDay) || isNaN(startMonth) || isNaN(endDay) || isNaN(endMonth)) {
-                                console.warn(`Data inválida na linha ${index}: ${startDate} ou ${endDate}`);
-                                return;
-                            }
-                            const monthName = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"][startMonth - 1];
-                            console.log(`Mês extraído: ${monthName}, Start: ${startDay}, End: ${endDay}`);
-
-                            // Formatar a data para 2025
-                            const year = 2025;
-                            const formattedStartDate = `${startDay.toString().padStart(2, '0')}/${startMonth.toString().padStart(2, '0')}/${year}`;
-                            const formattedEndDate = `${endDay.toString().padStart(2, '0')}/${endMonth.toString().padStart(2, '0')}/${year}`;
-                            const info = `
-                                <strong>${comarca} - ${formattedStartDate} a ${formattedEndDate}</strong><br>
-                                Motivo: ${motivo} (TJPA-MEM-2025/XXXX)<br>
-                                Portaria ${portaria} - EDIÇÃO DJE nº ${fundamento}
-                            `;
-
-                            if (!suspensionsData[monthName]) {
-                                suspensionsData[monthName] = {};
-                            }
-
-                            // Associar a suspensão a todos os dias do intervalo
-                            for (let day = startDay; day <= endDay; day++) {
-                                suspensionsData[monthName][day] = info;
-                            }
-                        });
-
-                        console.log("Dados mapeados:", suspensionsData);
-                        if (Object.keys(suspensionsData).length === 0) {
-                            console.warn("Nenhum dado foi mapeado da planilha. Usando dados simulados como fallback.");
-                            suspensionsData = fallbackData;
-                        }
-                        generateCalendar();
-                    } catch (error) {
-                        console.error("Erro ao processar JSON:", error);
-                        document.getElementById("infoDetails").innerHTML = "Erro ao carregar dados da planilha. Verifique o console para mais detalhes. Usando dados simulados como fallback.";
-                        suspensionsData = fallbackData;
-                        generateCalendar();
-                    }
-                })
-                .catch(error => {
-                    console.error("Erro ao buscar dados da planilha:", error);
-                    document.getElementById("infoDetails").innerHTML = "Erro ao conectar à planilha. Certifique-se de que a planilha está pública e a aba 'Expediente' existe. Usando dados simulados como fallback.";
-                    suspensionsData = fallbackData;
-                    generateCalendar();
-                });
+            console.log("Dados mapeados a partir da tabela:", suspensionsData);
+            generateCalendar();
         }
 
+        // Função para gerar o calendário
         function generateCalendar() {
             let container = document.getElementById("calendarContainer");
             container.innerHTML = "";
@@ -178,6 +146,7 @@
             });
         }
 
+        // Função para exibir as suspensões
         function showSuspensions(month) {
             let infoDetails = document.getElementById("infoDetails");
             if (suspensionsData[month]) {
@@ -192,7 +161,8 @@
             }
         }
 
-        window.onload = fetchSuspensions;
+        // Processar a tabela manual ao carregar a página
+        window.onload = processManualData;
     </script>
 </body>
 </html>
