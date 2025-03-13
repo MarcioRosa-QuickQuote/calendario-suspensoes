@@ -42,7 +42,7 @@
     <div class="calendar-container" id="calendarContainer"></div>
     <div class="info-container" id="infoContainer">
         <h2>Informações da Suspensão de Expediente</h2>
-        <p id="infoDetails">Clique em um mês para ver as suspensões desse período.</p>
+        <p id="infoDetails">Carregando dados da planilha...</p>
     </div>
     <script>
         const apiUrl = "https://docs.google.com/spreadsheets/d/1XXfkwIzqUgM8rLeWN5lRqiyhIGRfMI9C/gviz/tq?tqx=out:json&sheet=SUSPENSAO_EXPEDIENTE";
@@ -52,9 +52,19 @@
         // Função para parsear datas no formato DD/MM/YYYY
         function parseDateFromString(dateStr) {
             try {
-                const [day, month, year] = dateStr.split('/').map(Number);
-                if (!day || !month || !year) {
-                    throw new Error("Data inválida");
+                if (!dateStr || typeof dateStr !== 'string') {
+                    console.error(`Data ausente ou inválida: ${dateStr}`);
+                    return null;
+                }
+                const parts = dateStr.split('/').map(part => parseInt(part, 10));
+                if (parts.length !== 3 || parts.some(isNaN)) {
+                    console.error(`Formato de data inválido: ${dateStr}`);
+                    return null;
+                }
+                const [day, month, year] = parts;
+                if (day < 1 || day > 31 || month < 1 || month > 12 || year < 1000) {
+                    console.error(`Valores de data fora do intervalo: ${dateStr}`);
+                    return null;
                 }
                 return { year, month: month - 1, day }; // Mês é 0-based no JavaScript
             } catch (error) {
@@ -90,19 +100,15 @@
                 })
                 .then(data => {
                     try {
-                        console.log("Dados brutos recebidos:", data);
-                        // Remover o prefixo /*O_o*/ se existir
+                        console.log("Dados brutos recebidos:", data.substring(0, 500)); // Log apenas os primeiros 500 caracteres para evitar excesso
                         let cleanedData = data.replace(/\/\*O_o\*\//, '');
-                        // Extrair o JSON da resposta do Google Sheets
                         const startIndex = cleanedData.indexOf('(') + 1;
                         const endIndex = cleanedData.lastIndexOf(')');
                         if (startIndex === 0 || endIndex === -1) {
                             throw new Error("Não foi possível extrair o JSON da resposta.");
                         }
-                        let jsonString = cleanedData.substring(startIndex, endIndex);
-                        // Limpar a string JSON de caracteres inesperados
-                        jsonString = jsonString.replace(/\n/g, '').replace(/\r/g, '').trim();
-                        console.log("JSON string extraída:", jsonString);
+                        let jsonString = cleanedData.substring(startIndex, endIndex).trim();
+                        console.log("JSON string extraída:", jsonString.substring(0, 500)); // Log apenas os primeiros 500 caracteres
                         const jsonData = JSON.parse(jsonString);
                         console.log("JSON parseado:", jsonData);
                         const rows = jsonData.table.rows;
@@ -110,33 +116,31 @@
                         suspensionsData = {};
 
                         rows.forEach((row, index) => {
-                            // Ignorar a primeira linha (cabeçalho)
                             if (index === 0) {
-                                console.log("Ignorando cabeçalho:", row.c);
+                                console.log("Cabeçalho ignorado:", row.c);
                                 return;
                             }
 
-                            // Verificar se a linha tem dados
                             if (!row.c || row.c.length < 7) {
-                                console.log(`Linha ${index} ignorada: dados insuficientes`, row.c);
+                                console.log(`Linha ${index} ignorada: número insuficiente de colunas`, row.c);
                                 return;
                             }
 
-                            // Tratar valores nulos ou indefinidos
-                            const comarca = row.c[1]?.v || "Não especificada"; // Coluna B: UNIDADE
-                            const startDateStr = row.c[2]?.v; // Coluna C: INÍCIO (ex.: "20/01/2025")
-                            const endDateStr = row.c[3]?.v; // Coluna D: FIM (ex.: "24/01/2025")
-                            const motivo = row.c[4]?.v || "Não especificado"; // Coluna E: MOTIVO
-                            const portaria = row.c[5]?.v || "Não especificada"; // Coluna F: PORTARIA
-                            const fundamento = row.c[6]?.v || "Não especificado"; // Coluna G: EDG
+                            const protocol = row.c[0]?.v || "TJPA-MEM-2025/XXXX";
+                            const comarca = row.c[1]?.v || "Não especificada";
+                            const startDateStr = row.c[2]?.v || "";
+                            const endDateStr = row.c[3]?.v || "";
+                            const motivo = row.c[4]?.v || "Não especificado";
+                            const portaria = row.c[5]?.v || "Não especificada";
+                            const fundamento = row.c[6]?.v || "Não especificado";
 
-                            // Verificar se as datas estão presentes
+                            console.log(`Linha ${index} processada:`, { protocol, comarca, startDateStr, endDateStr, motivo, portaria, fundamento });
+
                             if (!startDateStr || !endDateStr) {
-                                console.log(`Linha ${index} ignorada: data de início ou fim ausente`, { startDateStr, endDateStr });
+                                console.log(`Linha ${index} ignorada: data de início ou fim ausente`);
                                 return;
                             }
 
-                            // Parsear as datas
                             const startDate = parseDateFromString(startDateStr);
                             const endDate = parseDateFromString(endDateStr);
 
@@ -145,27 +149,19 @@
                                 return;
                             }
 
-                            console.log(`Linha ${index} - Início: ${startDateStr}, Fim: ${endDateStr}, StartDate:`, startDate, "EndDate:", endDate);
+                            console.log(`Linha ${index} - StartDate:`, startDate, "EndDate:", endDate);
 
-                            // Filtrar apenas suspensões de 2025
-                            if (startDate.year !== 2025 && endDate.year !== 2025) {
-                                console.log(`Linha ${index} ignorada: Data fora de 2025 (startYear: ${startDate.year}, endYear: ${endDate.year})`);
-                                return;
-                            }
-
-                            // Formatar as datas para exibição
+                            // Temporariamente removido o filtro de 2025 para depuração
                             const formattedStartDate = `${startDate.day.toString().padStart(2, '0')}/${(startDate.month + 1).toString().padStart(2, '0')}/${startDate.year}`;
                             const formattedEndDate = `${endDate.day.toString().padStart(2, '0')}/${(endDate.month + 1).toString().padStart(2, '0')}/${endDate.year}`;
                             const info = `
                                 <strong>${comarca} - ${formattedStartDate} a ${formattedEndDate}</strong><br>
-                                Motivo: ${motivo} (${row.c[0]?.v || 'TJPA-MEM-2025/XXXX'})<br>
+                                Motivo: ${motivo} (${protocol})<br>
                                 Portaria ${portaria} - EDIÇÃO DJE nº ${fundamento}
                             `;
 
-                            // Obter todos os dias no intervalo
                             const daysInRange = getDaysBetweenDates(startDate, endDate);
                             daysInRange.forEach(day => {
-                                if (day.year !== 2025) return; // Ignorar dias fora de 2025
                                 const monthName = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"][day.month];
                                 if (!suspensionsData[monthName]) {
                                     suspensionsData[monthName] = {};
@@ -176,7 +172,7 @@
 
                         console.log("Dados mapeados:", suspensionsData);
                         if (Object.keys(suspensionsData).length === 0) {
-                            document.getElementById("infoDetails").innerHTML = "Nenhum dado encontrado para 2025 na planilha.";
+                            document.getElementById("infoDetails").innerHTML = "Nenhum dado encontrado na planilha.";
                         } else {
                             generateCalendar();
                         }
