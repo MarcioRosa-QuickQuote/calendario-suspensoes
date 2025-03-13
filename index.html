@@ -49,6 +49,25 @@
 
         let suspensionsData = {};
 
+        // Dados simulados como fallback
+        const fallbackData = {
+            "Março": {
+                "3": { start: "3", end: "4", motivo: "Abate de gado", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" },
+                "4": { start: "3", end: "4", motivo: "Abate de gado", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 1.408/1951" }
+            },
+            "Maio": {
+                "1": { start: "1", end: "2", motivo: "Dia do Trabalho", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" },
+                "2": { start: "1", end: "2", motivo: "Dia do Trabalho", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" }
+            },
+            "Junho": {
+                "19": { start: "19", end: "20", motivo: "Corpus Christi", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Municipal nº 6306/67" },
+                "20": { start: "19", end: "20", motivo: "Corpus Christi", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Municipal nº 6306/67" }
+            },
+            "Agosto": {
+                "15": { start: "15", end: "15", motivo: "Adesão do Gra-Pa à independência do Brasil", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Estadual nº 5.991/1986" }
+            }
+        };
+
         function fetchSuspensions() {
             fetch(apiUrl)
                 .then(response => {
@@ -66,8 +85,12 @@
 
                         suspensionsData = {};
 
-                        rows.forEach(row => {
-                            if (!row.c || row.c.length < 6 || row.c.some(col => col === null || col.v === undefined)) return;
+                        rows.forEach((row, index) => {
+                            console.log(`Linha ${index}:`, row.c);
+                            if (!row.c || row.c.length < 6 || row.c.some(col => col === null || col.v === undefined)) {
+                                console.log(`Linha ${index} ignorada por dados incompletos`);
+                                return;
+                            }
                             const monthRaw = row.c[0].v; // Ex.: "1º de março"
                             const startDay = parseInt(row.c[1].v); // Dia de início
                             const endDay = parseInt(row.c[2].v); // Dia de fim
@@ -83,6 +106,10 @@
                             // Formatar a data para 2025
                             const year = 2025;
                             const monthIndex = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"].indexOf(monthName.toLowerCase());
+                            if (monthIndex === -1) {
+                                console.warn(`Mês inválido: ${monthName}`);
+                                return;
+                            }
                             const formattedStartDate = `${startDay.toString().padStart(2, '0')}/${(monthIndex + 1).toString().padStart(2, '0')}/${year}`;
                             const formattedEndDate = `${endDay.toString().padStart(2, '0')}/${(monthIndex + 1).toString().padStart(2, '0')}/${year}`;
                             const info = `
@@ -102,6 +129,9 @@
                         });
 
                         console.log("Dados mapeados:", suspensionsData);
+                        if (Object.keys(suspensionsData).length === 0) {
+                            console.warn("Nenhum dado foi mapeado da planilha.");
+                        }
                         generateCalendar();
                     } catch (error) {
                         console.error("Erro ao processar JSON:", error);
@@ -110,7 +140,7 @@
                 })
                 .catch(error => {
                     console.error("Erro ao buscar dados da planilha:", error);
-                    document.getElementById("infoDetails").innerHTML = "Erro ao conectar à planilha. Certifique-se de que a planilha está pública.";
+                    document.getElementById("infoDetails").innerHTML = "Erro ao conectar à planilha. Certifique-se de que a planilha está pública e a aba 'Expediente' existe.";
                 });
         }
 
