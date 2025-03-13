@@ -49,25 +49,6 @@
 
         let suspensionsData = {};
 
-        // Dados simulados como fallback
-        const fallbackData = {
-            "Março": {
-                "3": { start: "3", end: "4", comarca: "Comarca de Marapanim", motivo: "Abate de gado", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" },
-                "4": { start: "3", end: "4", comarca: "Comarca de Marapanim", motivo: "Abate de gado", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 1.408/1951" }
-            },
-            "Maio": {
-                "1": { start: "1", end: "2", comarca: "Comarca de Marapanim", motivo: "Dia do Trabalho", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" },
-                "2": { start: "1", end: "2", comarca: "Comarca de Marapanim", motivo: "Dia do Trabalho", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" }
-            },
-            "Junho": {
-                "19": { start: "19", end: "20", comarca: "Comarca de Marapanim", motivo: "Corpus Christi", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Municipal nº 6306/67" },
-                "20": { start: "19", end: "20", comarca: "Comarca de Marapanim", motivo: "Corpus Christi", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Municipal nº 6306/67" }
-            },
-            "Agosto": {
-                "15": { start: "15", end: "15", comarca: "Comarca de Marapanim", motivo: "Adesão do Gra-Pa à independência do Brasil", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Estadual nº 5.991/1986" }
-            }
-        };
-
         function fetchSuspensions() {
             fetch(apiUrl)
                 .then(response => {
@@ -79,7 +60,12 @@
                 .then(data => {
                     try {
                         console.log("Dados brutos recebidos:", data);
-                        const jsonData = JSON.parse(data.substring(47, data.length - 2));
+                        // Ajustar o parsing para remover a parte inicial e final
+                        const startIndex = data.indexOf('(') + 1;
+                        const endIndex = data.lastIndexOf(')');
+                        const jsonString = data.substring(startIndex, endIndex);
+                        console.log("JSON string extraída:", jsonString);
+                        const jsonData = JSON.parse(jsonString);
                         console.log("JSON parseado:", jsonData);
                         const rows = jsonData.table.rows;
 
@@ -126,22 +112,17 @@
 
                         console.log("Dados mapeados:", suspensionsData);
                         if (Object.keys(suspensionsData).length === 0) {
-                            console.warn("Nenhum dado foi mapeado da planilha. Usando dados simulados como fallback.");
-                            suspensionsData = fallbackData;
+                            console.warn("Nenhum dado foi mapeado da planilha.");
                         }
                         generateCalendar();
                     } catch (error) {
                         console.error("Erro ao processar JSON:", error);
-                        document.getElementById("infoDetails").innerHTML = "Erro ao carregar dados da planilha. Usando dados simulados como fallback.";
-                        suspensionsData = fallbackData;
-                        generateCalendar();
+                        document.getElementById("infoDetails").innerHTML = "Erro ao carregar dados da planilha. Verifique o console para mais detalhes.";
                     }
                 })
                 .catch(error => {
                     console.error("Erro ao buscar dados da planilha:", error);
-                    document.getElementById("infoDetails").innerHTML = "Erro ao conectar à planilha. Certifique-se de que a planilha está pública e a aba 'Expediente' existe. Usando dados simulados como fallback.";
-                    suspensionsData = fallbackData;
-                    generateCalendar();
+                    document.getElementById("infoDetails").innerHTML = "Erro ao conectar à planilha. Certifique-se de que a planilha está pública e a aba 'Expediente' existe.";
                 });
         }
 
