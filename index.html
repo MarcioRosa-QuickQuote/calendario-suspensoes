@@ -52,19 +52,19 @@
         // Dados simulados como fallback
         const fallbackData = {
             "Março": {
-                "3": { start: "3", end: "4", motivo: "Abate de gado", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" },
-                "4": { start: "3", end: "4", motivo: "Abate de gado", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 1.408/1951" }
+                "3": { start: "3", end: "4", comarca: "Comarca de Marapanim", motivo: "Abate de gado", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" },
+                "4": { start: "3", end: "4", comarca: "Comarca de Marapanim", motivo: "Abate de gado", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 1.408/1951" }
             },
             "Maio": {
-                "1": { start: "1", end: "2", motivo: "Dia do Trabalho", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" },
-                "2": { start: "1", end: "2", motivo: "Dia do Trabalho", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" }
+                "1": { start: "1", end: "2", comarca: "Comarca de Marapanim", motivo: "Dia do Trabalho", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" },
+                "2": { start: "1", end: "2", comarca: "Comarca de Marapanim", motivo: "Dia do Trabalho", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" }
             },
             "Junho": {
-                "19": { start: "19", end: "20", motivo: "Corpus Christi", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Municipal nº 6306/67" },
-                "20": { start: "19", end: "20", motivo: "Corpus Christi", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Municipal nº 6306/67" }
+                "19": { start: "19", end: "20", comarca: "Comarca de Marapanim", motivo: "Corpus Christi", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Municipal nº 6306/67" },
+                "20": { start: "19", end: "20", comarca: "Comarca de Marapanim", motivo: "Corpus Christi", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Municipal nº 6306/67" }
             },
             "Agosto": {
-                "15": { start: "15", end: "15", motivo: "Adesão do Gra-Pa à independência do Brasil", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Estadual nº 5.991/1986" }
+                "15": { start: "15", end: "15", comarca: "Comarca de Marapanim", motivo: "Adesão do Gra-Pa à independência do Brasil", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Estadual nº 5.991/1986" }
             }
         };
 
@@ -87,33 +87,29 @@
 
                         rows.forEach((row, index) => {
                             console.log(`Linha ${index}:`, row.c);
-                            if (!row.c || row.c.length < 6 || row.c.some(col => col === null || col.v === undefined)) {
+                            if (!row.c || row.c.length < 7 || row.c.some(col => col === null || col.v === undefined)) {
                                 console.log(`Linha ${index} ignorada por dados incompletos`);
                                 return;
                             }
-                            const monthRaw = row.c[0].v; // Ex.: "1º de março"
-                            const startDay = parseInt(row.c[1].v); // Dia de início
-                            const endDay = parseInt(row.c[2].v); // Dia de fim
-                            const motivo = row.c[3].v || "Não especificado";
-                            const portaria = row.c[4].v || "Não especificada";
-                            const fundamento = row.c[5].v || "Não especificado";
+                            const comarca = row.c[1].v || "Comarca de Marapanim"; // Coluna B: UNIDADE
+                            const startDate = row.c[2].v; // Coluna C: INÍCIO (DD/MM/AAAA)
+                            const endDate = row.c[3].v; // Coluna D: FIM (DD/MM/AAAA)
+                            const motivo = row.c[4].v || "Não especificado"; // Coluna E: MOTIVO
+                            const portaria = row.c[5].v || "Não especificada"; // Coluna F: PORTARIA
+                            const fundamento = row.c[6].v || "Não especificado"; // Coluna G: EDIÇÃO DJE
 
-                            // Extrair o nome do mês
-                            let monthName = monthRaw.split(" ").pop();
-                            monthName = monthName.charAt(0).toUpperCase() + monthName.slice(1).toLowerCase();
+                            // Extrair dia, mês e ano das datas
+                            const [startDay, startMonth, startYear] = startDate.split('/').map(Number);
+                            const [endDay, endMonth, endYear] = endDate.split('/').map(Number);
+                            const monthName = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"][startMonth - 1];
                             console.log(`Mês extraído: ${monthName}, Start: ${startDay}, End: ${endDay}`);
 
-                            // Formatar a data para 2025
-                            const year = 2025;
-                            const monthIndex = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"].indexOf(monthName.toLowerCase());
-                            if (monthIndex === -1) {
-                                console.warn(`Mês inválido: ${monthName}`);
-                                return;
-                            }
-                            const formattedStartDate = `${startDay.toString().padStart(2, '0')}/${(monthIndex + 1).toString().padStart(2, '0')}/${year}`;
-                            const formattedEndDate = `${endDay.toString().padStart(2, '0')}/${(monthIndex + 1).toString().padStart(2, '0')}/${year}`;
+                            // Formatar a data para o padrão solicitado
+                            const year = 2025; // Forçar ano 2025
+                            const formattedStartDate = `${startDay.toString().padStart(2, '0')}/${startMonth.toString().padStart(2, '0')}/${year}`;
+                            const formattedEndDate = `${endDay.toString().padStart(2, '0')}/${endMonth.toString().padStart(2, '0')}/${year}`;
                             const info = `
-                                <strong>Comarca de Marapanim - ${formattedStartDate} a ${formattedEndDate}</strong><br>
+                                <strong>${comarca} - ${formattedStartDate} a ${formattedEndDate}</strong><br>
                                 Motivo: ${motivo} (TJPA-MEM-2025/XXXX)<br>
                                 Portaria ${portaria} - EDIÇÃO DJE nº ${fundamento}
                             `;
@@ -135,12 +131,16 @@
                         generateCalendar();
                     } catch (error) {
                         console.error("Erro ao processar JSON:", error);
-                        document.getElementById("infoDetails").innerHTML = "Erro ao carregar dados da planilha. Verifique o console para mais detalhes.";
+                        document.getElementById("infoDetails").innerHTML = "Erro ao carregar dados da planilha. Usando dados simulados como fallback.";
+                        suspensionsData = fallbackData;
+                        generateCalendar();
                     }
                 })
                 .catch(error => {
                     console.error("Erro ao buscar dados da planilha:", error);
-                    document.getElementById("infoDetails").innerHTML = "Erro ao conectar à planilha. Certifique-se de que a planilha está pública e a aba 'Expediente' existe.";
+                    document.getElementById("infoDetails").innerHTML = "Erro ao conectar à planilha. Certifique-se de que a planilha está pública. Usando dados simulados como fallback.";
+                    suspensionsData = fallbackData;
+                    generateCalendar();
                 });
         }
 
