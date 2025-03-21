@@ -1,93 +1,538 @@
-// Configurações do GitHub
-const GITHUB_TOKEN = 'SEU_TOKEN_AQUI'; // Substitua pelo seu token de acesso pessoal
-const REPO_OWNER = 'MarcioRosa-QuickQuote';
-const REPO_NAME = 'calendario-suspensoes';
-const FILE_PATH = 'suspensions_2025_completo.json';
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendário de Suspensões de Expedientes - 2025</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            text-align: center;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #1E3A8A;
+            color: white;
+            padding: 20px;
+            font-size: 26px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .header-image {
+            height: 80px;
+            margin-right: 20px;
+        }
+        .calendar-container {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 5px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+        .calendar {
+            background: white;
+            padding: 8px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.2s;
+            cursor: pointer;
+            position: relative;
+        }
+        .calendar:hover {
+            transform: scale(1.05);
+        }
+        .calendar h3 {
+            background-color: #1E3A8A;
+            color: white;
+            padding: 6px;
+            border-radius: 5px;
+            font-size: 14px;
+            margin: 0;
+        }
+        .calendar table {
+            width: 100%;
+            margin-top: 5px;
+            border-collapse: collapse;
+            font-size: 10px;
+        }
+        .calendar th, .calendar td {
+            padding: 4px;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+        }
+        .calendar th {
+            color: #1E3A8A;
+            font-weight: bold;
+        }
+        .highlight-judiciario {
+            border: 2px solid red;
+            border-radius: 0;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        .highlight-judiciario:hover {
+            border-color: darkred;
+        }
+        .legend-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            text-align: left;
+            font-size: 14px;
+        }
+        .legend-item {
+            display: inline-block;
+            margin-right: 20px;
+        }
+        .legend-square-judiciario {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid red;
+            border-radius: 0;
+            vertical-align: middle;
+            margin-right: 5px;
+            margin-left: 10px;
+        }
+        .info-container {
+            margin-top: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+        }
+        .info-container h2 {
+            color: #1E3A8A;
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .month-header {
+            position: absolute;
+            top: 10px;
+            right: 50px;
+            font-weight: bold;
+            font-size: 16px;
+            color: gold;
+            -webkit-text-stroke: 1px blue;
+            text-stroke: 1px blue;
+            padding-bottom: 10px;
+        }
+        .search-container {
+            margin-bottom: 10px;
+            text-align: left;
+            padding: 0 10px;
+        }
+        .search-container input {
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .info-details {
+            text-align: left;
+            padding: 0 10px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        li {
+            margin: 0;
+            padding: 0;
+            text-align: left;
+            line-height: 1.2;
+            border-bottom: 1px solid #ccc;
+        }
+        li:last-child {
+            border-bottom: none;
+        }
+        .suspension-item span {
+            display: inline;
+        }
+        .suspension-item .unidade {
+            font-weight: bold;
+            display: block;
+            margin: 0;
+        }
+        .suspension-item .motivo-line {
+            display: block;
+            margin: 0;
+        }
+        .suspension-item .portaria-line {
+            display: block;
+            margin: 0;
+        }
+        .motivo {
+            font-weight: bold;
+            margin-right: 5px;
+            display: inline;
+        }
 
-// Função para obter o conteúdo atual do JSON no GitHub
-function getCurrentJson() {
-  const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`;
-  const options = {
-    method: 'get',
-    headers: {
-      'Authorization': `token ${GITHUB_TOKEN}`,
-      'Accept': 'application/vnd.github.v3+json'
-    }
-  };
-  const response = UrlFetchApp.fetch(url, options);
-  const json = JSON.parse(response.getContentText());
-  const content = Utilities.base64Decode(json.content);
-  const contentString = Utilities.newBlob(content).getDataAsString();
-  return JSON.parse(contentString);
-}
+        /* Responsividade para dispositivos móveis */
+        @media (max-width: 768px) {
+            .calendar-container {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 2px;
+                padding: 5px;
+                max-width: 100%;
+            }
+            .calendar {
+                padding: 2px;
+            }
+            .calendar h3 {
+                font-size: 12px; /* Aumenta o tamanho da letra do mês */
+            }
+            .calendar table {
+                font-size: 5px;
+            }
+            .calendar th, .calendar td {
+                width: 10px;
+                height: 8px; /* Reduz a altura vertical */
+                line-height: 8px;
+            }
+            ul {
+                grid-template-columns: 1fr;
+            }
+            .month-header {
+                right: 10px;
+                font-size: 12px;
+                padding-bottom: 20px; /* Aumenta a distância entre o nome do mês e o título */
+            }
+            .info-container {
+                max-width: 100%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .info-container h2 {
+                font-size: 14px;
+            }
+            .header {
+                font-size: 20px;
+                padding: 15px;
+                justify-content: center;
+            }
+            .header-image {
+                height: 60px;
+                margin-right: 30px;
+            }
+            .legend-container {
+                font-size: 12px;
+                max-width: 100%;
+            }
+            .legend-square-judiciario {
+                width: 12px;
+                height: 12px;
+            }
+        }
 
-// Função para atualizar o JSON no GitHub
-function updateJson(newData) {
-  const currentJson = getCurrentJson();
-  const sha = currentJson.sha; // SHA do arquivo atual
-  const newContent = JSON.stringify(newData, null, 2);
-  const encodedContent = Utilities.base64Encode(newContent);
+        @media (max-width: 480px) {
+            .calendar-container {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1px;
+                padding: 3px;
+                max-width: 100%;
+            }
+            .calendar {
+                padding: 1px;
+            }
+            .calendar h3 {
+                font-size: 10px; /* Aumenta o tamanho da letra do mês */
+            }
+            .calendar table {
+                font-size: 4px;
+            }
+            .calendar th, .calendar td {
+                width: 8px;
+                height: 6px; /* Reduz ainda mais a altura vertical */
+                line-height: 6px;
+            }
+            .header {
+                font-size: 16px;
+                padding: 10px;
+                justify-content: center;
+            }
+            .header-image {
+                height: 50px;
+                margin-right: 20px;
+            }
+            .legend-container {
+                font-size: 10px;
+                max-width: 100%;
+            }
+            .legend-square-judiciario {
+                width: 10px;
+                height: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="https://i.imgur.com/bcjzam8.png" alt="Logo TJPA" class="header-image">
+        Calendário de Suspensões de Expedientes - 2025
+    </div>
+    <div class="calendar-container" id="calendarContainer"></div>
+    <div class="legend-container">
+        <div class="legend-item">
+            <span class="legend-square-judiciario"></span> Poder Judiciário do Estado do Pará
+        </div>
+    </div>
+    <div class="info-container" id="infoContainer">
+        <h2>Informações da Suspensão de Expediente</h2>
+        <div class="month-header" id="selectedMonth"></div>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Pesquisar por unidade..." onkeyup="searchSuspensions()">
+        </div>
+        <div class="info-details">
+            <ul id="suspensionsList">
+                <li>Digite uma unidade para buscar suspensões</li>
+            </ul>
+        </div>
+    </div>
 
-  const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`;
-  const options = {
-    method: 'put',
-    headers: {
-      'Authorization': `token ${GITHUB_TOKEN}`,
-      'Accept': 'application/vnd.github.v3+json'
-    },
-    payload: JSON.stringify({
-      message: 'Atualiza JSON com novos dados',
-      content: encodedContent,
-      sha: sha
-    })
-  };
-  UrlFetchApp.fetch(url, options);
-}
+    <script>
+        let allSuspensions = [];
 
-// Função para inserir um novo registro
-function insertSuspension() {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Sheet1'); // Substitua pelo nome da sua aba
-  const data = sheet.getDataRange().getValues();
-  const headers = data[0];
-  const newSuspension = {};
+        fetch('suspensions_2025_completo.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Erro ao carregar o JSON: ${response.status} ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('JSON carregado com sucesso:', data);
+                allSuspensions = data;
+                generateCalendar();
+            })
+            .catch(error => {
+                console.error('Erro ao carregar o JSON:', error);
+                document.getElementById('suspensionsList').innerHTML = `<li>Erro ao carregar os dados: ${error.message}</li>`;
+            });
 
-  // Lê a última linha da planilha para inserir
-  const lastRow = data[data.length - 1];
-  headers.forEach((header, index) => {
-    newSuspension[header] = lastRow[index];
-  });
+        function generateCalendar() {
+            let container = document.getElementById("calendarContainer");
+            container.innerHTML = "";
+            const months = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
 
-  const currentJson = getCurrentJson();
-  currentJson.push(newSuspension);
-  updateJson(currentJson);
-  Logger.log('Novo registro inserido com sucesso!');
-}
+            months.forEach((month, index) => {
+                let firstDay = new Date(2025, index, 1).getDay();
+                let daysInMonth = new Date(2025, index + 1, 0).getDate();
+                let suspensionDays = {};
 
-// Função para excluir um registro
-function deleteSuspension(protocolo) {
-  const currentJson = getCurrentJson();
-  const updatedJson = currentJson.filter(item => item.protocolo !== protocolo);
-  updateJson(updatedJson);
-  Logger.log(`Registro com protocolo ${protocolo} excluído com sucesso!`);
-}
+                const events = allSuspensions.filter(event => {
+                    let inicioDate, fimDate;
+                    try {
+                        inicioDate = new Date(event.inicio.split('/').reverse().join('-'));
+                        fimDate = new Date(event.fim.split('/').reverse().join('-'));
+                    } catch (error) {
+                        console.log(`Erro ao converter datas: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade}`);
+                        return false;
+                    }
 
-// Função para sincronizar a planilha com o JSON
-function syncSheetToJson() {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Sheet1');
-  const data = sheet.getDataRange().getValues();
-  const headers = data[0];
-  const jsonData = [];
+                    if (isNaN(inicioDate.getTime()) || isNaN(fimDate.getTime())) {
+                        console.log(`Data inválida: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade}`);
+                        return false;
+                    }
 
-  // Converte os dados da planilha em JSON
-  for (let i = 1; i < data.length; i++) {
-    const row = data[i];
-    const rowData = {};
-    headers.forEach((header, index) => {
-      rowData[header] = row[index];
-    });
-    jsonData.push(rowData);
-  }
+                    const startYear = inicioDate.getFullYear();
+                    const endYear = fimDate.getFullYear();
+                    const intersects2025 = startYear <= 2025 && endYear >= 2025;
 
-  updateJson(jsonData);
-  Logger.log('JSON sincronizado com a planilha!');
-}
+                    if (!intersects2025 && endYear < 2025) {
+                        return false;
+                    }
+
+                    const monthStart = new Date(2025, index, 1);
+                    const monthEnd = new Date(2025, index + 1, 0);
+                    return (inicioDate <= monthEnd && fimDate >= monthStart);
+                });
+
+                events.forEach(event => {
+                    let inicioDate, fimDate;
+                    try {
+                        inicioDate = new Date(event.inicio.split('/').reverse().join('-'));
+                        fimDate = new Date(event.fim.split('/').reverse().join('-'));
+                    } catch (error) {
+                        console.log(`Erro ao converter datas: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade}`);
+                        return;
+                    }
+
+                    const monthStart = new Date(2025, index, 1);
+                    const monthEnd = new Date(2025, index + 1, 0);
+                    const start = inicioDate < monthStart ? monthStart : inicioDate;
+                    const end = fimDate > monthEnd ? monthEnd : fimDate;
+
+                    if (start.getFullYear() === 2025 && end.getFullYear() === 2025) {
+                        const startDay = start.getDate();
+                        const endDay = end.getDate();
+                        for (let day = startDay; day <= endDay; day++) {
+                            if (!suspensionDays[day]) {
+                                suspensionDays[day] = [];
+                            }
+                            suspensionDays[day].push(event.unidade);
+                        }
+                    }
+                });
+
+                let calendar = `<div class='calendar' onclick="loadSuspensions(${index}, '${month}')"><h3>${month} 2025</h3><table>`;
+                calendar += "<tr><th>D</th><th>S</th><th>T</th><th>Q</th><th>Q</th><th>S</th><th>S</th></tr><tr>";
+                for (let i = 0; i < firstDay; i++) calendar += "<td></td>";
+                for (let day = 1; day <= daysInMonth; day++) {
+                    let highlightClass = '';
+                    if (suspensionDays[day]) {
+                        const unidades = suspensionDays[day];
+                        if (unidades.includes("Poder Judiciário do Estado do Pará")) {
+                            highlightClass = 'highlight-judiciario';
+                        }
+                    }
+                    calendar += `<td ${highlightClass ? `class='${highlightClass}'` : ''}>${day}</td>`;
+                    if ((day + firstDay) % 7 === 0) calendar += "</tr><tr>";
+                }
+                calendar += "</tr></table></div>";
+                container.innerHTML += calendar;
+            });
+        }
+
+        function loadSuspensions(monthIndex, monthName) {
+            const suspensionsList = document.getElementById('suspensionsList');
+            const selectedMonthSpan = document.getElementById('selectedMonth');
+            suspensionsList.innerHTML = '<li>Carregando...</li>';
+            selectedMonthSpan.textContent = monthName;
+
+            const events = allSuspensions.filter(event => {
+                let inicioDate, fimDate;
+                try {
+                    inicioDate = new Date(event.inicio.split('/').reverse().join('-'));
+                    fimDate = new Date(event.fim.split('/').reverse().join('-'));
+                } catch (error) {
+                    console.log(`Erro ao converter datas: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade}`);
+                    return false;
+                }
+
+                if (isNaN(inicioDate.getTime()) || isNaN(fimDate.getTime())) {
+                    console.log(`Data inválida: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade}`);
+                    return false;
+                }
+
+                const startYear = inicioDate.getFullYear();
+                const endYear = fimDate.getFullYear();
+                const intersects2025 = startYear <= 2025 && endYear >= 2025;
+
+                if (!intersects2025 && endYear < 2025) {
+                    return false;
+                }
+
+                const monthStart = new Date(2025, monthIndex, 1);
+                const monthEnd = new Date(2025, monthIndex + 1, 0);
+                return (inicioDate <= monthEnd && fimDate >= monthStart);
+            });
+
+            populateSuspensions(events);
+        }
+
+        function formatDate(dateStr) {
+            if (/^\d{2}\/\d{2}\/\d{4}$/.test(dateStr)) {
+                return dateStr;
+            }
+            const date = new Date(dateStr);
+            if (!isNaN(date.getTime())) {
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+                return `${day}/${month}/${year}`;
+            }
+            return dateStr;
+        }
+
+        function populateSuspensions(events) {
+            const suspensionsList = document.getElementById('suspensionsList');
+            suspensionsList.innerHTML = '';
+            if (events.length === 0) {
+                suspensionsList.innerHTML = '<li>Nenhuma suspensão encontrada</li>';
+            } else {
+                events.forEach(event => {
+                    const li = document.createElement('li');
+                    li.className = 'suspension-item';
+                    let inicio = formatDate(event.inicio);
+                    let fim = formatDate(event.fim);
+                    const dateDisplay = inicio === fim ? inicio : `${inicio} a ${fim}`;
+                    const portariaClean = event.portaria.replace(/Nº\s*Nº/g, 'Nº');
+                    const edicaoClean = event.edicao.replace(/Nº\s*Nº/g, 'Nº');
+                    li.innerHTML = `
+                        <span class="unidade">${event.unidade} - ${dateDisplay}</span>
+                        <span class="motivo-line"><span class="motivo">Motivo:</span> ${event.motivo}</span>
+                        <span class="portaria-line">Portaria ${portariaClean} - DJE ${edicaoClean}</span>
+                    `;
+                    suspensionsList.appendChild(li);
+                });
+            }
+            // Rola a página até o container de informações
+            document.getElementById('infoContainer').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function normalizeText(text) {
+            return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        }
+
+        function searchSuspensions() {
+            const input = normalizeText(document.getElementById('searchInput').value.toLowerCase());
+            const suspensionsList = document.getElementById('suspensionsList');
+            const selectedMonthSpan = document.getElementById('selectedMonth');
+
+            if (!input) {
+                // Quando o campo de busca está em branco, não mostra resultados
+                suspensionsList.innerHTML = '<li>Digite uma unidade para buscar suspensões</li>';
+                selectedMonthSpan.textContent = '';
+                return;
+            }
+
+            // Busca em todos os meses
+            const filteredEvents = allSuspensions.filter(event => {
+                let inicioDate, fimDate;
+                try {
+                    inicioDate = new Date(event.inicio.split('/').reverse().join('-'));
+                    fimDate = new Date(event.fim.split('/').reverse().join('-'));
+                } catch (error) {
+                    console.log(`Erro ao converter datas: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade}`);
+                    return false;
+                }
+
+                const startYear = inicioDate.getFullYear();
+                const endYear = fimDate.getFullYear();
+                const intersects2025 = startYear <= 2025 && endYear >= 2025 || endYear >= 2025;
+                return intersects2025 && normalizeText(event.unidade.toLowerCase()).includes(input);
+            });
+
+            selectedMonthSpan.textContent = 'Resultados da Busca';
+            populateSuspensions(filteredEvents);
+        }
+    </script>
+</body>
+</html>
