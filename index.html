@@ -77,21 +77,12 @@
         }
         .highlight-judiciario {
             border: 2px solid red; /* Contorno vermelho para Poder Judiciário */
-            border-radius: 50%;
+            border-radius: 50%; /* Círculo perfeito */
             box-sizing: border-box;
             transition: border-color 0.3s;
         }
         .highlight-judiciario:hover {
             border-color: darkred;
-        }
-        .highlight-outros {
-            border: 2px solid blue; /* Contorno azul para outras unidades */
-            border-radius: 50%;
-            box-sizing: border-box;
-            transition: border-color 0.3s;
-        }
-        .highlight-outros:hover {
-            border-color: darkblue;
         }
         .legend-container {
             max-width: 1200px;
@@ -108,15 +99,6 @@
             width: 16px;
             height: 16px;
             border: 2px solid red;
-            border-radius: 50%;
-            vertical-align: middle;
-            margin-right: 5px;
-        }
-        .legend-circle-outros {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid blue;
             border-radius: 50%;
             vertical-align: middle;
             margin-right: 5px;
@@ -209,44 +191,12 @@
         /* Responsividade para dispositivos móveis */
         @media (max-width: 768px) {
             .calendar-container {
-                grid-template-columns: repeat(2, 1fr); /* 2 calendários por linha em telas menores */
+                grid-template-columns: repeat(6, 1fr); /* Mantém 6 colunas */
+                gap: 3px; /* Reduz o espaço entre os calendários */
+                padding: 10px;
             }
             .calendar {
-                padding: 6px;
-            }
-            .calendar h3 {
-                font-size: 12px;
-            }
-            .calendar table {
-                font-size: 8px;
-            }
-            .calendar th, .calendar td {
-                width: 16px;
-                height: 16px;
-                line-height: 16px;
-            }
-            ul {
-                grid-template-columns: 1fr; /* Uma coluna em telas menores */
-            }
-            .month-header {
-                right: 10px;
-                font-size: 14px;
-            }
-            .info-container h2 {
-                font-size: 16px;
-            }
-            .header {
-                font-size: 20px;
-                padding: 15px;
-            }
-            .header-image {
-                height: 60px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .calendar-container {
-                grid-template-columns: 1fr; /* 1 calendário por linha em telas muito pequenas */
+                padding: 4px;
             }
             .calendar h3 {
                 font-size: 10px;
@@ -259,12 +209,62 @@
                 height: 14px;
                 line-height: 14px;
             }
+            ul {
+                grid-template-columns: 1fr; /* Uma coluna para os resultados em telas menores */
+            }
+            .month-header {
+                right: 10px;
+                font-size: 12px;
+            }
+            .info-container h2 {
+                font-size: 14px;
+            }
             .header {
-                font-size: 18px;
+                font-size: 20px;
+                padding: 15px;
+            }
+            .header-image {
+                height: 60px;
+            }
+            .legend-container {
+                font-size: 12px;
+            }
+            .legend-circle-judiciario {
+                width: 12px;
+                height: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .calendar-container {
+                grid-template-columns: repeat(6, 1fr); /* Mantém 6 colunas */
+                gap: 2px;
+                padding: 5px;
+            }
+            .calendar h3 {
+                font-size: 8px;
+            }
+            .calendar table {
+                font-size: 6px;
+            }
+            .calendar th, .calendar td {
+                width: 12px;
+                height: 12px;
+                line-height: 12px;
+            }
+            .header {
+                font-size: 16px;
                 padding: 10px;
             }
             .header-image {
                 height: 50px;
+            }
+            .legend-container {
+                font-size: 10px;
+            }
+            .legend-circle-judiciario {
+                width: 10px;
+                height: 10px;
             }
         }
     </style>
@@ -279,9 +279,6 @@
         <div class="legend-item">
             <span class="legend-circle-judiciario"></span> Poder Judiciário do Estado do Pará
         </div>
-        <div class="legend-item">
-            <span class="legend-circle-outros"></span> Outras Unidades
-        </div>
     </div>
     <div class="info-container" id="infoContainer">
         <h2>Informações da Suspensão de Expediente</h2>
@@ -291,7 +288,7 @@
         </div>
         <div class="info-details">
             <ul id="suspensionsList">
-                <li>Clique em um mês no calendário para exibir as suspensões</li>
+                <li>Digite uma unidade para buscar suspensões</li>
             </ul>
         </div>
     </div>
@@ -381,7 +378,7 @@
                     }
                 });
 
-                let calendar = `<div class='calendar' onclick="loadSuspensions(${index}, '${month}')"><h3>${month} 2025</h3><table>`;
+                let calendar = `<div class='calendar'><h3>${month} 2025</h3><table>`;
                 calendar += "<tr><th>D</th><th>S</th><th>T</th><th>Q</th><th>Q</th><th>S</th><th>S</th></tr><tr>";
                 for (let i = 0; i < firstDay; i++) calendar += "<td></td>";
                 for (let day = 1; day <= daysInMonth; day++) {
@@ -390,8 +387,6 @@
                         const unidades = suspensionDays[day];
                         if (unidades.includes("Poder Judiciário do Estado do Pará")) {
                             highlightClass = 'highlight-judiciario';
-                        } else {
-                            highlightClass = 'highlight-outros';
                         }
                     }
                     calendar += `<td ${highlightClass ? `class='${highlightClass}'` : ''}>${day}</td>`;
@@ -400,43 +395,6 @@
                 calendar += "</tr></table></div>";
                 container.innerHTML += calendar;
             });
-        }
-
-        function loadSuspensions(monthIndex, monthName) {
-            const suspensionsList = document.getElementById('suspensionsList');
-            const selectedMonthSpan = document.getElementById('selectedMonth');
-            suspensionsList.innerHTML = '<li>Carregando...</li>';
-            selectedMonthSpan.textContent = monthName;
-
-            const events = allSuspensions.filter(event => {
-                let inicioDate, fimDate;
-                try {
-                    inicioDate = new Date(event.inicio.split('/').reverse().join('-'));
-                    fimDate = new Date(event.fim.split('/').reverse().join('-'));
-                } catch (error) {
-                    console.log(`Erro ao converter datas: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade}`);
-                    return false;
-                }
-
-                if (isNaN(inicioDate.getTime()) || isNaN(fimDate.getTime())) {
-                    console.log(`Data inválida: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade}`);
-                    return false;
-                }
-
-                const startYear = inicioDate.getFullYear();
-                const endYear = fimDate.getFullYear();
-                const intersects2025 = startYear <= 2025 && endYear >= 2025;
-
-                if (!intersects2025 && endYear < 2025) {
-                    return false;
-                }
-
-                const monthStart = new Date(2025, monthIndex, 1);
-                const monthEnd = new Date(2025, monthIndex + 1, 0);
-                return (inicioDate <= monthEnd && fimDate >= monthStart);
-            });
-
-            populateSuspensions(events);
         }
 
         function formatDate(dateStr) {
