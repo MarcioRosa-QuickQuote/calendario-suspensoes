@@ -3,9 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendário de Suspensões de Expedientes</title>
+    <title>Calendário de Suspensões de Expedientes - 2025</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; background-color: #f0f4f8; margin: 0; padding: 0; }
+        body {
+            font-family: 'Open Sans', sans-serif;
+            text-align: center;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+        }
         .header {
             background-color: #1E3A8A;
             color: white;
@@ -17,21 +24,155 @@
             justify-content: center;
         }
         .header-image {
-            height: 60px;
+            height: 80px;
             margin-right: 20px;
         }
-        .calendar-container { display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; padding: 20px; max-width: 1200px; margin: auto; }
-        .calendar { background: white; padding: 8px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); text-align: center; transition: transform 0.2s; cursor: pointer; }
-        .calendar:hover { transform: scale(1.05); }
-        .calendar h3 { background-color: #1E3A8A; color: white; padding: 6px; border-radius: 5px; font-size: 14px; margin: 0; }
-        .calendar table { width: 100%; margin-top: 5px; border-collapse: collapse; font-size: 10px; }
-        .calendar th, .calendar td { padding: 4px; text-align: center; cursor: pointer; }
-        .calendar th { color: #1E3A8A; font-weight: bold; }
-        .highlight { background-color: red; color: white; border-radius: 50%; padding: 4px; transition: 0.3s; }
-        .highlight:hover { background-color: darkred; }
-        .info-container { margin-top: 10px; padding: 10px; background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); text-align: center; max-width: 800px; margin-left: auto; margin-right: auto; }
-        .info-container h2 { color: #1E3A8A; text-align: center; }
-        .info-container strong { font-weight: bold; }
+        .calendar-container {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 5px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+        .calendar {
+            background: white;
+            padding: 8px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.2s;
+            cursor: pointer;
+            position: relative;
+        }
+        .calendar:hover {
+            transform: scale(1.05);
+        }
+        .calendar h3 {
+            background-color: #1E3A8A;
+            color: white;
+            padding: 6px;
+            border-radius: 5px;
+            font-size: 14px;
+            margin: 0;
+        }
+        .calendar table {
+            width: 100%;
+            margin-top: 5px;
+            border-collapse: collapse;
+            font-size: 10px;
+        }
+        .calendar th, .calendar td {
+            padding: 4px;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+        }
+        .calendar th {
+            color: #1E3A8A;
+            font-weight: bold;
+        }
+        .highlight {
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 4px;
+            transition: 0.3s;
+            display: inline-block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            line-height: 10px;
+        }
+        .highlight:hover {
+            background-color: darkred;
+        }
+        .info-container {
+            margin-top: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+        }
+        .info-container h2 {
+            color: #1E3A8A;
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .month-header {
+            position: absolute;
+            top: 10px;
+            right: 50px;
+            font-weight: bold;
+            font-size: 16px;
+            color: #000;
+        }
+        .search-container {
+            margin-bottom: 10px;
+            text-align: left;
+            padding: 0 10px;
+        }
+        .search-container input {
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .info-details {
+            text-align: left;
+            padding: 0 10px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        li {
+            margin: 0;
+            padding: 0;
+            text-align: left;
+            line-height: 1.2;
+            border-bottom: 1px solid #ccc;
+        }
+        li:last-child {
+            border-bottom: none;
+        }
+        .suspension-item span {
+            display: inline;
+        }
+        .suspension-item .unidade {
+            font-weight: bold;
+            display: block;
+            margin: 0;
+        }
+        .suspension-item .motivo-line {
+            display: block;
+            margin: 0;
+        }
+        .suspension-item .portaria-line {
+            display: block;
+            margin: 0;
+        }
+        .motivo {
+            font-weight: bold;
+            margin-right: 5px;
+            display: inline;
+        }
     </style>
 </head>
 <body>
@@ -42,150 +183,103 @@
     <div class="calendar-container" id="calendarContainer"></div>
     <div class="info-container" id="infoContainer">
         <h2>Informações da Suspensão de Expediente</h2>
-        <p id="infoDetails">Clique em um mês para ver as suspensões desse período.</p>
+        <div class="month-header" id="selectedMonth"></div>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Pesquisar por unidade..." onkeyup="searchSuspensions()">
+        </div>
+        <div class="info-details">
+            <ul id="suspensionsList">
+                <li>Clique em um mês no calendário para exibir as suspensões</li>
+            </ul>
+        </div>
     </div>
+
     <script>
-        const apiUrl = "https://docs.google.com/spreadsheets/d/1XXfkwIzqUgM8rLeWN5lRqiyhIGRfMI9C/gviz/tq?tqx=out:json&sheet=Expediente";
+        let allSuspensions = [];
 
-        let suspensionsData = {};
-
-        // Dados simulados como fallback
-        const fallbackData = {
-            "Março": {
-                "3": { start: "3", end: "4", comarca: "Comarca de Marapanim", motivo: "Abate de gado", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" },
-                "4": { start: "3", end: "4", comarca: "Comarca de Marapanim", motivo: "Abate de gado", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 1.408/1951" }
-            },
-            "Maio": {
-                "1": { start: "1", end: "2", comarca: "Comarca de Marapanim", motivo: "Dia do Trabalho", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" },
-                "2": { start: "1", end: "2", comarca: "Comarca de Marapanim", motivo: "Dia do Trabalho", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Federal nº 682/1949" }
-            },
-            "Junho": {
-                "19": { start: "19", end: "20", comarca: "Comarca de Marapanim", motivo: "Corpus Christi", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Municipal nº 6306/67" },
-                "20": { start: "19", end: "20", comarca: "Comarca de Marapanim", motivo: "Corpus Christi", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Municipal nº 6306/67" }
-            },
-            "Agosto": {
-                "15": { start: "15", end: "15", comarca: "Comarca de Marapanim", motivo: "Adesão do Gra-Pa à independência do Brasil", portaria: "Portaria N° 5750/2024-GP, DE 6 DE DEZEMBRO DE 2024", fundamento: "Lei Estadual nº 5.991/1986" }
-            }
-        };
-
-        function fetchSuspensions() {
-            fetch(apiUrl)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`Erro na requisição: ${response.status} - ${response.statusText}`);
-                    }
-                    return response.text();
-                })
-                .then(data => {
-                    try {
-                        console.log("Dados brutos recebidos:", data);
-                        // Remover o prefixo /*O_o*/ se existir
-                        let cleanedData = data.replace(/\/\*O_o\*\//, '');
-                        console.log("Dados após remover prefixo:", cleanedData);
-                        // Extrair o JSON da resposta do Google Sheets
-                        const startIndex = cleanedData.indexOf('(') + 1;
-                        const endIndex = cleanedData.lastIndexOf(')');
-                        if (startIndex === 0 || endIndex === -1) {
-                            throw new Error("Não foi possível extrair o JSON da resposta.");
-                        }
-                        let jsonString = cleanedData.substring(startIndex, endIndex);
-                        console.log("JSON string extraída (antes de limpeza):", jsonString);
-                        // Limpar a string JSON de caracteres inesperados
-                        jsonString = jsonString.replace(/\n/g, '').replace(/\r/g, '').trim();
-                        console.log("JSON string extraída (após limpeza):", jsonString);
-                        const jsonData = JSON.parse(jsonString);
-                        console.log("JSON parseado:", jsonData);
-                        const rows = jsonData.table.rows;
-
-                        suspensionsData = {};
-
-                        rows.forEach((row, index) => {
-                            console.log(`Linha ${index}:`, row.c);
-                            if (!row.c || row.c.length < 7 || row.c.some(col => col === null || col.v === undefined)) {
-                                console.log(`Linha ${index} ignorada por dados incompletos`);
-                                return;
-                            }
-                            const comarca = row.c[1].v || "Comarca de Marapanim"; // Coluna B: UNIDADE
-                            const startDateObj = row.c[2].v; // Coluna C: INÍCIO
-                            const endDateObj = row.c[3].v; // Coluna D: FIM
-                            const motivo = row.c[4].v || "Não especificado"; // Coluna E: MOTIVO
-                            const portaria = row.c[5].v || "Não especificada"; // Coluna F: PORTARIA
-                            const fundamento = row.c[6].v || "Não especificado"; // Coluna G: EDIÇÃO DJE
-
-                            // Extrair data do formato Date(YYYY, MM, DD)
-                            const startDateMatch = startDateObj.match(/Date\((\d+),(\d+),(\d+)\)/);
-                            const endDateMatch = endDateObj.match(/Date\((\d+),(\d+),(\d+)\)/);
-                            if (!startDateMatch || !endDateMatch) {
-                                console.warn(`Data inválida na linha ${index}: ${startDateObj} ou ${endDateObj}`);
-                                return;
-                            }
-                            const [, startYear, startMonth, startDay] = startDateMatch;
-                            const [, endYear, endMonth, endDay] = endDateMatch;
-
-                            // Filtrar apenas suspensões de 2025
-                            if (parseInt(startYear) !== 2025) {
-                                console.log(`Linha ${index} ignorada: Data fora de 2025 (startYear: ${startYear})`);
-                                return;
-                            }
-
-                            const monthName = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"][parseInt(startMonth)];
-                            console.log(`Mês extraído: ${monthName}, Start: ${startDay}, End: ${endDay}`);
-
-                            // Formatar a data para 2025
-                            const year = 2025;
-                            const formattedStartDate = `${startDay.toString().padStart(2, '0')}/${(parseInt(startMonth) + 1).toString().padStart(2, '0')}/${year}`;
-                            const formattedEndDate = `${endDay.toString().padStart(2, '0')}/${(parseInt(endMonth) + 1).toString().padStart(2, '0')}/${year}`;
-                            const info = `
-                                <strong>${comarca} - ${formattedStartDate} a ${formattedEndDate}</strong><br>
-                                Motivo: ${motivo} (${row.c[0].v || 'TJPA-MEM-2025/XXXX'})<br>
-                                Portaria ${portaria} - EDIÇÃO DJE nº ${fundamento}
-                            `;
-
-                            if (!suspensionsData[monthName]) {
-                                suspensionsData[monthName] = {};
-                            }
-
-                            // Associar a suspensão a todos os dias do intervalo
-                            for (let day = parseInt(startDay); day <= parseInt(endDay); day++) {
-                                suspensionsData[monthName][day] = info;
-                            }
-                        });
-
-                        console.log("Dados mapeados:", suspensionsData);
-                        if (Object.keys(suspensionsData).length === 0) {
-                            console.warn("Nenhum dado foi mapeado da planilha. Usando dados simulados como fallback.");
-                            suspensionsData = fallbackData;
-                        }
-                        generateCalendar();
-                    } catch (error) {
-                        console.error("Erro ao processar JSON:", error);
-                        document.getElementById("infoDetails").innerHTML = "Erro ao carregar dados da planilha. Verifique o console para mais detalhes. Usando dados simulados como fallback.";
-                        suspensionsData = fallbackData;
-                        generateCalendar();
-                    }
-                })
-                .catch(error => {
-                    console.error("Erro ao buscar dados da planilha:", error);
-                    document.getElementById("infoDetails").innerHTML = "Erro ao conectar à planilha. Certifique-se de que a planilha está pública e a aba 'Expediente' existe. Usando dados simulados como fallback.";
-                    suspensionsData = fallbackData;
-                    generateCalendar();
-                });
-        }
+        fetch('suspensions_2025_completo.json')
+            .then(response => response.json())
+            .then(data => {
+                allSuspensions = data;
+                generateCalendar();
+            })
+            .catch(error => {
+                console.error('Erro ao carregar o JSON:', error);
+                document.getElementById('suspensionsList').innerHTML = '<li>Erro ao carregar os dados</li>';
+            });
 
         function generateCalendar() {
             let container = document.getElementById("calendarContainer");
             container.innerHTML = "";
             const months = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
-            
+
             months.forEach((month, index) => {
                 let firstDay = new Date(2025, index, 1).getDay();
                 let daysInMonth = new Date(2025, index + 1, 0).getDate();
-                let calendar = `<div class='calendar' onclick="showSuspensions('${month}')"><h3>${month} 2025</h3><table>`;
+                let suspensionDays = {};
+
+                // Filtra os eventos que têm interseção com o mês atual e com o ano de 2025
+                const events = allSuspensions.filter(event => {
+                    let inicioDate, fimDate;
+                    try {
+                        inicioDate = new Date(event.inicio.split('/').reverse().join('-'));
+                        fimDate = new Date(event.fim.split('/').reverse().join('-'));
+                    } catch (error) {
+                        console.log(`Erro ao converter datas: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade}`);
+                        return false;
+                    }
+
+                    if (isNaN(inicioDate.getTime()) || isNaN(fimDate.getTime())) {
+                        console.log(`Data inválida: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade}`);
+                        return false;
+                    }
+
+                    // Verifica se o evento tem interseção com 2025
+                    const startYear = inicioDate.getFullYear();
+                    const endYear = fimDate.getFullYear();
+                    const intersects2025 = startYear <= 2025 && endYear >= 2025;
+
+                    if (!intersects2025 && endYear < 2025) {
+                        return false; // Exclui eventos que terminam antes de 2025
+                    }
+
+                    // Verifica se o evento tem interseção com o mês atual
+                    const monthStart = new Date(2025, index, 1);
+                    const monthEnd = new Date(2025, index + 1, 0);
+                    return (inicioDate <= monthEnd && fimDate >= monthStart);
+                });
+
+                // Marca os dias com suspensões (apenas os dias de 2025)
+                events.forEach(event => {
+                    let inicioDate, fimDate;
+                    try {
+                        inicioDate = new Date(event.inicio.split('/').reverse().join('-'));
+                        fimDate = new Date(event.fim.split('/').reverse().join('-'));
+                    } catch (error) {
+                        console.log(`Erro ao converter datas: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade}`);
+                        return;
+                    }
+
+                    // Ajusta o início e fim para o mês atual e o ano de 2025
+                    const monthStart = new Date(2025, index, 1);
+                    const monthEnd = new Date(2025, index + 1, 0);
+                    const start = inicioDate < monthStart ? monthStart : inicioDate;
+                    const end = fimDate > monthEnd ? monthEnd : fimDate;
+
+                    if (start.getFullYear() === 2025 && end.getFullYear() === 2025) {
+                        const startDay = start.getDate();
+                        const endDay = end.getDate();
+                        for (let day = startDay; day <= endDay; day++) {
+                            suspensionDays[day] = true;
+                        }
+                    }
+                });
+
+                let calendar = `<div class='calendar' onclick="loadSuspensions(${index}, '${month}')"><h3>${month} 2025</h3><table>`;
                 calendar += "<tr><th>D</th><th>S</th><th>T</th><th>Q</th><th>Q</th><th>S</th><th>S</th></tr><tr>";
                 for (let i = 0; i < firstDay; i++) calendar += "<td></td>";
                 for (let day = 1; day <= daysInMonth; day++) {
-                    let highlightClass = (suspensionsData[month] && suspensionsData[month][day]) ? "highlight" : "";
-                    calendar += `<td class='${highlightClass}' data-day='${day}'>${day}</td>`;
+                    calendar += `<td ${suspensionDays[day] ? "class='highlight'" : ""}>${day}</td>`;
                     if ((day + firstDay) % 7 === 0) calendar += "</tr><tr>";
                 }
                 calendar += "</tr></table></div>";
@@ -193,21 +287,131 @@
             });
         }
 
-        function showSuspensions(month) {
-            let infoDetails = document.getElementById("infoDetails");
-            if (suspensionsData[month]) {
-                // Remover repetições usando um Set
-                let uniqueInfos = new Set();
-                Object.values(suspensionsData[month]).forEach(susp => {
-                    uniqueInfos.add(susp);
-                });
-                infoDetails.innerHTML = Array.from(uniqueInfos).join("<br>") || `Nenhuma suspensão registrada para ${month}.`;
-            } else {
-                infoDetails.innerHTML = `Nenhuma suspensão registrada para ${month}.`;
-            }
+        function loadSuspensions(monthIndex, monthName) {
+            const suspensionsList = document.getElementById('suspensionsList');
+            const selectedMonthSpan = document.getElementById('selectedMonth');
+            suspensionsList.innerHTML = '<li>Carregando...</li>';
+            selectedMonthSpan.textContent = monthName;
+
+            // Filtra os eventos pelo mês selecionado e que têm interseção com 2025
+            const events = allSuspensions.filter(event => {
+                let inicioDate, fimDate;
+                try {
+                    inicioDate = new Date(event.inicio.split('/').reverse().join('-'));
+                    fimDate = new Date(event.fim.split('/').reverse().join('-'));
+                } catch (error) {
+                    console.log(`Erro ao converter datas: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade}`);
+                    return false;
+                }
+
+                if (isNaN(inicioDate.getTime()) || isNaN(fimDate.getTime())) {
+                    console.log(`Data inválida: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade}`);
+                    return false;
+                }
+
+                // Verifica se o evento tem interseção com 2025
+                const startYear = inicioDate.getFullYear();
+                const endYear = fimDate.getFullYear();
+                const intersects2025 = startYear <= 2025 && endYear >= 2025;
+
+                if (!intersects2025 && endYear < 2025) {
+                    return false; // Exclui eventos que terminam antes de 2025
+                }
+
+                // Verifica se o evento tem interseção com o mês atual
+                const monthStart = new Date(2025, monthIndex, 1);
+                const monthEnd = new Date(2025, monthIndex + 1, 0);
+                return (inicioDate <= monthEnd && fimDate >= monthStart);
+            });
+
+            populateSuspensions(events);
         }
 
-        window.onload = fetchSuspensions;
+        function formatDate(dateStr) {
+            if (/^\d{2}\/\d{2}\/\d{4}$/.test(dateStr)) {
+                return dateStr;
+            }
+            const date = new Date(dateStr);
+            if (!isNaN(date.getTime())) {
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+                return `${day}/${month}/${year}`;
+            }
+            return dateStr;
+        }
+
+        function populateSuspensions(events) {
+            const suspensionsList = document.getElementById('suspensionsList');
+            suspensionsList.innerHTML = '';
+            if (events.length === 0) {
+                suspensionsList.innerHTML = '<li>Nenhuma suspensão encontrada</li>';
+                return;
+            }
+            events.forEach(event => {
+                const li = document.createElement('li');
+                li.className = 'suspension-item';
+                let inicio = formatDate(event.inicio);
+                let fim = formatDate(event.fim);
+                const dateDisplay = inicio === fim ? inicio : `${inicio} a ${fim}`;
+                const portariaClean = event.portaria.replace(/Nº\s*Nº/g, 'Nº');
+                const edicaoClean = event.edicao.replace(/Nº\s*Nº/g, 'Nº');
+                li.innerHTML = `
+                    <span class="unidade">${event.unidade} - ${dateDisplay}</span>
+                    <span class="motivo-line"><span class="motivo">Motivo:</span> ${event.motivo}</span>
+                    <span class="portaria-line">Portaria ${portariaClean} - DJE ${edicaoClean}</span>
+                `;
+                suspensionsList.appendChild(li);
+            });
+        }
+
+        function normalizeText(text) {
+            return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        }
+
+        function searchSuspensions() {
+            const input = normalizeText(document.getElementById('searchInput').value.toLowerCase());
+            const suspensionsList = document.getElementById('suspensionsList');
+            if (!input) {
+                // Filtra apenas eventos que têm interseção com 2025 para a busca
+                const events = allSuspensions.filter(event => {
+                    let inicioDate, fimDate;
+                    try {
+                        inicioDate = new Date(event.inicio.split('/').reverse().join('-'));
+                        fimDate = new Date(event.fim.split('/').reverse().join('-'));
+                    } catch (error) {
+                        console.log(`Erro ao converter datas: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade}`);
+                        return false;
+                    }
+
+                    const startYear = inicioDate.getFullYear();
+                    const endYear = fimDate.getFullYear();
+                    return startYear <= 2025 && endYear >= 2025 || endYear >= 2025;
+                });
+                populateSuspensions(events);
+                return;
+            }
+            const filteredEvents = allSuspensions.filter(event => {
+                let inicioDate, fimDate;
+                try {
+                    inicioDate = new Date(event.inicio.split('/').reverse().join('-'));
+                    fimDate = new Date(event.fim.split('/').reverse().join('-'));
+                } catch (error) {
+                    console.log(`Erro ao converter datas: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade}`);
+                    return false;
+                }
+
+                const startYear = inicioDate.getFullYear();
+                const endYear = fimDate.getFullYear();
+                const intersects2025 = startYear <= 2025 && endYear >= 2025 || endYear >= 2025;
+                return intersects2025 && normalizeText(event.unidade.toLowerCase()).includes(input);
+            });
+            if (filteredEvents.length === 0) {
+                suspensionsList.innerHTML = '<li>Nenhuma suspensão encontrada</li>';
+                return;
+            }
+            populateSuspensions(filteredEvents);
+        }
     </script>
 </body>
 </html>
