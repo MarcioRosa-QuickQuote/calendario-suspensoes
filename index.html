@@ -67,6 +67,9 @@
             text-align: center;
             cursor: pointer;
             position: relative;
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
         }
         .calendar th {
             color: #1E3A8A;
@@ -76,16 +79,7 @@
             background-color: red;
             color: white;
             border-radius: 50%;
-            padding: 4px;
-            transition: 0.3s;
-            display: inline-block;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 10px;
-            height: 10px;
-            line-height: 10px;
+            transition: background-color 0.3s;
         }
         .highlight:hover {
             background-color: darkred;
@@ -198,14 +192,20 @@
         let allSuspensions = [];
 
         fetch('suspensions_2025_completo.json')
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Erro ao carregar o JSON: ${response.status} ${response.statusText}`);
+                }
+                return response.json();
+            })
             .then(data => {
+                console.log('JSON carregado com sucesso:', data);
                 allSuspensions = data;
                 generateCalendar();
             })
             .catch(error => {
                 console.error('Erro ao carregar o JSON:', error);
-                document.getElementById('suspensionsList').innerHTML = '<li>Erro ao carregar os dados</li>';
+                document.getElementById('suspensionsList').innerHTML = `<li>Erro ao carregar os dados: ${error.message}</li>`;
             });
 
         function generateCalendar() {
@@ -218,7 +218,6 @@
                 let daysInMonth = new Date(2025, index + 1, 0).getDate();
                 let suspensionDays = {};
 
-                // Filtra os eventos que têm interseção com o mês atual e com o ano de 2025
                 const events = allSuspensions.filter(event => {
                     let inicioDate, fimDate;
                     try {
@@ -234,22 +233,19 @@
                         return false;
                     }
 
-                    // Verifica se o evento tem interseção com 2025
                     const startYear = inicioDate.getFullYear();
                     const endYear = fimDate.getFullYear();
                     const intersects2025 = startYear <= 2025 && endYear >= 2025;
 
                     if (!intersects2025 && endYear < 2025) {
-                        return false; // Exclui eventos que terminam antes de 2025
+                        return false;
                     }
 
-                    // Verifica se o evento tem interseção com o mês atual
                     const monthStart = new Date(2025, index, 1);
                     const monthEnd = new Date(2025, index + 1, 0);
                     return (inicioDate <= monthEnd && fimDate >= monthStart);
                 });
 
-                // Marca os dias com suspensões (apenas os dias de 2025)
                 events.forEach(event => {
                     let inicioDate, fimDate;
                     try {
@@ -260,7 +256,6 @@
                         return;
                     }
 
-                    // Ajusta o início e fim para o mês atual e o ano de 2025
                     const monthStart = new Date(2025, index, 1);
                     const monthEnd = new Date(2025, index + 1, 0);
                     const start = inicioDate < monthStart ? monthStart : inicioDate;
@@ -293,7 +288,6 @@
             suspensionsList.innerHTML = '<li>Carregando...</li>';
             selectedMonthSpan.textContent = monthName;
 
-            // Filtra os eventos pelo mês selecionado e que têm interseção com 2025
             const events = allSuspensions.filter(event => {
                 let inicioDate, fimDate;
                 try {
@@ -309,16 +303,14 @@
                     return false;
                 }
 
-                // Verifica se o evento tem interseção com 2025
                 const startYear = inicioDate.getFullYear();
                 const endYear = fimDate.getFullYear();
                 const intersects2025 = startYear <= 2025 && endYear >= 2025;
 
                 if (!intersects2025 && endYear < 2025) {
-                    return false; // Exclui eventos que terminam antes de 2025
+                    return false;
                 }
 
-                // Verifica se o evento tem interseção com o mês atual
                 const monthStart = new Date(2025, monthIndex, 1);
                 const monthEnd = new Date(2025, monthIndex + 1, 0);
                 return (inicioDate <= monthEnd && fimDate >= monthStart);
@@ -373,7 +365,6 @@
             const input = normalizeText(document.getElementById('searchInput').value.toLowerCase());
             const suspensionsList = document.getElementById('suspensionsList');
             if (!input) {
-                // Filtra apenas eventos que têm interseção com 2025 para a busca
                 const events = allSuspensions.filter(event => {
                     let inicioDate, fimDate;
                     try {
