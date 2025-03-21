@@ -70,8 +70,8 @@
             cursor: pointer;
             position: relative;
             width: 20px;
-            height: 20px;
-            line-height: 20px;
+            height: 16px; /* Reduz a altura para um formato mais quadrado */
+            line-height: 16px;
         }
         .calendar th {
             color: #1E3A8A;
@@ -206,15 +206,15 @@
                 padding: 2px;
             }
             .calendar h3 {
-                font-size: 12px; /* Aumenta o tamanho da letra do mês */
+                font-size: 12px;
             }
             .calendar table {
                 font-size: 5px;
             }
             .calendar th, .calendar td {
                 width: 10px;
-                height: 8px; /* Reduz a altura vertical */
-                line-height: 8px;
+                height: 6px; /* Reduz ainda mais a altura para um formato mais quadrado */
+                line-height: 6px;
             }
             ul {
                 grid-template-columns: 1fr;
@@ -222,7 +222,7 @@
             .month-header {
                 right: 10px;
                 font-size: 12px;
-                padding-bottom: 20px; /* Aumenta a distância entre o nome do mês e o título */
+                padding-bottom: 20px;
             }
             .info-container {
                 max-width: 100%;
@@ -262,15 +262,15 @@
                 padding: 1px;
             }
             .calendar h3 {
-                font-size: 10px; /* Aumenta o tamanho da letra do mês */
+                font-size: 10px;
             }
             .calendar table {
                 font-size: 4px;
             }
             .calendar th, .calendar td {
                 width: 8px;
-                height: 6px; /* Reduz ainda mais a altura vertical */
-                line-height: 6px;
+                height: 4px; /* Reduz ainda mais a altura para um formato mais quadrado */
+                line-height: 4px;
             }
             .header {
                 font-size: 16px;
@@ -477,6 +477,13 @@
             if (events.length === 0) {
                 suspensionsList.innerHTML = '<li>Nenhuma suspensão encontrada</li>';
             } else {
+                // Ordena os eventos pela data de início
+                events.sort((a, b) => {
+                    const dateA = new Date(a.inicio.split('/').reverse().join('-'));
+                    const dateB = new Date(b.inicio.split('/').reverse().join('-'));
+                    return dateA - dateB;
+                });
+
                 events.forEach(event => {
                     const li = document.createElement('li');
                     li.className = 'suspension-item';
