@@ -22,7 +22,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 100%; /* Largura 100% para ocupar toda a tela */
+            width: 100%;
             box-sizing: border-box;
         }
         .header-image {
@@ -78,8 +78,8 @@
             font-weight: bold;
         }
         .highlight-judiciario {
-            border: 2px solid red; /* Contorno vermelho para Poder Judiciário */
-            border-radius: 0; /* Quadrado */
+            border: 2px solid red;
+            border-radius: 0;
             box-sizing: border-box;
             transition: border-color 0.3s;
         }
@@ -101,10 +101,10 @@
             width: 16px;
             height: 16px;
             border: 2px solid red;
-            border-radius: 0; /* Quadrado */
+            border-radius: 0;
             vertical-align: middle;
             margin-right: 5px;
-            margin-left: 10px; /* Margem à esquerda */
+            margin-left: 10px;
         }
         .info-container {
             margin-top: 10px;
@@ -130,9 +130,10 @@
             right: 50px;
             font-weight: bold;
             font-size: 16px;
-            color: gold; /* Cor dourada */
-            -webkit-text-stroke: 1px blue; /* Contorno azul */
+            color: gold;
+            -webkit-text-stroke: 1px blue;
             text-stroke: 1px blue;
+            padding-bottom: 10px; /* Espaço entre o nome do mês e o título */
         }
         .search-container {
             margin-bottom: 10px;
@@ -196,16 +197,16 @@
         /* Responsividade para dispositivos móveis */
         @media (max-width: 768px) {
             .calendar-container {
-                grid-template-columns: repeat(4, 1fr); /* 4 calendários por linha */
+                grid-template-columns: repeat(4, 1fr);
                 gap: 2px;
                 padding: 5px;
-                max-width: 100%; /* Garante que ocupe toda a largura */
+                max-width: 100%;
             }
             .calendar {
                 padding: 2px;
             }
             .calendar h3 {
-                font-size: 8px;
+                font-size: 10px; /* Aumenta o tamanho da letra do mês */
             }
             .calendar table {
                 font-size: 5px;
@@ -216,14 +217,14 @@
                 line-height: 10px;
             }
             ul {
-                grid-template-columns: 1fr; /* Uma coluna para os resultados em telas menores */
+                grid-template-columns: 1fr;
             }
             .month-header {
                 right: 10px;
                 font-size: 12px;
             }
             .info-container {
-                max-width: 100%; /* Garante que ocupe toda a largura */
+                max-width: 100%;
                 margin-left: auto;
                 margin-right: auto;
             }
@@ -233,13 +234,15 @@
             .header {
                 font-size: 20px;
                 padding: 15px;
+                justify-content: center; /* Centraliza o título */
             }
             .header-image {
                 height: 60px;
+                margin-right: 30px; /* Margem à direita da logomarca */
             }
             .legend-container {
                 font-size: 12px;
-                max-width: 100%; /* Garante que ocupe toda a largura */
+                max-width: 100%;
             }
             .legend-square-judiciario {
                 width: 12px;
@@ -249,7 +252,7 @@
 
         @media (max-width: 480px) {
             .calendar-container {
-                grid-template-columns: repeat(4, 1fr); /* 4 calendários por linha */
+                grid-template-columns: repeat(4, 1fr);
                 gap: 1px;
                 padding: 3px;
                 max-width: 100%;
@@ -258,7 +261,7 @@
                 padding: 1px;
             }
             .calendar h3 {
-                font-size: 6px;
+                font-size: 8px; /* Aumenta o tamanho da letra do mês */
             }
             .calendar table {
                 font-size: 4px;
@@ -271,9 +274,11 @@
             .header {
                 font-size: 16px;
                 padding: 10px;
+                justify-content: center; /* Centraliza o título */
             }
             .header-image {
                 height: 50px;
+                margin-right: 20px; /* Margem à direita da logomarca */
             }
             .legend-container {
                 font-size: 10px;
@@ -444,7 +449,7 @@
                 }
 
                 const monthStart = new Date(2025, monthIndex, 1);
-                const monthEnd = new Date(2025, index + 1, 0);
+                const monthEnd = new Date(2025, monthIndex + 1, 0);
                 return (inicioDate <= monthEnd && fimDate >= monthStart);
             });
 
