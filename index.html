@@ -22,6 +22,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            width: 100%; /* Largura 100% para ocupar toda a tela */
+            box-sizing: border-box;
         }
         .header-image {
             height: 80px;
@@ -128,7 +130,9 @@
             right: 50px;
             font-weight: bold;
             font-size: 16px;
-            color: #000;
+            color: gold; /* Cor dourada */
+            -webkit-text-stroke: 1px blue; /* Contorno azul */
+            text-stroke: 1px blue;
         }
         .search-container {
             margin-bottom: 10px;
@@ -193,22 +197,23 @@
         @media (max-width: 768px) {
             .calendar-container {
                 grid-template-columns: repeat(4, 1fr); /* 4 calendários por linha */
-                gap: 3px;
-                padding: 10px;
+                gap: 2px;
+                padding: 5px;
+                max-width: 100%; /* Garante que ocupe toda a largura */
             }
             .calendar {
-                padding: 4px;
+                padding: 2px;
             }
             .calendar h3 {
-                font-size: 10px;
+                font-size: 8px;
             }
             .calendar table {
-                font-size: 7px;
+                font-size: 5px;
             }
             .calendar th, .calendar td {
-                width: 14px;
-                height: 14px;
-                line-height: 14px;
+                width: 10px;
+                height: 10px;
+                line-height: 10px;
             }
             ul {
                 grid-template-columns: 1fr; /* Uma coluna para os resultados em telas menores */
@@ -216,6 +221,11 @@
             .month-header {
                 right: 10px;
                 font-size: 12px;
+            }
+            .info-container {
+                max-width: 100%; /* Garante que ocupe toda a largura */
+                margin-left: auto;
+                margin-right: auto;
             }
             .info-container h2 {
                 font-size: 14px;
@@ -229,6 +239,7 @@
             }
             .legend-container {
                 font-size: 12px;
+                max-width: 100%; /* Garante que ocupe toda a largura */
             }
             .legend-square-judiciario {
                 width: 12px;
@@ -239,19 +250,23 @@
         @media (max-width: 480px) {
             .calendar-container {
                 grid-template-columns: repeat(4, 1fr); /* 4 calendários por linha */
-                gap: 2px;
-                padding: 5px;
+                gap: 1px;
+                padding: 3px;
+                max-width: 100%;
+            }
+            .calendar {
+                padding: 1px;
             }
             .calendar h3 {
-                font-size: 8px;
-            }
-            .calendar table {
                 font-size: 6px;
             }
+            .calendar table {
+                font-size: 4px;
+            }
             .calendar th, .calendar td {
-                width: 12px;
-                height: 12px;
-                line-height: 12px;
+                width: 8px;
+                height: 8px;
+                line-height: 8px;
             }
             .header {
                 font-size: 16px;
@@ -262,6 +277,7 @@
             }
             .legend-container {
                 font-size: 10px;
+                max-width: 100%;
             }
             .legend-square-judiciario {
                 width: 10px;
@@ -428,7 +444,7 @@
                 }
 
                 const monthStart = new Date(2025, monthIndex, 1);
-                const monthEnd = new Date(2025, monthIndex + 1, 0);
+                const monthEnd = new Date(2025, index + 1, 0);
                 return (inicioDate <= monthEnd && fimDate >= monthStart);
             });
 
