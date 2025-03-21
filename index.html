@@ -77,7 +77,7 @@
         }
         .highlight-judiciario {
             border: 2px solid red; /* Contorno vermelho para Poder Judiciário */
-            border-radius: 50%; /* Círculo perfeito */
+            border-radius: 0; /* Quadrado */
             box-sizing: border-box;
             transition: border-color 0.3s;
         }
@@ -94,14 +94,15 @@
             display: inline-block;
             margin-right: 20px;
         }
-        .legend-circle-judiciario {
+        .legend-square-judiciario {
             display: inline-block;
             width: 16px;
             height: 16px;
             border: 2px solid red;
-            border-radius: 50%;
+            border-radius: 0; /* Quadrado */
             vertical-align: middle;
             margin-right: 5px;
+            margin-left: 10px; /* Margem à esquerda */
         }
         .info-container {
             margin-top: 10px;
@@ -191,8 +192,8 @@
         /* Responsividade para dispositivos móveis */
         @media (max-width: 768px) {
             .calendar-container {
-                grid-template-columns: repeat(6, 1fr); /* Mantém 6 colunas */
-                gap: 3px; /* Reduz o espaço entre os calendários */
+                grid-template-columns: repeat(4, 1fr); /* 4 calendários por linha */
+                gap: 3px;
                 padding: 10px;
             }
             .calendar {
@@ -229,7 +230,7 @@
             .legend-container {
                 font-size: 12px;
             }
-            .legend-circle-judiciario {
+            .legend-square-judiciario {
                 width: 12px;
                 height: 12px;
             }
@@ -237,7 +238,7 @@
 
         @media (max-width: 480px) {
             .calendar-container {
-                grid-template-columns: repeat(6, 1fr); /* Mantém 6 colunas */
+                grid-template-columns: repeat(4, 1fr); /* 4 calendários por linha */
                 gap: 2px;
                 padding: 5px;
             }
@@ -262,7 +263,7 @@
             .legend-container {
                 font-size: 10px;
             }
-            .legend-circle-judiciario {
+            .legend-square-judiciario {
                 width: 10px;
                 height: 10px;
             }
@@ -277,7 +278,7 @@
     <div class="calendar-container" id="calendarContainer"></div>
     <div class="legend-container">
         <div class="legend-item">
-            <span class="legend-circle-judiciario"></span> Poder Judiciário do Estado do Pará
+            <span class="legend-square-judiciario"></span> Poder Judiciário do Estado do Pará
         </div>
     </div>
     <div class="info-container" id="infoContainer">
@@ -378,7 +379,7 @@
                     }
                 });
 
-                let calendar = `<div class='calendar'><h3>${month} 2025</h3><table>`;
+                let calendar = `<div class='calendar' onclick="loadSuspensions(${index}, '${month}')"><h3>${month} 2025</h3><table>`;
                 calendar += "<tr><th>D</th><th>S</th><th>T</th><th>Q</th><th>Q</th><th>S</th><th>S</th></tr><tr>";
                 for (let i = 0; i < firstDay; i++) calendar += "<td></td>";
                 for (let day = 1; day <= daysInMonth; day++) {
@@ -395,6 +396,43 @@
                 calendar += "</tr></table></div>";
                 container.innerHTML += calendar;
             });
+        }
+
+        function loadSuspensions(monthIndex, monthName) {
+            const suspensionsList = document.getElementById('suspensionsList');
+            const selectedMonthSpan = document.getElementById('selectedMonth');
+            suspensionsList.innerHTML = '<li>Carregando...</li>';
+            selectedMonthSpan.textContent = monthName;
+
+            const events = allSuspensions.filter(event => {
+                let inicioDate, fimDate;
+                try {
+                    inicioDate = new Date(event.inicio.split('/').reverse().join('-'));
+                    fimDate = new Date(event.fim.split('/').reverse().join('-'));
+                } catch (error) {
+                    console.log(`Erro ao converter datas: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade}`);
+                    return false;
+                }
+
+                if (isNaN(inicioDate.getTime()) || isNaN(fimDate.getTime())) {
+                    console.log(`Data inválida: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade}`);
+                    return false;
+                }
+
+                const startYear = inicioDate.getFullYear();
+                const endYear = fimDate.getFullYear();
+                const intersects2025 = startYear <= 2025 && endYear >= 2025;
+
+                if (!intersects2025 && endYear < 2025) {
+                    return false;
+                }
+
+                const monthStart = new Date(2025, monthIndex, 1);
+                const monthEnd = new Date(2025, monthIndex + 1, 0);
+                return (inicioDate <= monthEnd && fimDate >= monthStart);
+            });
+
+            populateSuspensions(events);
         }
 
         function formatDate(dateStr) {
