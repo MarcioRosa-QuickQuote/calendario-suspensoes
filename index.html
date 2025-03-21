@@ -75,14 +75,51 @@
             color: #1E3A8A;
             font-weight: bold;
         }
-        .highlight {
-            border: 2px solid red;
+        .highlight-judiciario {
+            border: 2px solid red; /* Contorno vermelho para Poder Judiciário */
             border-radius: 50%;
             box-sizing: border-box;
             transition: border-color 0.3s;
         }
-        .highlight:hover {
+        .highlight-judiciario:hover {
             border-color: darkred;
+        }
+        .highlight-outros {
+            border: 2px solid blue; /* Contorno azul para outras unidades */
+            border-radius: 50%;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        .highlight-outros:hover {
+            border-color: darkblue;
+        }
+        .legend-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            text-align: left;
+            font-size: 14px;
+        }
+        .legend-item {
+            display: inline-block;
+            margin-right: 20px;
+        }
+        .legend-circle-judiciario {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid red;
+            border-radius: 50%;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+        .legend-circle-outros {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid blue;
+            border-radius: 50%;
+            vertical-align: middle;
+            margin-right: 5px;
         }
         .info-container {
             margin-top: 10px;
@@ -121,6 +158,7 @@
             font-size: 14px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            box-sizing: border-box;
         }
         .info-details {
             text-align: left;
@@ -167,6 +205,68 @@
             margin-right: 5px;
             display: inline;
         }
+
+        /* Responsividade para dispositivos móveis */
+        @media (max-width: 768px) {
+            .calendar-container {
+                grid-template-columns: repeat(2, 1fr); /* 2 calendários por linha em telas menores */
+            }
+            .calendar {
+                padding: 6px;
+            }
+            .calendar h3 {
+                font-size: 12px;
+            }
+            .calendar table {
+                font-size: 8px;
+            }
+            .calendar th, .calendar td {
+                width: 16px;
+                height: 16px;
+                line-height: 16px;
+            }
+            ul {
+                grid-template-columns: 1fr; /* Uma coluna em telas menores */
+            }
+            .month-header {
+                right: 10px;
+                font-size: 14px;
+            }
+            .info-container h2 {
+                font-size: 16px;
+            }
+            .header {
+                font-size: 20px;
+                padding: 15px;
+            }
+            .header-image {
+                height: 60px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .calendar-container {
+                grid-template-columns: 1fr; /* 1 calendário por linha em telas muito pequenas */
+            }
+            .calendar h3 {
+                font-size: 10px;
+            }
+            .calendar table {
+                font-size: 7px;
+            }
+            .calendar th, .calendar td {
+                width: 14px;
+                height: 14px;
+                line-height: 14px;
+            }
+            .header {
+                font-size: 18px;
+                padding: 10px;
+            }
+            .header-image {
+                height: 50px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -175,6 +275,14 @@
         Calendário de Suspensões de Expedientes - 2025
     </div>
     <div class="calendar-container" id="calendarContainer"></div>
+    <div class="legend-container">
+        <div class="legend-item">
+            <span class="legend-circle-judiciario"></span> Poder Judiciário do Estado do Pará
+        </div>
+        <div class="legend-item">
+            <span class="legend-circle-outros"></span> Outras Unidades
+        </div>
+    </div>
     <div class="info-container" id="infoContainer">
         <h2>Informações da Suspensão de Expediente</h2>
         <div class="month-header" id="selectedMonth"></div>
@@ -265,7 +373,10 @@
                         const startDay = start.getDate();
                         const endDay = end.getDate();
                         for (let day = startDay; day <= endDay; day++) {
-                            suspensionDays[day] = true;
+                            if (!suspensionDays[day]) {
+                                suspensionDays[day] = [];
+                            }
+                            suspensionDays[day].push(event.unidade);
                         }
                     }
                 });
@@ -274,7 +385,16 @@
                 calendar += "<tr><th>D</th><th>S</th><th>T</th><th>Q</th><th>Q</th><th>S</th><th>S</th></tr><tr>";
                 for (let i = 0; i < firstDay; i++) calendar += "<td></td>";
                 for (let day = 1; day <= daysInMonth; day++) {
-                    calendar += `<td ${suspensionDays[day] ? "class='highlight'" : ""}>${day}</td>`;
+                    let highlightClass = '';
+                    if (suspensionDays[day]) {
+                        const unidades = suspensionDays[day];
+                        if (unidades.includes("Poder Judiciário do Estado do Pará")) {
+                            highlightClass = 'highlight-judiciario';
+                        } else {
+                            highlightClass = 'highlight-outros';
+                        }
+                    }
+                    calendar += `<td ${highlightClass ? `class='${highlightClass}'` : ''}>${day}</td>`;
                     if ((day + firstDay) % 7 === 0) calendar += "</tr><tr>";
                 }
                 calendar += "</tr></table></div>";
@@ -338,23 +458,25 @@
             suspensionsList.innerHTML = '';
             if (events.length === 0) {
                 suspensionsList.innerHTML = '<li>Nenhuma suspensão encontrada</li>';
-                return;
+            } else {
+                events.forEach(event => {
+                    const li = document.createElement('li');
+                    li.className = 'suspension-item';
+                    let inicio = formatDate(event.inicio);
+                    let fim = formatDate(event.fim);
+                    const dateDisplay = inicio === fim ? inicio : `${inicio} a ${fim}`;
+                    const portariaClean = event.portaria.replace(/Nº\s*Nº/g, 'Nº');
+                    const edicaoClean = event.edicao.replace(/Nº\s*Nº/g, 'Nº');
+                    li.innerHTML = `
+                        <span class="unidade">${event.unidade} - ${dateDisplay}</span>
+                        <span class="motivo-line"><span class="motivo">Motivo:</span> ${event.motivo}</span>
+                        <span class="portaria-line">Portaria ${portariaClean} - DJE ${edicaoClean}</span>
+                    `;
+                    suspensionsList.appendChild(li);
+                });
             }
-            events.forEach(event => {
-                const li = document.createElement('li');
-                li.className = 'suspension-item';
-                let inicio = formatDate(event.inicio);
-                let fim = formatDate(event.fim);
-                const dateDisplay = inicio === fim ? inicio : `${inicio} a ${fim}`;
-                const portariaClean = event.portaria.replace(/Nº\s*Nº/g, 'Nº');
-                const edicaoClean = event.edicao.replace(/Nº\s*Nº/g, 'Nº');
-                li.innerHTML = `
-                    <span class="unidade">${event.unidade} - ${dateDisplay}</span>
-                    <span class="motivo-line"><span class="motivo">Motivo:</span> ${event.motivo}</span>
-                    <span class="portaria-line">Portaria ${portariaClean} - DJE ${edicaoClean}</span>
-                `;
-                suspensionsList.appendChild(li);
-            });
+            // Rola a página até o container de informações
+            document.getElementById('infoContainer').scrollIntoView({ behavior: 'smooth' });
         }
 
         function normalizeText(text) {
@@ -364,24 +486,16 @@
         function searchSuspensions() {
             const input = normalizeText(document.getElementById('searchInput').value.toLowerCase());
             const suspensionsList = document.getElementById('suspensionsList');
-            if (!input) {
-                const events = allSuspensions.filter(event => {
-                    let inicioDate, fimDate;
-                    try {
-                        inicioDate = new Date(event.inicio.split('/').reverse().join('-'));
-                        fimDate = new Date(event.fim.split('/').reverse().join('-'));
-                    } catch (error) {
-                        console.log(`Erro ao converter datas: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade}`);
-                        return false;
-                    }
+            const selectedMonthSpan = document.getElementById('selectedMonth');
 
-                    const startYear = inicioDate.getFullYear();
-                    const endYear = fimDate.getFullYear();
-                    return startYear <= 2025 && endYear >= 2025 || endYear >= 2025;
-                });
-                populateSuspensions(events);
+            if (!input) {
+                // Quando o campo de busca está em branco, não mostra resultados
+                suspensionsList.innerHTML = '<li>Digite uma unidade para buscar suspensões</li>';
+                selectedMonthSpan.textContent = '';
                 return;
             }
+
+            // Busca em todos os meses
             const filteredEvents = allSuspensions.filter(event => {
                 let inicioDate, fimDate;
                 try {
@@ -397,10 +511,8 @@
                 const intersects2025 = startYear <= 2025 && endYear >= 2025 || endYear >= 2025;
                 return intersects2025 && normalizeText(event.unidade.toLowerCase()).includes(input);
             });
-            if (filteredEvents.length === 0) {
-                suspensionsList.innerHTML = '<li>Nenhuma suspensão encontrada</li>';
-                return;
-            }
+
+            selectedMonthSpan.textContent = 'Resultados da Busca';
             populateSuspensions(filteredEvents);
         }
     </script>
