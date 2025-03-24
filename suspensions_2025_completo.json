@@ -1,5 +1,14 @@
 [
   {
+    "protocolo": "teste",
+    "portaria": "Portaria n.º 2545/2025-GP",
+    "motivo": "teste",
+    "fim": "29/03/2025",
+    "edicao": "DJE n.º 8778/____",
+    "inicio": "24/03/2025",
+    "unidade": "Porto de MOz"
+  },
+  {
     "unidade": "Poder Judiciário do Estado do Pará - Processos em que figurem como parte o Estado do Pará",
     "fim": "21/03/2025",
     "inicio": "17/03/2025",
