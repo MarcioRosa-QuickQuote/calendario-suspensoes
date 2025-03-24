@@ -1,12 +1,12 @@
 [
   {
-    "portaria": "Nº 2/2025-GP",
+    "protocolo": "TJPA-MEM-2024/73847",
     "unidade": "Comarca de Altamira",
-    "fim": "20/01/2025",
-    "edicao": "Nº 7991/2025",
     "inicio": "20/01/2025",
-    "motivo": "Calendário de feriados do Município-",
-    "protocolo": "TJPA-MEM-2024/73847"
+    "fim": "20/01/2025",
+    "motivo": "Calendário de feriados do Município",
+    "portaria": "Nº 2/2025-GP",
+    "edicao": "Nº 7991/2025"
   },
   {
     "protocolo": "TJPA-MEM-2024/73847",
@@ -18,13 +18,13 @@
     "edicao": "Nº 7991/2025"
   },
   {
-    "inicio": "2024-12-18",
-    "fim": "2024-12-18",
-    "portaria": "Nº 3/2025-GP",
     "protocolo": "TJPA-MEM-2024/73778",
-    "edicao": "Nº 7991/2025",
     "unidade": "11ª Vara do Juizado Especial Cível de Belém",
-    "motivo": "Interrupção no fornecimento de energia elétrica"
+    "inicio": "18/12/2024",
+    "fim": "18/12/2024",
+    "motivo": "Interrupção no fornecimento de energia elétrica",
+    "portaria": "Nº 3/2025-GP",
+    "edicao": "Nº 7991/2025"
   },
   {
     "protocolo": "TJPA-MEM-2024/73778",
@@ -261,13 +261,13 @@
     "edicao": "Nº 8013/2025"
   },
   {
-    "inicio": "",
     "protocolo": "TJPA-MEM-2025/05541",
-    "motivo": "Realização de serviços de reforma do prédio do Fórum_",
+    "unidade": "Comarca de Porto de Moz",
+    "inicio": "06/02/2025",
+    "fim": "05/03/2025",
+    "motivo": "Realização de serviços de reforma do prédio do Fórum",
     "portaria": "Nº 789/2025-GP",
-    "edicao": "Nº 8013/2025",
-    "fim": "",
-    "unidade": "Comarca de Porto de Moz"
+    "edicao": "Nº 8013/2025"
   },
   {
     "protocolo": "TJPA-REQ-2025/00941",
@@ -685,7 +685,7 @@
   },
   {
     "protocolo": "TJPA-OFI-2025/00540",
-    "unidade": "Município de Bragança",
+    "unidade": "Comarca de Bragança",
     "inicio": "08/07/2025",
     "fim": "08/07/2025",
     "motivo": "Calendário de feriados do Município",
@@ -694,7 +694,7 @@
   },
   {
     "protocolo": "TJPA-OFI-2025/00540",
-    "unidade": "Município de Bragança",
+    "unidade": "Comarca de Bragança",
     "inicio": "01/10/2025",
     "fim": "01/10/2025",
     "motivo": "Calendário de feriados do Município",
@@ -703,7 +703,7 @@
   },
   {
     "protocolo": "TJPA-OFI-2025/00540",
-    "unidade": "Município de Bragança",
+    "unidade": "Comarca de Bragança",
     "inicio": "07/10/2025",
     "fim": "07/10/2025",
     "motivo": "Calendário de feriados do Município",
@@ -712,7 +712,7 @@
   },
   {
     "protocolo": "TJPA-OFI-2025/00540",
-    "unidade": "Município de Bragança",
+    "unidade": "Comarca de Bragança",
     "inicio": "10/11/2025",
     "fim": "10/11/2025",
     "motivo": "Calendário de feriados do Município",
@@ -736,5 +736,86 @@
     "motivo": "Calendário de feriados do Município",
     "portaria": "Nº 1312/2025-GP",
     "edicao": "Nº 8031/2025"
+  },
+  {
+    "protocolo": "TJPA-REQ-2025/02479",
+    "unidade": "2º CEJUSC da Capital",
+    "inicio": "06/03/2025",
+    "fim": "07/03/2025",
+    "motivo": "Reforma realizada na unidade judiciária",
+    "portaria": "Nº 1376/2025-GP",
+    "edicao": "Nº 8033/2025"
+  },
+  {
+    "protocolo": "TJPA-MEM-2025/10292",
+    "unidade": "Fórum da Comarca de São João do Araguaia",
+    "inicio": "03/03/2025",
+    "fim": "02/05/2025",
+    "motivo": "Reforma em andamento na unidade judiciária",
+    "portaria": "Nº 1377/2025-GP",
+    "edicao": "Nº 8033/2025"
+  },
+  {
+    "protocolo": "TJPAOFI-2025/00659",
+    "unidade": "Comarca de Limoeiro do Ajuru",
+    "inicio": "10/12/2025",
+    "fim": "10/12/2025",
+    "motivo": "Calendário de feriados do Município",
+    "portaria": "Nº 1378/2025-GP",
+    "edicao": "Nº 8033/2025"
+  },
+  {
+    "protocolo": "TJPA-MEM-2025/09803",
+    "unidade": "1ª Vara Cível e Empresarial da Comarca de Canaã dos Carajás",
+    "inicio": "08/03/2025",
+    "fim": "14/03/2025",
+    "motivo": "Prorrogação da Nº 1188/2025-GP - Serviços complementares de manutenção predial",
+    "portaria": "Nº 1453/2025-GP",
+    "edicao": "Nº 8038/2025"
+  },
+  {
+    "protocolo": "TJPA-MEM-2025/10383",
+    "unidade": "Comarca de Porto de Moz",
+    "inicio": "06/02/2025",
+    "fim": "05/03/2025",
+    "motivo": "Prorrogação da Nº 789/2025-GP - Novo cronograma de conclusão dos serviços de reforma",
+    "portaria": "Nº 1454/2025-GP",
+    "edicao": "Nº 8038/2025"
+  },
+  {
+    "protocolo": "TJPA-REQ-2025/02890",
+    "unidade": "2º CEJUSC da Capital",
+    "inicio": "08/03/2025",
+    "fim": "12/03/2025",
+    "motivo": "Prorrogação da Nº 1376/2025-GP - Atraso na conclusão da reforma",
+    "portaria": "Nº 1490/2025-GP",
+    "edicao": "Nº 8038/2025"
+  },
+  {
+    "protocolo": "TJPA-REQ-2025/10757",
+    "unidade": "Comarca de Mojú",
+    "inicio": "25/02/2025",
+    "fim": "29/03/2025",
+    "motivo": "Prorrogação da Nº 791/2025-GP - Novo cronograma de conclusão dos serviços de reforma",
+    "portaria": "Nº 1491/2025-GP",
+    "edicao": "Nº 8038/2025"
+  },
+  {
+    "protocolo": "TJPA-MEM-2025/14103",
+    "unidade": "Comarca de Acará",
+    "inicio": "19/03/2025",
+    "fim": "19/03/2025",
+    "motivo": "Calendário de feriados do Município",
+    "portaria": "Nº 1502/2025-GP",
+    "edicao": "Nº 8038/2025"
+  },
+  {
+    "protocolo": "TJPA-MEM-2025/08102",
+    "unidade": "Comarca de Faro",
+    "inicio": "01/02/2025",
+    "fim": "01/04/2025",
+    "motivo": "Prorrogação da Nº 5/2025-GP - Atraso na execução da reforma do Fórum",
+    "portaria": "Nº 1533/2025-GP",
+    "edicao": "Nº 8040/2025"
   }
 ]
