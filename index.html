@@ -70,7 +70,7 @@
             cursor: pointer;
             position: relative;
             width: 20px;
-            height: 16px; /* Reduz a altura para um formato mais quadrado */
+            height: 16px;
             line-height: 16px;
         }
         .calendar th {
@@ -213,7 +213,7 @@
             }
             .calendar th, .calendar td {
                 width: 10px;
-                height: 6px; /* Reduz ainda mais a altura para um formato mais quadrado */
+                height: 6px;
                 line-height: 6px;
             }
             ul {
@@ -269,7 +269,7 @@
             }
             .calendar th, .calendar td {
                 width: 8px;
-                height: 4px; /* Reduz ainda mais a altura para um formato mais quadrado */
+                height: 4px;
                 line-height: 4px;
             }
             .header {
@@ -333,7 +333,6 @@
             const year = parseInt(parts[2], 10);
             // Cria a data em UTC para evitar deslocamento de fuso horário
             const date = new Date(Date.UTC(year, month, day));
-            console.log(`Data parseada para calendário: ${dateStr} -> ${date}`);
             return date;
         }
 
@@ -458,9 +457,11 @@
         }
 
         function formatDate(dateStr) {
+            // As datas no JSON já estão no formato DD/MM/YYYY, então não precisamos convertê-las
             if (/^\d{2}\/\d{2}\/\d{4}$/.test(dateStr)) {
                 return dateStr;
             }
+            // Caso a data esteja em outro formato, convertê-la para DD/MM/YYYY
             const date = parseDateForCalendar(dateStr);
             if (date && !isNaN(date.getTime())) {
                 const day = String(date.getUTCDate()).padStart(2, '0');
