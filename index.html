@@ -319,6 +319,24 @@
     <script>
         let allSuspensions = [];
 
+        // Função para converter data do formato DD/MM/YYYY para um objeto Date, evitando deslocamento de fuso horário
+        function parseDateForCalendar(dateStr) {
+            if (!dateStr || typeof dateStr !== 'string' || dateStr === 'Data não informada') {
+                return null;
+            }
+            const parts = dateStr.split('/');
+            if (parts.length !== 3) {
+                return null;
+            }
+            const day = parseInt(parts[0], 10);
+            const month = parseInt(parts[1], 10) - 1; // Mês em JavaScript é 0-based
+            const year = parseInt(parts[2], 10);
+            // Cria a data em UTC para evitar deslocamento de fuso horário
+            const date = new Date(Date.UTC(year, month, day));
+            console.log(`Data parseada para calendário: ${dateStr} -> ${date}`);
+            return date;
+        }
+
         fetch('suspensions_2025_completo.json')
             .then(response => {
                 if (!response.ok) {
@@ -347,51 +365,39 @@
                 let suspensionDays = {};
 
                 const events = allSuspensions.filter(event => {
-                    let inicioDate, fimDate;
-                    try {
-                        inicioDate = new Date(event.inicio.split('/').reverse().join('-'));
-                        fimDate = new Date(event.fim.split('/').reverse().join('-'));
-                    } catch (error) {
-                        console.log(`Erro ao converter datas: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade}`);
-                        return false;
-                    }
+                    let inicioDate = parseDateForCalendar(event.inicio);
+                    let fimDate = parseDateForCalendar(event.fim);
 
-                    if (isNaN(inicioDate.getTime()) || isNaN(fimDate.getTime())) {
+                    if (!inicioDate || !fimDate) {
                         console.log(`Data inválida: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade}`);
                         return false;
                     }
 
-                    const startYear = inicioDate.getFullYear();
-                    const endYear = fimDate.getFullYear();
+                    const startYear = inicioDate.getUTCFullYear();
+                    const endYear = fimDate.getUTCFullYear();
                     const intersects2025 = startYear <= 2025 && endYear >= 2025;
 
                     if (!intersects2025 && endYear < 2025) {
                         return false;
                     }
 
-                    const monthStart = new Date(2025, index, 1);
-                    const monthEnd = new Date(2025, index + 1, 0);
+                    const monthStart = new Date(Date.UTC(2025, index, 1));
+                    const monthEnd = new Date(Date.UTC(2025, index + 1, 0));
                     return (inicioDate <= monthEnd && fimDate >= monthStart);
                 });
 
                 events.forEach(event => {
-                    let inicioDate, fimDate;
-                    try {
-                        inicioDate = new Date(event.inicio.split('/').reverse().join('-'));
-                        fimDate = new Date(event.fim.split('/').reverse().join('-'));
-                    } catch (error) {
-                        console.log(`Erro ao converter datas: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade}`);
-                        return;
-                    }
+                    let inicioDate = parseDateForCalendar(event.inicio);
+                    let fimDate = parseDateForCalendar(event.fim);
 
-                    const monthStart = new Date(2025, index, 1);
-                    const monthEnd = new Date(2025, index + 1, 0);
+                    const monthStart = new Date(Date.UTC(2025, index, 1));
+                    const monthEnd = new Date(Date.UTC(2025, index + 1, 0));
                     const start = inicioDate < monthStart ? monthStart : inicioDate;
                     const end = fimDate > monthEnd ? monthEnd : fimDate;
 
-                    if (start.getFullYear() === 2025 && end.getFullYear() === 2025) {
-                        const startDay = start.getDate();
-                        const endDay = end.getDate();
+                    if (start.getUTCFullYear() === 2025 && end.getUTCFullYear() === 2025) {
+                        const startDay = start.getUTCDate();
+                        const endDay = end.getUTCDate();
                         for (let day = startDay; day <= endDay; day++) {
                             if (!suspensionDays[day]) {
                                 suspensionDays[day] = [];
@@ -427,30 +433,24 @@
             selectedMonthSpan.textContent = monthName;
 
             const events = allSuspensions.filter(event => {
-                let inicioDate, fimDate;
-                try {
-                    inicioDate = new Date(event.inicio.split('/').reverse().join('-'));
-                    fimDate = new Date(event.fim.split('/').reverse().join('-'));
-                } catch (error) {
-                    console.log(`Erro ao converter datas: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade}`);
-                    return false;
-                }
+                let inicioDate = parseDateForCalendar(event.inicio);
+                let fimDate = parseDateForCalendar(event.fim);
 
-                if (isNaN(inicioDate.getTime()) || isNaN(fimDate.getTime())) {
+                if (!inicioDate || !fimDate) {
                     console.log(`Data inválida: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade}`);
                     return false;
                 }
 
-                const startYear = inicioDate.getFullYear();
-                const endYear = fimDate.getFullYear();
+                const startYear = inicioDate.getUTCFullYear();
+                const endYear = fimDate.getUTCFullYear();
                 const intersects2025 = startYear <= 2025 && endYear >= 2025;
 
                 if (!intersects2025 && endYear < 2025) {
                     return false;
                 }
 
-                const monthStart = new Date(2025, monthIndex, 1);
-                const monthEnd = new Date(2025, monthIndex + 1, 0);
+                const monthStart = new Date(Date.UTC(2025, monthIndex, 1));
+                const monthEnd = new Date(Date.UTC(2025, monthIndex + 1, 0));
                 return (inicioDate <= monthEnd && fimDate >= monthStart);
             });
 
@@ -461,11 +461,11 @@
             if (/^\d{2}\/\d{2}\/\d{4}$/.test(dateStr)) {
                 return dateStr;
             }
-            const date = new Date(dateStr);
-            if (!isNaN(date.getTime())) {
-                const day = String(date.getDate()).padStart(2, '0');
-                const month = String(date.getMonth() + 1).padStart(2, '0');
-                const year = date.getFullYear();
+            const date = parseDateForCalendar(dateStr);
+            if (date && !isNaN(date.getTime())) {
+                const day = String(date.getUTCDate()).padStart(2, '0');
+                const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+                const year = date.getUTCFullYear();
                 return `${day}/${month}/${year}`;
             }
             return dateStr;
@@ -479,8 +479,8 @@
             } else {
                 // Ordena os eventos pela data de início
                 events.sort((a, b) => {
-                    const dateA = new Date(a.inicio.split('/').reverse().join('-'));
-                    const dateB = new Date(b.inicio.split('/').reverse().join('-'));
+                    const dateA = parseDateForCalendar(a.inicio);
+                    const dateB = parseDateForCalendar(b.inicio);
                     return dateA - dateB;
                 });
 
@@ -522,17 +522,16 @@
 
             // Busca em todos os meses
             const filteredEvents = allSuspensions.filter(event => {
-                let inicioDate, fimDate;
-                try {
-                    inicioDate = new Date(event.inicio.split('/').reverse().join('-'));
-                    fimDate = new Date(event.fim.split('/').reverse().join('-'));
-                } catch (error) {
-                    console.log(`Erro ao converter datas: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade}`);
+                let inicioDate = parseDateForCalendar(event.inicio);
+                let fimDate = parseDateForCalendar(event.fim);
+
+                if (!inicioDate || !fimDate) {
+                    console.log(`Data inválida: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade}`);
                     return false;
                 }
 
-                const startYear = inicioDate.getFullYear();
-                const endYear = fimDate.getFullYear();
+                const startYear = inicioDate.getUTCFullYear();
+                const endYear = fimDate.getUTCFullYear();
                 const intersects2025 = startYear <= 2025 && endYear >= 2025 || endYear >= 2025;
                 return intersects2025 && normalizeText(event.unidade.toLowerCase()).includes(input);
             });
