@@ -826,5 +826,14 @@
     "unidade": "teste",
     "fim": "26/03/2025",
     "edicao": "DJE n.º 2222/2222"
+  },
+  {
+    "edicao": "DJE n.º 1___/____",
+    "fim": "28/03/2025",
+    "inicio": "19/03/2025",
+    "portaria": "Portaria n.º 1___/____-GP",
+    "protocolo": "2",
+    "motivo": "2",
+    "unidade": "2"
   }
 ]
