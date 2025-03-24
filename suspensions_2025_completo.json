@@ -817,5 +817,14 @@
     "motivo": "Prorrogação da Nº 5/2025-GP - Atraso na execução da reforma do Fórum",
     "portaria": "Nº 1533/2025-GP",
     "edicao": "Nº 8040/2025"
+  },
+  {
+    "protocolo": "teste",
+    "motivo": "teste",
+    "inicio": "18/03/2025",
+    "portaria": "Portaria n.º 2222/2222-GP",
+    "unidade": "teste",
+    "fim": "26/03/2025",
+    "edicao": "DJE n.º 2222/2222"
   }
 ]
