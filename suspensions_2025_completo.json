@@ -736,5 +736,14 @@
     "motivo": "Calendário de feriados do Município",
     "portaria": "Nº 1312/2025-GP",
     "edicao": "Nº 8031/2025"
+  },
+  {
+    "edicao": "DJE n.º 3238/2900",
+    "motivo": "Djsndjd",
+    "inicio": "2025-03-27",
+    "protocolo": "Teste",
+    "fim": "2025-03-29",
+    "portaria": "Portaria n.º 2345/2025-GP",
+    "unidade": "Teste"
   }
 ]
