@@ -70,7 +70,7 @@
             cursor: pointer;
             position: relative;
             width: 20px;
-            height: 16px; /* Reduz a altura para um formato mais quadrado */
+            height: 16px;
             line-height: 16px;
         }
         .calendar th {
@@ -194,7 +194,6 @@
             display: inline;
         }
 
-        /* Responsividade para dispositivos móveis */
         @media (max-width: 768px) {
             .calendar-container {
                 grid-template-columns: repeat(4, 1fr);
@@ -213,7 +212,7 @@
             }
             .calendar th, .calendar td {
                 width: 10px;
-                height: 6px; /* Reduz ainda mais a altura para um formato mais quadrado */
+                height: 6px;
                 line-height: 6px;
             }
             ul {
@@ -269,7 +268,7 @@
             }
             .calendar th, .calendar td {
                 width: 8px;
-                height: 4px; /* Reduz ainda mais a altura para um formato mais quadrado */
+                height: 4px;
                 line-height: 4px;
             }
             .header {
@@ -307,11 +306,11 @@
         <h2>Informações da Suspensão de Expediente</h2>
         <div class="month-header" id="selectedMonth"></div>
         <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Pesquisar por unidade..." onkeyup="searchSuspensions()">
+            <input type="text" id="searchInput" placeholder="Pesquisar por unidade ou motivo..." onkeyup="searchSuspensions()">
         </div>
         <div class="info-details">
             <ul id="suspensionsList">
-                <li>Digite uma unidade para buscar suspensões</li>
+                <li>Digite uma unidade ou motivo para buscar suspensões</li>
             </ul>
         </div>
     </div>
@@ -319,7 +318,6 @@
     <script>
         let allSuspensions = [];
 
-        // Função para converter data do formato DD/MM/YYYY para um objeto Date, evitando deslocamento de fuso horário
         function parseDateForCalendar(dateStr) {
             if (!dateStr || typeof dateStr !== 'string' || dateStr === 'Data não informada') {
                 return null;
@@ -329,9 +327,8 @@
                 return null;
             }
             const day = parseInt(parts[0], 10);
-            const month = parseInt(parts[1], 10) - 1; // Mês em JavaScript é 0-based
+            const month = parseInt(parts[1], 10) - 1;
             const year = parseInt(parts[2], 10);
-            // Cria a data em UTC para evitar deslocamento de fuso horário
             const date = new Date(Date.UTC(year, month, day));
             console.log(`Data parseada para calendário: ${dateStr} -> ${date}`);
             return date;
@@ -477,7 +474,6 @@
             if (events.length === 0) {
                 suspensionsList.innerHTML = '<li>Nenhuma suspensão encontrada</li>';
             } else {
-                // Ordena os eventos pela data de início
                 events.sort((a, b) => {
                     const dateA = parseDateForCalendar(a.inicio);
                     const dateB = parseDateForCalendar(b.inicio);
@@ -500,7 +496,6 @@
                     suspensionsList.appendChild(li);
                 });
             }
-            // Rola a página até o container de informações
             document.getElementById('infoContainer').scrollIntoView({ behavior: 'smooth' });
         }
 
@@ -514,13 +509,11 @@
             const selectedMonthSpan = document.getElementById('selectedMonth');
 
             if (!input) {
-                // Quando o campo de busca está em branco, não mostra resultados
-                suspensionsList.innerHTML = '<li>Digite uma unidade para buscar suspensões</li>';
+                suspensionsList.innerHTML = '<li>Digite uma unidade ou motivo para buscar suspensões</li>';
                 selectedMonthSpan.textContent = '';
                 return;
             }
 
-            // Busca em todos os meses
             const filteredEvents = allSuspensions.filter(event => {
                 let inicioDate = parseDateForCalendar(event.inicio);
                 let fimDate = parseDateForCalendar(event.fim);
@@ -533,7 +526,9 @@
                 const startYear = inicioDate.getUTCFullYear();
                 const endYear = fimDate.getUTCFullYear();
                 const intersects2025 = startYear <= 2025 && endYear >= 2025 || endYear >= 2025;
-                return intersects2025 && normalizeText(event.unidade.toLowerCase()).includes(input);
+                const matchesUnidade = normalizeText(event.unidade.toLowerCase()).includes(input);
+                const matchesMotivo = normalizeText(event.motivo.toLowerCase()).includes(input);
+                return intersects2025 && (matchesUnidade || matchesMotivo);
             });
 
             selectedMonthSpan.textContent = 'Resultados da Busca';
