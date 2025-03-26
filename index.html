@@ -18,7 +18,7 @@
             background-color: #1E3A8A;
             color: white;
             padding: 20px;
-            font-size: 30px; /* Aumentado de 26px para 30px */
+            font-size: 30px;
             font-weight: bold;
             display: flex;
             align-items: center;
@@ -26,12 +26,13 @@
             width: 100%;
             box-sizing: border-box;
             transition: background-color 0.3s, color 0.3s;
+            position: relative; /* Para posicionar o botão "Alto Contraste" */
         }
         .header-image {
-            height: 120px; /* Aumentado de 100px para 120px */
+            height: 120px;
             margin-right: 20px;
             transition: filter 0.3s;
-            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8)); /* Brilho branco */
+            filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.5)); /* Brilho reduzido */
         }
         .calendar-container {
             display: grid;
@@ -47,7 +48,7 @@
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             text-align: center;
-            transition: transform 0.2s, background-color 0.3s, color 0.3s;
+            transition: transform 0.2s, background-color 0.3s, color 0.3s, border 0.3s;
             cursor: pointer;
             position: relative;
         }
@@ -218,11 +219,12 @@
             color: #fff;
         }
         .high-contrast .header-image {
-            filter: brightness(0) invert(1) drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
+            filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.5)); /* Mantém apenas o brilho, sem mudar a cor */
         }
         .high-contrast .calendar {
             background-color: #000;
             color: #fff;
+            border: 1px solid white; /* Contorno branco no modo de alto contraste */
         }
         .high-contrast .calendar h3 {
             background-color: #000;
@@ -269,27 +271,27 @@
             transition: background-color 0.3s, color 0.3s;
         }
         .footer img {
-            height: 100px; /* Aumentado de 80px para 100px */
+            height: 120px; /* Aumentado de 100px para 120px */
             margin-bottom: 10px;
             transition: filter 0.3s;
-            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8)); /* Brilho branco */
+            filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.5)); /* Brilho reduzido */
         }
         .high-contrast .footer {
             background-color: #000;
             color: #fff;
         }
         .high-contrast .footer img {
-            filter: brightness(0) invert(1) drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
+            filter: brightness(0) invert(1) drop-shadow(0 0 3px rgba(255, 255, 255, 0.5));
         }
 
         /* High Contrast Button */
         .contrast-button {
-            position: fixed;
+            position: absolute; /* Alterado de fixed para absolute */
             top: 20px;
             right: 20px;
-            background-color: transparent; /* Fundo transparente */
+            background-color: transparent;
             color: white;
-            border: 1px solid white; /* Adicionada borda para visibilidade */
+            border: 1px solid white;
             padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
@@ -300,7 +302,7 @@
             gap: 8px;
         }
         .contrast-button:hover {
-            background-color: rgba(255, 255, 255, 0.1); /* Leve fundo ao passar o mouse */
+            background-color: rgba(255, 255, 255, 0.1);
         }
         .high-contrast .contrast-button {
             background-color: transparent;
@@ -351,12 +353,12 @@
                 font-size: 14px;
             }
             .header {
-                font-size: 24px; /* Ajustado para telas menores */
+                font-size: 24px;
                 padding: 15px;
                 justify-content: center;
             }
             .header-image {
-                height: 90px; /* Ajustado para telas menores */
+                height: 90px;
                 margin-right: 30px;
             }
             .legend-container {
@@ -378,7 +380,7 @@
                 height: 14px;
             }
             .footer img {
-                height: 80px; /* Ajustado para telas menores */
+                height: 90px; /* Ajustado para telas menores */
             }
         }
 
@@ -404,12 +406,12 @@
                 line-height: 4px;
             }
             .header {
-                font-size: 20px; /* Ajustado para telas menores */
+                font-size: 20px;
                 padding: 10px;
                 justify-content: center;
             }
             .header-image {
-                height: 70px; /* Ajustado para telas menores */
+                height: 70px;
                 margin-right: 20px;
             }
             .legend-container {
@@ -431,22 +433,22 @@
                 height: 12px;
             }
             .footer img {
-                height: 60px; /* Ajustado para telas menores */
+                height: 70px; /* Ajustado para telas menores */
             }
         }
     </style>
 </head>
 <body>
-    <button class="contrast-button" onclick="toggleContrast()">
-        <svg class="contrast-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="12" cy="12" r="10" stroke="white" stroke-width="2"/>
-            <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22V2Z" fill="white"/>
-        </svg>
-        Alto Contraste
-    </button>
     <div class="header">
         <img src="https://i.imgur.com/bcjzam8.png" alt="Logo TJPA" class="header-image">
         Suspensões de Expedientes 2025
+        <button class="contrast-button" onclick="toggleContrast()">
+            <svg class="contrast-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" stroke="white" stroke-width="2"/>
+                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22V2Z" fill="white"/>
+            </svg>
+            Alto Contraste
+        </button>
     </div>
     <div class="calendar-container" id="calendarContainer"></div>
     <div class="legend-container">
