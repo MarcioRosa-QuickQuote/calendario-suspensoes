@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendário de Suspensões de Expedientes - 2025</title>
+    <title>Suspensões de Expedientes 2025</title>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
     <style>
         body {
@@ -18,7 +18,7 @@
             background-color: #1E3A8A;
             color: white;
             padding: 20px;
-            font-size: 26px;
+            font-size: 30px; /* Aumentado de 26px para 30px */
             font-weight: bold;
             display: flex;
             align-items: center;
@@ -28,9 +28,10 @@
             transition: background-color 0.3s, color 0.3s;
         }
         .header-image {
-            height: 100px;
+            height: 120px; /* Aumentado de 100px para 120px */
             margin-right: 20px;
             transition: filter 0.3s;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8)); /* Brilho branco */
         }
         .calendar-container {
             display: grid;
@@ -115,7 +116,7 @@
         }
         .info-container {
             margin-top: 10px;
-            margin-bottom: 40px; /* Added margin to create space above the footer */
+            margin-bottom: 40px;
             padding: 10px;
             background: white;
             border-radius: 10px;
@@ -217,7 +218,7 @@
             color: #fff;
         }
         .high-contrast .header-image {
-            filter: brightness(0) invert(1);
+            filter: brightness(0) invert(1) drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
         }
         .high-contrast .calendar {
             background-color: #000;
@@ -268,16 +269,17 @@
             transition: background-color 0.3s, color 0.3s;
         }
         .footer img {
-            height: 80px; /* Increased size to match the print */
+            height: 100px; /* Aumentado de 80px para 100px */
             margin-bottom: 10px;
             transition: filter 0.3s;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8)); /* Brilho branco */
         }
         .high-contrast .footer {
             background-color: #000;
             color: #fff;
         }
         .high-contrast .footer img {
-            filter: brightness(0) invert(1);
+            filter: brightness(0) invert(1) drop-shadow(0 0 5px rgba(255, 255, 255, 0.8));
         }
 
         /* High Contrast Button */
@@ -285,25 +287,25 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            background-color: #1E3A8A;
+            background-color: transparent; /* Fundo transparente */
             color: white;
-            border: none;
+            border: 1px solid white; /* Adicionada borda para visibilidade */
             padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
             font-size: 14px;
-            transition: background-color 0.3s, color 0.3s;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
             display: flex;
             align-items: center;
             gap: 8px;
         }
         .contrast-button:hover {
-            background-color: #4A90E2;
+            background-color: rgba(255, 255, 255, 0.1); /* Leve fundo ao passar o mouse */
         }
         .high-contrast .contrast-button {
-            background-color: #000;
+            background-color: transparent;
             color: #ff0;
-            border: 1px solid #fff;
+            border: 1px solid #ff0;
         }
         .contrast-icon {
             width: 16px;
@@ -343,18 +345,18 @@
                 max-width: 100%;
                 margin-left: auto;
                 margin-right: auto;
-                margin-bottom: 30px; /* Adjusted margin for smaller screens */
+                margin-bottom: 30px;
             }
             .info-container h2 {
                 font-size: 14px;
             }
             .header {
-                font-size: 20px;
+                font-size: 24px; /* Ajustado para telas menores */
                 padding: 15px;
                 justify-content: center;
             }
             .header-image {
-                height: 80px;
+                height: 90px; /* Ajustado para telas menores */
                 margin-right: 30px;
             }
             .legend-container {
@@ -376,7 +378,7 @@
                 height: 14px;
             }
             .footer img {
-                height: 60px; /* Adjusted for smaller screens */
+                height: 80px; /* Ajustado para telas menores */
             }
         }
 
@@ -402,12 +404,12 @@
                 line-height: 4px;
             }
             .header {
-                font-size: 16px;
+                font-size: 20px; /* Ajustado para telas menores */
                 padding: 10px;
                 justify-content: center;
             }
             .header-image {
-                height: 60px;
+                height: 70px; /* Ajustado para telas menores */
                 margin-right: 20px;
             }
             .legend-container {
@@ -429,7 +431,7 @@
                 height: 12px;
             }
             .footer img {
-                height: 50px; /* Adjusted for smaller screens */
+                height: 60px; /* Ajustado para telas menores */
             }
         }
     </style>
@@ -444,8 +446,7 @@
     </button>
     <div class="header">
         <img src="https://i.imgur.com/bcjzam8.png" alt="Logo TJPA" class="header-image">
-        Calendário de Suspensões de Expedientes - 2025
-   =20
+        Suspensões de Expedientes 2025
     </div>
     <div class="calendar-container" id="calendarContainer"></div>
     <div class="legend-container">
