@@ -137,17 +137,17 @@
             color: #1E3A8A;
             text-align: center;
             font-size: 18px;
-            margin-bottom: 10px; /* Reduzido para melhor espaçamento com o month-header */
+            margin-bottom: 10px;
             transition: color 0.3s;
         }
         .month-header {
-            font-weight: 300; /* Letra mais fina */
+            font-weight: 300;
             font-size: 16px;
             color: gold;
             -webkit-text-stroke: 1px blue;
             text-stroke: 1px blue;
-            text-align: center; /* Centralizado */
-            padding: 10px 0; /* Padding para não ficar colado aos itens */
+            text-align: center;
+            padding: 10px 0;
             transition: color 0.3s;
         }
         .search-container {
@@ -319,8 +319,9 @@
             .calendar-container {
                 grid-template-columns: repeat(4, 1fr);
                 gap: 2px;
-                padding: 5px;
+                padding: 10px; /* Reduzido para ocupar mais espaço lateral */
                 max-width: 100%;
+                margin: 0; /* Remove margens laterais */
             }
             .calendar {
                 padding: 2px;
@@ -341,37 +342,43 @@
             }
             .month-header {
                 font-size: 12px;
-                padding: 8px 0; /* Ajustado para telas menores */
+                padding: 8px 0;
             }
             .info-container {
                 max-width: 100%;
-                margin-left: auto;
-                margin-right: auto;
+                margin-left: 0; /* Remove margens laterais */
+                margin-right: 0;
                 margin-bottom: 30px;
+                border-radius: 0; /* Remove bordas arredondadas para ocupar toda a largura */
             }
             .info-container h2 {
                 font-size: 14px;
             }
             .header {
                 font-size: 24px;
-                padding: 15px;
-                justify-content: center;
-                flex-wrap: wrap; /* Permite que o conteúdo quebre em várias linhas */
+                padding: 10px;
+                width: 100%;
+                margin: 0; /* Remove margens laterais */
+                flex-direction: column; /* Alinha os itens em coluna */
+                align-items: center; /* Centraliza os itens */
+                position: relative;
             }
             .header-image {
                 height: 90px;
-                margin-right: 30px;
+                margin-right: 0; /* Remove margem à direita para centralizar */
+                margin-bottom: 10px; /* Adiciona espaço abaixo da logomarca */
             }
             .legend-container {
                 font-size: 12px;
                 max-width: 100%;
+                margin: 10px 0; /* Remove margens laterais */
             }
             .legend-square-judiciario {
                 width: 12px;
                 height: 12px;
             }
             .contrast-button {
-                top: 80px; /* Ajustado para não sobrepor o título */
+                top: 10px;
                 right: 10px;
                 padding: 8px 16px;
                 font-size: 12px;
@@ -389,8 +396,9 @@
             .calendar-container {
                 grid-template-columns: repeat(4, 1fr);
                 gap: 1px;
-                padding: 3px;
+                padding: 5px; /* Reduzido para ocupar mais espaço lateral */
                 max-width: 100%;
+                margin: 0; /* Remove margens laterais */
             }
             .calendar {
                 padding: 1px;
@@ -408,24 +416,29 @@
             }
             .header {
                 font-size: 20px;
-                padding: 10px;
-                justify-content: center;
-                flex-wrap: wrap; /* Permite que o conteúdo quebre em várias linhas */
+                padding: 5px;
+                width: 100%;
+                margin: 0; /* Remove margens laterais */
+                flex-direction: column; /* Alinha os itens em coluna */
+                align-items: center; /* Centraliza os itens */
+                position: relative;
             }
             .header-image {
                 height: 70px;
-                margin-right: 20px;
+                margin-right: 0; /* Remove margem à direita para centralizar */
+                margin-bottom: 10px; /* Adiciona espaço abaixo da logomarca */
             }
             .legend-container {
                 font-size: 10px;
                 max-width: 100%;
+                margin: 5px 0; /* Remove margens laterais */
             }
             .legend-square-judiciario {
                 width: 10px;
                 height: 10px;
             }
             .contrast-button {
-                top: 60px; /* Ajustado para não sobrepor o título */
+                top: 5px;
                 right: 5px;
                 padding: 6px 12px;
                 font-size: 10px;
@@ -605,8 +618,8 @@
                     return false;
                 }
 
-                const monthStart = new Date(Date.UTC(2025, monthIndex, 1));
-                const monthEnd = new Date(Date.UTC(2025, monthIndex + 1, 0));
+                const monthStart = new Date(Date.UTC(2025, index, 1));
+                const monthEnd = new Date(Date.UTC(2025, index + 1, 0));
                 return (inicioDate <= monthEnd && fimDate >= monthStart);
             });
 
