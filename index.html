@@ -10,6 +10,9 @@
     <link rel="icon" type="image/png" href="https://i.imgur.com/bcjzam8.png" sizes="64x64">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
     <style>
+        * {
+            box-sizing: border-box; /* Garante que padding e bordas não afetem a largura */
+        }
         body {
             font-family: 'Open Sans', sans-serif;
             text-align: center;
@@ -28,7 +31,6 @@
             align-items: center;
             justify-content: center;
             width: 100%;
-            box-sizing: border-box;
             transition: background-color 0.3s, color 0.3s;
             position: relative;
         }
@@ -44,7 +46,7 @@
             gap: 5px;
             padding: 20px;
             max-width: 1200px;
-            margin: auto;
+            margin: 0 auto;
         }
         .calendar {
             background: white;
@@ -319,8 +321,9 @@
             .calendar-container {
                 grid-template-columns: repeat(4, 1fr);
                 gap: 2px;
-                padding: 10px; /* Reduzido para ocupar mais espaço lateral */
+                padding: 0; /* Remove padding lateral */
                 max-width: 100%;
+                width: 100%; /* Garante largura total */
                 margin: 0; /* Remove margens laterais */
             }
             .calendar {
@@ -346,10 +349,12 @@
             }
             .info-container {
                 max-width: 100%;
-                margin-left: 0; /* Remove margens laterais */
+                width: 100%; /* Garante largura total */
+                margin-left: 0;
                 margin-right: 0;
                 margin-bottom: 30px;
-                border-radius: 0; /* Remove bordas arredondadas para ocupar toda a largura */
+                border-radius: 0;
+                padding: 10px 0; /* Remove padding lateral */
             }
             .info-container h2 {
                 font-size: 14px;
@@ -358,20 +363,22 @@
                 font-size: 24px;
                 padding: 10px;
                 width: 100%;
-                margin: 0; /* Remove margens laterais */
-                flex-direction: column; /* Alinha os itens em coluna */
-                align-items: center; /* Centraliza os itens */
+                margin: 0;
+                flex-direction: column;
+                align-items: center;
                 position: relative;
             }
             .header-image {
                 height: 90px;
-                margin-right: 0; /* Remove margem à direita para centralizar */
-                margin-bottom: 10px; /* Adiciona espaço abaixo da logomarca */
+                margin-right: 0;
+                margin-bottom: 5px; /* Reduzido de 10px para 5px */
             }
             .legend-container {
                 font-size: 12px;
                 max-width: 100%;
-                margin: 10px 0; /* Remove margens laterais */
+                width: 100%; /* Garante largura total */
+                margin: 10px 0;
+                padding: 0; /* Remove padding lateral */
             }
             .legend-square-judiciario {
                 width: 12px;
@@ -396,8 +403,9 @@
             .calendar-container {
                 grid-template-columns: repeat(4, 1fr);
                 gap: 1px;
-                padding: 5px; /* Reduzido para ocupar mais espaço lateral */
+                padding: 0; /* Remove padding lateral */
                 max-width: 100%;
+                width: 100%; /* Garante largura total */
                 margin: 0; /* Remove margens laterais */
             }
             .calendar {
@@ -418,20 +426,22 @@
                 font-size: 20px;
                 padding: 5px;
                 width: 100%;
-                margin: 0; /* Remove margens laterais */
-                flex-direction: column; /* Alinha os itens em coluna */
-                align-items: center; /* Centraliza os itens */
+                margin: 0;
+                flex-direction: column;
+                align-items: center;
                 position: relative;
             }
             .header-image {
                 height: 70px;
-                margin-right: 0; /* Remove margem à direita para centralizar */
-                margin-bottom: 10px; /* Adiciona espaço abaixo da logomarca */
+                margin-right: 0;
+                margin-bottom: 5px; /* Reduzido de 10px para 5px */
             }
             .legend-container {
                 font-size: 10px;
                 max-width: 100%;
-                margin: 5px 0; /* Remove margens laterais */
+                width: 100%; /* Garante largura total */
+                margin: 5px 0;
+                padding: 0; /* Remove padding lateral */
             }
             .legend-square-judiciario {
                 width: 10px;
@@ -618,8 +628,9 @@
                     return false;
                 }
 
-                const monthStart = new Date(Date.UTC(2025, index, 1));
-                const monthEnd = new Date(Date.UTC(2025, index + 1, 0));
+                // Corrige o uso de monthIndex
+                const monthStart = new Date(Date.UTC(2025, monthIndex, 1));
+                const monthEnd = new Date(Date.UTC(2025, monthIndex + 1, 0));
                 return (inicioDate <= monthEnd && fimDate >= monthStart);
             });
 
