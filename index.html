@@ -12,6 +12,7 @@
             background-color: #f0f4f8;
             margin: 0;
             padding: 0;
+            transition: background-color 0.3s, color 0.3s;
         }
         .header {
             background-color: #1E3A8A;
@@ -24,10 +25,12 @@
             justify-content: center;
             width: 100%;
             box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s;
         }
         .header-image {
-            height: 80px;
+            height: 100px; /* Increased logo size */
             margin-right: 20px;
+            transition: filter 0.3s;
         }
         .calendar-container {
             display: grid;
@@ -43,7 +46,7 @@
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             text-align: center;
-            transition: transform 0.2s;
+            transition: transform 0.2s, background-color 0.3s, color 0.3s;
             cursor: pointer;
             position: relative;
         }
@@ -51,12 +54,13 @@
             transform: scale(1.05);
         }
         .calendar h3 {
-            background-color: #1E3A8A;
+            background-color: #4A90E2; /* Light blue from Print 1 */
             color: white;
             padding: 6px;
             border-radius: 5px;
             font-size: 14px;
             margin: 0;
+            transition: background-color 0.3s, color 0.3s;
         }
         .calendar table {
             width: 100%;
@@ -72,10 +76,12 @@
             width: 20px;
             height: 16px;
             line-height: 16px;
+            transition: color 0.3s;
         }
         .calendar th {
             color: #1E3A8A;
             font-weight: bold;
+            transition: color 0.3s;
         }
         .highlight-judiciario {
             border: 2px solid red;
@@ -91,6 +97,7 @@
             margin: 20px auto;
             text-align: left;
             font-size: 14px;
+            transition: color 0.3s;
         }
         .legend-item {
             display: inline-block;
@@ -117,12 +124,14 @@
             margin-left: auto;
             margin-right: auto;
             position: relative;
+            transition: background-color 0.3s, color 0.3s;
         }
         .info-container h2 {
             color: #1E3A8A;
             text-align: center;
             font-size: 18px;
             margin-bottom: 20px;
+            transition: color 0.3s;
         }
         .month-header {
             position: absolute;
@@ -134,6 +143,7 @@
             -webkit-text-stroke: 1px blue;
             text-stroke: 1px blue;
             padding-bottom: 10px;
+            transition: color 0.3s;
         }
         .search-container {
             margin-bottom: 10px;
@@ -147,6 +157,7 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
         }
         .info-details {
             text-align: left;
@@ -168,6 +179,7 @@
             text-align: left;
             line-height: 1.2;
             border-bottom: 1px solid #ccc;
+            transition: border-color 0.3s;
         }
         li:last-child {
             border-bottom: none;
@@ -192,6 +204,102 @@
             font-weight: bold;
             margin-right: 5px;
             display: inline;
+        }
+
+        /* High Contrast Mode */
+        body.high-contrast {
+            background-color: #000;
+            color: #fff;
+        }
+        .high-contrast .header {
+            background-color: #000;
+            color: #fff;
+        }
+        .high-contrast .header-image {
+            filter: brightness(0) invert(1); /* Makes the logo white */
+        }
+        .high-contrast .calendar {
+            background-color: #000;
+            color: #fff;
+        }
+        .high-contrast .calendar h3 {
+            background-color: #000;
+            color: #ff0; /* Yellow for headers */
+        }
+        .high-contrast .calendar th {
+            color: #fff;
+        }
+        .high-contrast .calendar td {
+            color: #fff;
+        }
+        .high-contrast .info-container {
+            background-color: #000;
+            color: #fff;
+        }
+        .high-contrast .info-container h2 {
+            color: #ff0; /* Yellow for headers */
+        }
+        .high-contrast .month-header {
+            color: #ff0;
+            -webkit-text-stroke: 1px #fff;
+            text-stroke: 1px #fff;
+        }
+        .high-contrast .search-container input {
+            background-color: #000;
+            color: #fff;
+            border-color: #fff;
+        }
+        .high-contrast .legend-container {
+            color: #fff;
+        }
+        .high-contrast li {
+            border-color: #fff;
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: #1E3A8A;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .footer img {
+            height: 60px;
+            margin-bottom: 10px;
+            transition: filter 0.3s;
+        }
+        .high-contrast .footer {
+            background-color: #000;
+            color: #fff;
+        }
+        .high-contrast .footer img {
+            filter: brightness(0) invert(1);
+        }
+
+        /* High Contrast Button */
+        .contrast-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #1E3A8A;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .contrast-button:hover {
+            background-color: #4A90E2;
+        }
+        .high-contrast .contrast-button {
+            background-color: #000;
+            color: #ff0;
+            border: 1px solid #fff;
         }
 
         @media (max-width: 768px) {
@@ -237,7 +345,7 @@
                 justify-content: center;
             }
             .header-image {
-                height: 60px;
+                height: 80px; /* Adjusted for smaller screens */
                 margin-right: 30px;
             }
             .legend-container {
@@ -247,6 +355,12 @@
             .legend-square-judiciario {
                 width: 12px;
                 height: 12px;
+            }
+            .contrast-button {
+                top: 10px;
+                right: 10px;
+                padding: 8px 16px;
+                font-size: 12px;
             }
         }
 
@@ -277,7 +391,7 @@
                 justify-content: center;
             }
             .header-image {
-                height: 50px;
+                height: 60px; /* Adjusted for smaller screens */
                 margin-right: 20px;
             }
             .legend-container {
@@ -288,10 +402,17 @@
                 width: 10px;
                 height: 10px;
             }
+            .contrast-button {
+                top: 5px;
+                right: 5px;
+                padding: 6px 12px;
+                font-size: 10px;
+            }
         }
     </style>
 </head>
 <body>
+    <button class="contrast-button" onclick="toggleContrast()">Alto Contraste</button>
     <div class="header">
         <img src="https://i.imgur.com/bcjzam8.png" alt="Logo TJPA" class="header-image">
         Calendário de Suspensões de Expedientes - 2025
@@ -313,6 +434,10 @@
                 <li>Digite uma unidade ou motivo para buscar suspensões</li>
             </ul>
         </div>
+    </div>
+    <div class="footer">
+        <img src="https://imgur.com/oGJF9X5.png" alt="Footer Logo">
+        <p>TRIBUNAL DE JUSTIÇA DO ESTADO DO PARÁ</p>
     </div>
 
     <script>
@@ -533,6 +658,11 @@
 
             selectedMonthSpan.textContent = 'Resultados da Busca';
             populateSuspensions(filteredEvents);
+        }
+
+        // High Contrast Toggle Function
+        function toggleContrast() {
+            document.body.classList.toggle('high-contrast');
         }
     </script>
 </body>
