@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
     <style>
         * {
-            box-sizing: border-box; /* Garante que padding e bordas não afetem a largura */
+            box-sizing: border-box;
         }
         body {
             font-family: 'Open Sans', sans-serif;
@@ -284,7 +284,7 @@
             color: #fff;
         }
         .high-contrast .footer img {
-            filter: brightness(0) invert(1) drop-shadow(0 0 2px rgba(255, 255, 255, 0.3));
+            filter: brightness(0) invert(1) drop-shadow(0 0 2px rgba(255, 255, 0.3));
         }
 
         /* High Contrast Button */
@@ -321,10 +321,10 @@
             .calendar-container {
                 grid-template-columns: repeat(4, 1fr);
                 gap: 2px;
-                padding: 0; /* Remove padding lateral */
+                padding: 0;
                 max-width: 100%;
-                width: 100%; /* Garante largura total */
-                margin: 0; /* Remove margens laterais */
+                width: 100%;
+                margin: 0;
             }
             .calendar {
                 padding: 2px;
@@ -349,12 +349,12 @@
             }
             .info-container {
                 max-width: 100%;
-                width: 100%; /* Garante largura total */
+                width: 100%;
                 margin-left: 0;
                 margin-right: 0;
                 margin-bottom: 30px;
                 border-radius: 0;
-                padding: 10px 0; /* Remove padding lateral */
+                padding: 10px 0;
             }
             .info-container h2 {
                 font-size: 14px;
@@ -371,14 +371,14 @@
             .header-image {
                 height: 90px;
                 margin-right: 0;
-                margin-bottom: 5px; /* Reduzido de 10px para 5px */
+                margin-bottom: 5px;
             }
             .legend-container {
                 font-size: 12px;
                 max-width: 100%;
-                width: 100%; /* Garante largura total */
+                width: 100%;
                 margin: 10px 0;
-                padding: 0; /* Remove padding lateral */
+                padding: 0;
             }
             .legend-square-judiciario {
                 width: 12px;
@@ -403,10 +403,10 @@
             .calendar-container {
                 grid-template-columns: repeat(4, 1fr);
                 gap: 1px;
-                padding: 0; /* Remove padding lateral */
+                padding: 0;
                 max-width: 100%;
-                width: 100%; /* Garante largura total */
-                margin: 0; /* Remove margens laterais */
+                width: 100%;
+                margin: 0;
             }
             .calendar {
                 padding: 1px;
@@ -434,14 +434,14 @@
             .header-image {
                 height: 70px;
                 margin-right: 0;
-                margin-bottom: 5px; /* Reduzido de 10px para 5px */
+                margin-bottom: 5px;
             }
             .legend-container {
                 font-size: 10px;
                 max-width: 100%;
-                width: 100%; /* Garante largura total */
+                width: 100%;
                 margin: 5px 0;
-                padding: 0; /* Remove padding lateral */
+                padding: 0;
             }
             .legend-square-judiciario {
                 width: 10px;
@@ -489,7 +489,7 @@
         </div>
         <div class="info-details">
             <ul id="suspensionsList">
-                <li>Digite uma unidade ou motivo para buscar suspensões</li>
+                <!-- Removido o texto estático -->
             </ul>
         </div>
     </div>
@@ -628,7 +628,6 @@
                     return false;
                 }
 
-                // Corrige o uso de monthIndex
                 const monthStart = new Date(Date.UTC(2025, monthIndex, 1));
                 const monthEnd = new Date(Date.UTC(2025, monthIndex + 1, 0));
                 return (inicioDate <= monthEnd && fimDate >= monthStart);
@@ -692,7 +691,7 @@
             const selectedMonthSpan = document.getElementById('selectedMonth');
 
             if (!input) {
-                suspensionsList.innerHTML = '<li>Digite uma unidade ou motivo para buscar suspensões</li>';
+                suspensionsList.innerHTML = ''; // Remove qualquer texto padrão
                 selectedMonthSpan.textContent = '';
                 return;
             }
