@@ -333,13 +333,13 @@
     "edicao": "Nº 8013/2025"
   },
   {
-    "protocolo": "TJPA-REQ-2025/01282",
-    "unidade": "Comarca de São Sebastião da Boa Vista",
-    "inicio": "05/02/2025",
     "fim": "20/03/2025",
-    "motivo": "Atraso na finalização da reforma do Fórum",
+    "inicio": "05/02/2025",
     "portaria": "Nº 788/2025-GP",
-    "edicao": "Nº 8013/2025"
+    "edicao": "Nº 8013/2025",
+    "motivo": "Prorrogação da Nº 175/2025-GP - Atraso na finalização da reforma do Fórum",
+    "unidade": "Comarca de São Sebastião da Boa Vista",
+    "protocolo": "TJPA-REQ-2025/01282"
   },
   {
     "inicio": "06/02/2025",
