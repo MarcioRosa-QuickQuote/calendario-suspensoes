@@ -1,5 +1,14 @@
 [
   {
+    "inicio": "09/04/2025",
+    "motivo": "teste",
+    "portaria": "Portaria n.º 1111/2222-GP *Republicada por retificação",
+    "fim": "24/04/2025",
+    "unidade": "teste",
+    "edicao": "DJE n.º 2222/2222",
+    "protocolo": "teste1"
+  },
+  {
     "portaria": "Portaria n.º 1767/2025-GP",
     "motivo": "Interrupção no fornecimento de água ",
     "edicao": "DJE n.º 8051/2025",
