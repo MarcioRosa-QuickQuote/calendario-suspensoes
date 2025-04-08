@@ -4,25 +4,469 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calendário de Suspensões 2025</title>
-    <!-- Controle de cache para evitar carregamento antigo -->
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
     <!-- Adicionando o favicon com a logomarca do cabeçalho -->
     <link rel="icon" type="image/png" href="https://i.imgur.com/bcjzam8.png" sizes="32x32">
     <!-- Adicionando uma versão maior para dispositivos que suportam -->
     <link rel="icon" type="image/png" href="https://i.imgur.com/bcjzam8.png" sizes="64x64">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
-
-    <!-- Todo o seu CSS permanece o mesmo -->
     <style>
-        /* ... Todo seu CSS exatamente como estava, mantido ... */
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Open Sans', sans-serif;
+            text-align: center;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .header {
+            background-color: #1E3A8A;
+            color: white;
+            padding: 20px;
+            font-size: 30px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            transition: background-color 0.3s, color 0.3s;
+            position: relative;
+        }
+        .header-image {
+            height: 120px;
+            margin-right: 20px;
+            transition: filter 0.3s;
+            filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3));
+        }
+        .calendar-container {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 5px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .calendar {
+            background: white;
+            padding: 8px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.2s, background-color 0.3s, color 0.3s, border 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+        .calendar:hover {
+            transform: scale(1.05);
+        }
+        .calendar h3 {
+            background-color: #4A90E2;
+            color: white;
+            padding: 6px;
+            border-radius: 5px;
+            font-size: 14px;
+            margin: 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .calendar table {
+            width: 100%;
+            margin-top: 5px;
+            border-collapse: collapse;
+            font-size: 10px;
+        }
+        .calendar th, .calendar td {
+            padding: 4px;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            width: 20px;
+            height: 16px;
+            line-height: 16px;
+            transition: color 0.3s;
+        }
+        .calendar th {
+            color: #1E3A8A;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        .highlight-judiciario {
+            border: 2px solid red;
+            border-radius: 0;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        .highlight-judiciario:hover {
+            border-color: darkred;
+        }
+        .legend-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            text-align: left;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+        .legend-item {
+            display: inline-block;
+            margin-right: 20px;
+        }
+        .legend-square-judiciario {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid red;
+            border-radius: 0;
+            vertical-align: middle;
+            margin-right: 5px;
+            margin-left: 10px;
+        }
+        .info-container {
+            margin-top: 10px;
+            margin-bottom: 40px;
+            padding: 10px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .info-container h2 {
+            color: #1E3A8A;
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 10px;
+            transition: color 0.3s;
+        }
+        .month-header {
+            font-weight: 300;
+            font-size: 16px;
+            color: gold;
+            -webkit-text-stroke: 1px blue;
+            text-stroke: 1px blue;
+            text-align: center;
+            padding: 10px 0;
+            transition: color 0.3s;
+        }
+        .search-container {
+            margin-bottom: 10px;
+            text-align: left;
+            padding: 0 10px;
+        }
+        .search-container input {
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+        .info-details {
+            text-align: left;
+            padding: 0 10px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        li {
+            margin: 0;
+            padding: 0;
+            text-align: left;
+            line-height: 1.2;
+            border-bottom: 1px solid #ccc;
+            transition: border-color 0.3s;
+        }
+        li:last-child {
+            border-bottom: none;
+        }
+        .suspension-item span {
+            display: inline;
+        }
+        .suspension-item .unidade {
+            font-weight: bold;
+            display: block;
+            margin: 0;
+        }
+        .suspension-item .motivo-line {
+            display: block;
+            margin: 0;
+        }
+        .suspension-item .portaria-line {
+            display: block;
+            margin: 0;
+        }
+        .motivo {
+            font-weight: bold;
+            margin-right: 5px;
+            display: inline;
+        }
+
+        /* High Contrast Mode */
+        body.high-contrast {
+            background-color: #000;
+            color: #fff;
+        }
+        .high-contrast .header {
+            background-color: #000;
+            color: #fff;
+        }
+        .high-contrast .header-image {
+            filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3));
+        }
+        .high-contrast .calendar {
+            background-color: #000;
+            color: #fff;
+            border: 1px solid white;
+        }
+        .high-contrast .calendar h3 {
+            background-color: #000;
+            color: #ff0;
+        }
+        .high-contrast .calendar th {
+            color: #fff;
+        }
+        .high-contrast .calendar td {
+            color: #fff;
+        }
+        .high-contrast .info-container {
+            background-color: #000;
+            color: #fff;
+        }
+        .high-contrast .info-container h2 {
+            color: #ff0;
+        }
+        .high-contrast .month-header {
+            color: #ff0;
+            -webkit-text-stroke: 1px #fff;
+            text-stroke: 1px #fff;
+        }
+        .high-contrast .search-container input {
+            background-color: #000;
+            color: #fff;
+            border-color: #fff;
+        }
+        .high-contrast .legend-container {
+            color: #fff;
+        }
+        .high-contrast li {
+            border-color: #fff;
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: #1E3A8A;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .footer img {
+            height: 140px;
+            margin-bottom: 10px;
+            transition: filter 0.3s;
+            filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.3));
+        }
+        .high-contrast .footer {
+            background-color: #000;
+            color: #fff;
+        }
+        .high-contrast .footer img {
+            filter: brightness(0) invert(1) drop-shadow(0 0 2px rgba(255, 255, 0.3));
+        }
+
+        /* High Contrast Button */
+        .contrast-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .contrast-button:hover {
+            background-color: rgba(255, 255, 0, 0.1);
+        }
+        .high-contrast .contrast-button {
+            background-color: transparent;
+            color: #ff0;
+            border: 1px solid #ff0;
+        }
+        .contrast-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .calendar-container {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 2px;
+                padding: 0;
+                max-width: 100%;
+                width: 100%;
+                margin: 0;
+            }
+            .calendar {
+                padding: 2px;
+            }
+            .calendar h3 {
+                font-size: 12px;
+            }
+            .calendar table {
+                font-size: 5px;
+            }
+            .calendar th, .calendar td {
+                width: 10px;
+                height: 6px;
+                line-height: 6px;
+            }
+            ul {
+                grid-template-columns: 1fr;
+            }
+            .month-header {
+                font-size: 12px;
+                padding: 8px 0;
+            }
+            .info-container {
+                max-width: 100%;
+                width: 100%;
+                margin-left: 0;
+                margin-right: 0;
+                margin-bottom: 30px;
+                border-radius: 0;
+                padding: 10px 0;
+            }
+            .info-container h2 {
+                font-size: 14px;
+            }
+            .header {
+                font-size: 24px;
+                padding: 10px;
+                width: 100%;
+                margin: 0;
+                flex-direction: column;
+                align-items: center;
+                position: relative;
+            }
+            .header-image {
+                height: 90px;
+                margin-right: 0;
+                margin-bottom: 5px;
+            }
+            .legend-container {
+                font-size: 12px;
+                max-width: 100%;
+                width: 100%;
+                margin: 10px 0;
+                padding: 0;
+            }
+            .legend-square-judiciario {
+                width: 12px;
+                height: 12px;
+            }
+            .contrast-button {
+                top: 10px;
+                right: 10px;
+                padding: 8px 16px;
+                font-size: 12px;
+            }
+            .contrast-icon {
+                width: 14px;
+                height: 14px;
+            }
+            .footer img {
+                height: 110px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .calendar-container {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1px;
+                padding: 0;
+                max-width: 100%;
+                width: 100%;
+                margin: 0;
+            }
+            .calendar {
+                padding: 1px;
+            }
+            .calendar h3 {
+                font-size: 10px;
+            }
+            .calendar table {
+                font-size: 4px;
+            }
+            .calendar th, .calendar td {
+                width: 8px;
+                height: 4px;
+                line-height: 4px;
+            }
+            .header {
+                font-size: 20px;
+                padding: 5px;
+                width: 100%;
+                margin: 0;
+                flex-direction: column;
+                align-items: center;
+                position: relative;
+            }
+            .header-image {
+                height: 70px;
+                margin-right: 0;
+                margin-bottom: 5px;
+            }
+            .legend-container {
+                font-size: 10px;
+                max-width: 100%;
+                width: 100%;
+                margin: 5px 0;
+                padding: 0;
+            }
+            .legend-square-judiciario {
+                width: 10px;
+                height: 10px;
+            }
+            .contrast-button {
+                top: 5px;
+                right: 5px;
+                padding: 6px 12px;
+                font-size: 10px;
+            }
+            .contrast-icon {
+                width: 12px;
+                height: 12px;
+            }
+            .footer img {
+                height: 90px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="header">
         <img src="https://i.imgur.com/bcjzam8.png" alt="Logo TJPA" class="header-image">
-        Calendário de Suspensões 2025
+        Suspensões de Expedientes 2025
         <button class="contrast-button" onclick="toggleContrast()">
             <svg class="contrast-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="12" cy="12" r="10" stroke="white" stroke-width="2"/>
@@ -31,7 +475,6 @@
             Alto Contraste
         </button>
     </div>
-
     <div class="calendar-container" id="calendarContainer"></div>
     <div class="legend-container">
         <div class="legend-item">
@@ -45,7 +488,9 @@
             <input type="text" id="searchInput" placeholder="Pesquisar por unidade ou motivo..." onkeyup="searchSuspensions()">
         </div>
         <div class="info-details">
-            <ul id="suspensionsList"></ul>
+            <ul id="suspensionsList">
+                <!-- Removido o texto estático -->
+            </ul>
         </div>
     </div>
     <div class="footer">
@@ -53,10 +498,6 @@
     </div>
 
     <script>
-        // Corrige o título dinamicamente para garantir que apareça corretamente na aba
-        document.title = 'Calendário de Suspensões 2025';
-
-        // Todo o seu JavaScript permanece o mesmo
         let allSuspensions = [];
 
         function parseDateForCalendar(dateStr) {
@@ -71,25 +512,210 @@
             const month = parseInt(parts[1], 10) - 1;
             const year = parseInt(parts[2], 10);
             const date = new Date(Date.UTC(year, month, day));
+            console.log(Data parseada para calendário: ${dateStr} -> ${date});
             return date;
         }
 
         fetch('suspensions_2025_completo.json')
             .then(response => {
                 if (!response.ok) {
-                    throw new Error(`Erro ao carregar o JSON: ${response.status} ${response.statusText}`);
+                    throw new Error(Erro ao carregar o JSON: ${response.status} ${response.statusText});
                 }
                 return response.json();
             })
             .then(data => {
+                console.log('JSON carregado com sucesso:', data);
                 allSuspensions = data;
                 generateCalendar();
             })
             .catch(error => {
-                document.getElementById('suspensionsList').innerHTML = `<li>Erro ao carregar os dados: ${error.message}</li>`;
+                console.error('Erro ao carregar o JSON:', error);
+                document.getElementById('suspensionsList').innerHTML = <li>Erro ao carregar os dados: ${error.message}</li>;
             });
 
-        // ... Mantenha aqui o restante do seu JS sem alterações, está tudo certo ...
+        function generateCalendar() {
+            let container = document.getElementById("calendarContainer");
+            container.innerHTML = "";
+            const months = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+
+            months.forEach((month, index) => {
+                let firstDay = new Date(2025, index, 1).getDay();
+                let daysInMonth = new Date(2025, index + 1, 0).getDate();
+                let suspensionDays = {};
+
+                const events = allSuspensions.filter(event => {
+                    let inicioDate = parseDateForCalendar(event.inicio);
+                    let fimDate = parseDateForCalendar(event.fim);
+
+                    if (!inicioDate || !fimDate) {
+                        console.log(Data inválida: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade});
+                        return false;
+                    }
+
+                    const startYear = inicioDate.getUTCFullYear();
+                    const endYear = fimDate.getUTCFullYear();
+                    const intersects2025 = startYear <= 2025 && endYear >= 2025;
+
+                    if (!intersects2025 && endYear < 2025) {
+                        return false;
+                    }
+
+                    const monthStart = new Date(Date.UTC(2025, index, 1));
+                    const monthEnd = new Date(Date.UTC(2025, index + 1, 0));
+                    return (inicioDate <= monthEnd && fimDate >= monthStart);
+                });
+
+                events.forEach(event => {
+                    let inicioDate = parseDateForCalendar(event.inicio);
+                    let fimDate = parseDateForCalendar(event.fim);
+
+                    const monthStart = new Date(Date.UTC(2025, index, 1));
+                    const monthEnd = new Date(Date.UTC(2025, index + 1, 0));
+                    const start = inicioDate < monthStart ? monthStart : inicioDate;
+                    const end = fimDate > monthEnd ? monthEnd : fimDate;
+
+                    if (start.getUTCFullYear() === 2025 && end.getUTCFullYear() === 2025) {
+                        const startDay = start.getUTCDate();
+                        const endDay = end.getUTCDate();
+                        for (let day = startDay; day <= endDay; day++) {
+                            if (!suspensionDays[day]) {
+                                suspensionDays[day] = [];
+                            }
+                            suspensionDays[day].push(event.unidade);
+                        }
+                    }
+                });
+
+                let calendar = <div class='calendar' onclick="loadSuspensions(${index}, '${month}')"><h3>${month} 2025</h3><table>;
+                calendar += "<tr><th>D</th><th>S</th><th>T</th><th>Q</th><th>Q</th><th>S</th><th>S</th></tr><tr>";
+                for (let i = 0; i < firstDay; i++) calendar += "<td></td>";
+                for (let day = 1; day <= daysInMonth; day++) {
+                    let highlightClass = '';
+                    if (suspensionDays[day]) {
+                        const unidades = suspensionDays[day];
+                        if (unidades.includes("Poder Judiciário do Estado do Pará")) {
+                            highlightClass = 'highlight-judiciario';
+                        }
+                    }
+                    calendar += <td ${highlightClass ? class='${highlightClass}' : ''}>${day}</td>;
+                    if ((day + firstDay) % 7 === 0) calendar += "</tr><tr>";
+                }
+                calendar += "</tr></table></div>";
+                container.innerHTML += calendar;
+            });
+        }
+
+        function loadSuspensions(monthIndex, monthName) {
+            const suspensionsList = document.getElementById('suspensionsList');
+            const selectedMonthSpan = document.getElementById('selectedMonth');
+            suspensionsList.innerHTML = '<li>Carregando...</li>';
+            selectedMonthSpan.textContent = monthName;
+
+            const events = allSuspensions.filter(event => {
+                let inicioDate = parseDateForCalendar(event.inicio);
+                let fimDate = parseDateForCalendar(event.fim);
+
+                if (!inicioDate || !fimDate) {
+                    console.log(Data inválida: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade});
+                    return false;
+                }
+
+                const startYear = inicioDate.getUTCFullYear();
+                const endYear = fimDate.getUTCFullYear();
+                const intersects2025 = startYear <= 2025 && endYear >= 2025;
+
+                if (!intersects2025 && endYear < 2025) {
+                    return false;
+                }
+
+                const monthStart = new Date(Date.UTC(2025, monthIndex, 1));
+                const monthEnd = new Date(Date.UTC(2025, monthIndex + 1, 0));
+                return (inicioDate <= monthEnd && fimDate >= monthStart);
+            });
+
+            populateSuspensions(events);
+        }
+
+        function formatDate(dateStr) {
+            if (/^\d{2}\/\d{2}\/\d{4}$/.test(dateStr)) {
+                return dateStr;
+            }
+            const date = parseDateForCalendar(dateStr);
+            if (date && !isNaN(date.getTime())) {
+                const day = String(date.getUTCDate()).padStart(2, '0');
+                const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+                const year = date.getUTCFullYear();
+                return ${day}/${month}/${year};
+            }
+            return dateStr;
+        }
+
+        function populateSuspensions(events) {
+            const suspensionsList = document.getElementById('suspensionsList');
+            suspensionsList.innerHTML = '';
+            if (events.length === 0) {
+                suspensionsList.innerHTML = '<li>Nenhuma suspensão encontrada</li>';
+            } else {
+                events.sort((a, b) => {
+                    const dateA = parseDateForCalendar(a.inicio);
+                    const dateB = parseDateForCalendar(b.inicio);
+                    return dateA - dateB;
+                });
+
+                events.forEach(event => {
+                    const li = document.createElement('li');
+                    li.className = 'suspension-item';
+                    let inicio = formatDate(event.inicio);
+                    let fim = formatDate(event.fim);
+                    const dateDisplay = inicio === fim ? inicio : ${inicio} a ${fim};
+                    const portariaClean = event.portaria.replace(/Nº\s*Nº/g, 'Nº');
+                    const edicaoClean = event.edicao.replace(/Nº\s*Nº/g, 'Nº');
+                    li.innerHTML = 
+                        <span class="unidade">${event.unidade} - ${dateDisplay}</span>
+                        <span class="motivo-line"><span class="motivo">Motivo:</span> ${event.motivo}</span>
+                        <span class="portaria-line">Portaria ${portariaClean} - DJE ${edicaoClean}</span>
+                    ;
+                    suspensionsList.appendChild(li);
+                });
+            }
+            document.getElementById('infoContainer').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function normalizeText(text) {
+            return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        }
+
+        function searchSuspensions() {
+            const input = normalizeText(document.getElementById('searchInput').value.toLowerCase());
+            const suspensionsList = document.getElementById('suspensionsList');
+            const selectedMonthSpan = document.getElementById('selectedMonth');
+
+            if (!input) {
+                suspensionsList.innerHTML = ''; // Remove qualquer texto padrão
+                selectedMonthSpan.textContent = '';
+                return;
+            }
+
+            const filteredEvents = allSuspensions.filter(event => {
+                let inicioDate = parseDateForCalendar(event.inicio);
+                let fimDate = parseDateForCalendar(event.fim);
+
+                if (!inicioDate || !fimDate) {
+                    console.log(Data inválida: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade});
+                    return false;
+                }
+
+                const startYear = inicioDate.getUTCFullYear();
+                const endYear = fimDate.getUTCFullYear();
+                const intersects2025 = startYear <= 2025 && endYear >= 2025 || endYear >= 2025;
+                const matchesUnidade = normalizeText(event.unidade.toLowerCase()).includes(input);
+                const matchesMotivo = normalizeText(event.motivo.toLowerCase()).includes(input);
+                return intersects2025 && (matchesUnidade || matchesMotivo);
+            });
+
+            selectedMonthSpan.textContent = 'Resultados da Busca';
+            populateSuspensions(filteredEvents);
+        }
 
         function toggleContrast() {
             document.body.classList.toggle('high-contrast');
@@ -97,3 +723,5 @@
     </script>
 </body>
 </html>
+
+
