@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendário de Suspensões 2025</title>
+    <title>Suspensões de Expedientes 2025</title>
     <!-- Adicionando o favicon com a logomarca do cabeçalho -->
     <link rel="icon" type="image/png" href="https://i.imgur.com/bcjzam8.png" sizes="32x32">
     <!-- Adicionando uma versão maior para dispositivos que suportam -->
@@ -466,7 +466,7 @@
 <body>
     <div class="header">
         <img src="https://i.imgur.com/bcjzam8.png" alt="Logo TJPA" class="header-image">
-        Calendário de Suspensões 2025
+        Suspensões de Expedientes 2025
         <button class="contrast-button" onclick="toggleContrast()">
             <svg class="contrast-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="12" cy="12" r="10" stroke="white" stroke-width="2"/>
@@ -512,14 +512,14 @@
             const month = parseInt(parts[1], 10) - 1;
             const year = parseInt(parts[2], 10);
             const date = new Date(Date.UTC(year, month, day));
-            console.log(Data parseada para calendário: ${dateStr} -> ${date});
+            console.log(`Data parseada para calendário: ${dateStr} -> ${date}`);
             return date;
         }
 
         fetch('suspensions_2025_completo.json')
             .then(response => {
                 if (!response.ok) {
-                    throw new Error(Erro ao carregar o JSON: ${response.status} ${response.statusText});
+                    throw new Error(`Erro ao carregar o JSON: ${response.status} ${response.statusText}`);
                 }
                 return response.json();
             })
@@ -530,7 +530,7 @@
             })
             .catch(error => {
                 console.error('Erro ao carregar o JSON:', error);
-                document.getElementById('suspensionsList').innerHTML = <li>Erro ao carregar os dados: ${error.message}</li>;
+                document.getElementById('suspensionsList').innerHTML = `<li>Erro ao carregar os dados: ${error.message}</li>`;
             });
 
         function generateCalendar() {
@@ -548,7 +548,7 @@
                     let fimDate = parseDateForCalendar(event.fim);
 
                     if (!inicioDate || !fimDate) {
-                        console.log(Data inválida: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade});
+                        console.log(`Data inválida: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade}`);
                         return false;
                     }
 
@@ -586,7 +586,7 @@
                     }
                 });
 
-                let calendar = <div class='calendar' onclick="loadSuspensions(${index}, '${month}')"><h3>${month} 2025</h3><table>;
+                let calendar = `<div class='calendar' onclick="loadSuspensions(${index}, '${month}')"><h3>${month} 2025</h3><table>`;
                 calendar += "<tr><th>D</th><th>S</th><th>T</th><th>Q</th><th>Q</th><th>S</th><th>S</th></tr><tr>";
                 for (let i = 0; i < firstDay; i++) calendar += "<td></td>";
                 for (let day = 1; day <= daysInMonth; day++) {
@@ -597,7 +597,7 @@
                             highlightClass = 'highlight-judiciario';
                         }
                     }
-                    calendar += <td ${highlightClass ? class='${highlightClass}' : ''}>${day}</td>;
+                    calendar += `<td ${highlightClass ? `class='${highlightClass}'` : ''}>${day}</td>`;
                     if ((day + firstDay) % 7 === 0) calendar += "</tr><tr>";
                 }
                 calendar += "</tr></table></div>";
@@ -616,7 +616,7 @@
                 let fimDate = parseDateForCalendar(event.fim);
 
                 if (!inicioDate || !fimDate) {
-                    console.log(Data inválida: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade});
+                    console.log(`Data inválida: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade}`);
                     return false;
                 }
 
@@ -645,7 +645,7 @@
                 const day = String(date.getUTCDate()).padStart(2, '0');
                 const month = String(date.getUTCMonth() + 1).padStart(2, '0');
                 const year = date.getUTCFullYear();
-                return ${day}/${month}/${year};
+                return `${day}/${month}/${year}`;
             }
             return dateStr;
         }
@@ -667,14 +667,14 @@
                     li.className = 'suspension-item';
                     let inicio = formatDate(event.inicio);
                     let fim = formatDate(event.fim);
-                    const dateDisplay = inicio === fim ? inicio : ${inicio} a ${fim};
+                    const dateDisplay = inicio === fim ? inicio : `${inicio} a ${fim}`;
                     const portariaClean = event.portaria.replace(/Nº\s*Nº/g, 'Nº');
                     const edicaoClean = event.edicao.replace(/Nº\s*Nº/g, 'Nº');
-                    li.innerHTML = 
+                    li.innerHTML = `
                         <span class="unidade">${event.unidade} - ${dateDisplay}</span>
                         <span class="motivo-line"><span class="motivo">Motivo:</span> ${event.motivo}</span>
                         <span class="portaria-line">Portaria ${portariaClean} - DJE ${edicaoClean}</span>
-                    ;
+                    `;
                     suspensionsList.appendChild(li);
                 });
             }
@@ -701,7 +701,7 @@
                 let fimDate = parseDateForCalendar(event.fim);
 
                 if (!inicioDate || !fimDate) {
-                    console.log(Data inválida: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade});
+                    console.log(`Data inválida: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade}`);
                     return false;
                 }
 
@@ -723,5 +723,3 @@
     </script>
 </body>
 </html>
-
-
