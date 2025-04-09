@@ -155,13 +155,6 @@
             position: relative;
             transition: background-color 0.3s, color 0.3s;
         }
-        .info-container h2 {
-            color: #1E3A8A;
-            text-align: center;
-            font-size: 18px;
-            margin-bottom: 10px;
-            transition: color 0.3s;
-        }
         .month-header {
             font-weight: 300;
             font-size: 16px;
@@ -216,15 +209,6 @@
             line-height: 1.4;
             white-space: normal; /* Permite quebra de linha se o conteúdo for muito longo */
         }
-        .motivo-line {
-            display: inline;
-            white-space: normal; /* Permite quebra de linha se o conteúdo for muito longo */
-        }
-        .motivo {
-            font-weight: bold;
-            margin-right: 5px;
-            display: inline;
-        }
 
         /* High Contrast Mode */
         body.high-contrast {
@@ -256,9 +240,6 @@
         .high-contrast .info-container {
             background-color: #000;
             color: #fff;
-        }
-        .high-contrast .info-container h2 {
-            color: #ff0;
         }
         .high-contrast .month-header {
             color: #ff0;
@@ -368,9 +349,6 @@
                 margin-bottom: 30px;
                 border-radius: 0;
                 padding: 10px 0;
-            }
-            .info-container h2 {
-                font-size: 14px;
             }
             .header {
                 font-size: 24px;
@@ -501,7 +479,7 @@
         </div>
     </div>
     <div class="info-container" id="infoContainer">
-        <h2>Informações da Suspensão de Expediente</h2>
+        <!-- Removido o <h2>Informações da Suspensão de Expediente</h2> -->
         <div class="month-header" id="selectedMonth"></div>
         <div class="search-container">
             <input type="text" id="searchInput" placeholder="Pesquisar por unidade ou motivo..." onkeyup="searchSuspensions()">
@@ -648,7 +626,7 @@
                 }
 
                 const monthStart = new Date(Date.UTC(2025, monthIndex, 1));
-                const monthEnd = new Date(Date.UTC(2025, monthIndex + 1, 0));
+                const monthEnd = new Date(Date.UTC(2025, index + 1, 0));
                 return (inicioDate <= monthEnd && fimDate >= monthStart);
             });
 
