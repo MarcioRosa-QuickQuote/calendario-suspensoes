@@ -91,14 +91,27 @@
             font-weight: bold;
             transition: color 0.3s;
         }
+        /* Estilo para dias com Suspensão de Prazo */
         .highlight-judiciario {
             border: 2px solid red;
+            background-color: rgba(255, 0, 0, 0.1); /* Fundo vermelho claro */
             border-radius: 0;
             box-sizing: border-box;
             transition: border-color 0.3s;
         }
         .highlight-judiciario:hover {
             border-color: darkred;
+        }
+        /* Estilo para dias com Atendimento Remoto (Sem Suspensão de Prazo) */
+        .highlight-remoto {
+            border: 2px solid green;
+            background-color: rgba(0, 255, 0, 0.1); /* Fundo verde claro */
+            border-radius: 0;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        .highlight-remoto:hover {
+            border-color: darkgreen;
         }
         .legend-container {
             max-width: 1200px;
@@ -116,6 +129,18 @@
             width: 16px;
             height: 16px;
             border: 2px solid red;
+            background-color: rgba(255, 0, 0, 0.1);
+            border-radius: 0;
+            vertical-align: middle;
+            margin-right: 5px;
+            margin-left: 10px;
+        }
+        .legend-square-remoto {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid green;
+            background-color: rgba(0, 255, 0, 0.1);
             border-radius: 0;
             vertical-align: middle;
             margin-right: 5px;
@@ -207,10 +232,22 @@
             display: block;
             margin: 0;
         }
+        .suspension-item .suspension-line {
+            display: block;
+            margin: 0;
+        }
         .motivo {
             font-weight: bold;
             margin-right: 5px;
             display: inline;
+        }
+        .suspension-type-com {
+            color: red;
+            font-weight: bold;
+        }
+        .suspension-type-remoto {
+            color: green;
+            font-weight: bold;
         }
 
         /* High Contrast Mode */
@@ -240,6 +277,22 @@
         .high-contrast .calendar td {
             color: #fff;
         }
+        .high-contrast .highlight-judiciario {
+            border-color: #ff0000;
+            background-color: rgba(255, 0, 0, 0.3);
+        }
+        .high-contrast .highlight-remoto {
+            border-color: #00ff00;
+            background-color: rgba(0, 255, 0, 0.3);
+        }
+        .high-contrast .legend-square-judiciario {
+            border-color: #ff0000;
+            background-color: rgba(255, 0, 0, 0.3);
+        }
+        .high-contrast .legend-square-remoto {
+            border-color: #00ff00;
+            background-color: rgba(0, 255, 0, 0.3);
+        }
         .high-contrast .info-container {
             background-color: #000;
             color: #fff;
@@ -262,6 +315,12 @@
         }
         .high-contrast li {
             border-color: #fff;
+        }
+        .high-contrast .suspension-type-com {
+            color: #ff0000;
+        }
+        .high-contrast .suspension-type-remoto {
+            color: #00ff00;
         }
 
         /* Footer Styles */
@@ -380,7 +439,7 @@
                 margin: 10px 0;
                 padding: 0;
             }
-            .legend-square-judiciario {
+            .legend-square-judiciario, .legend-square-remoto {
                 width: 12px;
                 height: 12px;
             }
@@ -443,7 +502,7 @@
                 margin: 5px 0;
                 padding: 0;
             }
-            .legend-square-judiciario {
+            .legend-square-judiciario, .legend-square-remoto {
                 width: 10px;
                 height: 10px;
             }
@@ -478,7 +537,10 @@
     <div class="calendar-container" id="calendarContainer"></div>
     <div class="legend-container">
         <div class="legend-item">
-            <span class="legend-square-judiciario"></span> Poder Judiciário do Estado do Pará
+            <span class="legend-square-judiciario"></span> Com Suspensão de Prazo
+        </div>
+        <div class="legend-item">
+            <span class="legend-square-remoto"></span> Atendimento Remoto (Sem Suspensão de Prazo)
         </div>
     </div>
     <div class="info-container" id="infoContainer">
@@ -489,7 +551,7 @@
         </div>
         <div class="info-details">
             <ul id="suspensionsList">
-                <!-- Removido o texto estático -->
+                <!-- Lista será preenchida dinamicamente -->
             </ul>
         </div>
     </div>
@@ -581,7 +643,10 @@
                             if (!suspensionDays[day]) {
                                 suspensionDays[day] = [];
                             }
-                            suspensionDays[day].push(event.unidade);
+                            suspensionDays[day].push({
+                                unidade: event.unidade,
+                                suspensao: event.suspensao
+                            });
                         }
                     }
                 });
@@ -592,9 +657,14 @@
                 for (let day = 1; day <= daysInMonth; day++) {
                     let highlightClass = '';
                     if (suspensionDays[day]) {
-                        const unidades = suspensionDays[day];
-                        if (unidades.includes("Poder Judiciário do Estado do Pará")) {
+                        const entries = suspensionDays[day];
+                        const hasSuspension = entries.some(entry => entry.suspensao === "Com suspensão de Prazo");
+                        const hasRemote = entries.some(entry => entry.suspensao === "Atendimento Remoto (Sem suspensão de Prazo)");
+
+                        if (hasSuspension) {
                             highlightClass = 'highlight-judiciario';
+                        } else if (hasRemote) {
+                            highlightClass = 'highlight-remoto';
                         }
                     }
                     calendar += `<td ${highlightClass ? `class='${highlightClass}'` : ''}>${day}</td>`;
@@ -670,10 +740,12 @@
                     const dateDisplay = inicio === fim ? inicio : `${inicio} a ${fim}`;
                     const portariaClean = event.portaria.replace(/Nº\s*Nº/g, 'Nº');
                     const edicaoClean = event.edicao.replace(/Nº\s*Nº/g, 'Nº');
+                    const suspensionClass = event.suspensao === "Com suspensão de Prazo" ? 'suspension-type-com' : 'suspension-type-remoto';
                     li.innerHTML = `
                         <span class="unidade">${event.unidade} - ${dateDisplay}</span>
                         <span class="motivo-line"><span class="motivo">Motivo:</span> ${event.motivo}</span>
                         <span class="portaria-line">Portaria ${portariaClean} - DJE ${edicaoClean}</span>
+                        <span class="suspension-line"><span class="motivo">Situação:</span> <span class="${suspensionClass}">${event.suspensao}</span></span>
                     `;
                     suspensionsList.appendChild(li);
                 });
@@ -691,7 +763,7 @@
             const selectedMonthSpan = document.getElementById('selectedMonth');
 
             if (!input) {
-                suspensionsList.innerHTML = ''; // Remove qualquer texto padrão
+                suspensionsList.innerHTML = '';
                 selectedMonthSpan.textContent = '';
                 return;
             }
