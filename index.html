@@ -214,9 +214,13 @@
         .suspension-item span {
             display: block;
         }
+        .motivo-line {
+            display: inline;
+        }
         .motivo {
             font-weight: bold;
             margin-right: 5px;
+            display: inline;
         }
 
         /* High Contrast Mode */
@@ -682,17 +686,29 @@
                     const dateDisplay = inicio === fim ? inicio : `${inicio} a ${fim}`;
                     const portariaClean = event.portaria.replace(/Nº\s*Nº/g, 'Nº');
                     const edicaoClean = event.edicao.replace(/Nº\s*Nº/g, 'Nº');
-                    const situacao = event.motivo.includes("Feriado") || event.motivo.includes("Suspensão") 
-                        ? "🔴 Situação: Suspensão de Prazos" 
-                        : "🔵 Situação: Atendimento Remoto (Sem Suspensão de Prazo)";
+                    const situacao = event.suspensao 
+                        ? (event.suspensao.includes("Com suspensão de Prazo") 
+                            ? "🔴 Situação: Suspensão de Prazos" 
+                            : "🔵 Situação: Atendimento Remoto (Sem Suspensão de Prazo)")
+                        : "";
 
-                    li.innerHTML = `
+                    let htmlContent = `
                         <span>⚖️ Unidade: ${event.unidade}</span>
                         <span>📆 Data: ${dateDisplay}</span>
-                        <span>${situacao}</span>
-                        <span>📌 <span class="motivo">Motivo:</span> ${event.motivo}</span>
+                    `;
+                    if (situacao) {
+                        htmlContent += `<span>${situacao}</span>`;
+                    }
+                    if (event.motivo) {
+                        htmlContent += `
+                            <span>📌 <span class="motivo">Motivo:</span> <span class="motivo-line">${event.motivo}</span></span>
+                        `;
+                    }
+                    htmlContent += `
                         <span>📄 Portaria: ${portariaClean} - DJE ${edicaoClean}</span>
                     `;
+
+                    li.innerHTML = htmlContent;
                     suspensionsList.appendChild(li);
                 });
             }
@@ -727,7 +743,7 @@
                 const endYear = fimDate.getUTCFullYear();
                 const intersects2025 = startYear <= 2025 && endYear >= 2025 || endYear >= 2025;
                 const matchesUnidade = normalizeText(event.unidade.toLowerCase()).includes(input);
-                const matchesMotivo = normalizeText(event.motivo.toLowerCase()).includes(input);
+                const matchesMotivo = event.motivo ? normalizeText(event.motivo.toLowerCase()).includes(input) : false;
                 return intersects2025 && (matchesUnidade || matchesMotivo);
             });
 
