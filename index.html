@@ -214,18 +214,16 @@
         .suspension-item span {
             display: block;
             line-height: 1.4;
+            white-space: normal; /* Permite quebra de linha se o conteúdo for muito longo */
         }
         .motivo-line {
             display: inline;
+            white-space: normal; /* Permite quebra de linha se o conteúdo for muito longo */
         }
         .motivo {
             font-weight: bold;
             margin-right: 5px;
             display: inline;
-        }
-        .motivo-container {
-            display: inline;
-            white-space: normal;
         }
 
         /* High Contrast Mode */
@@ -706,7 +704,7 @@
                     }
                     if (event.motivo) {
                         htmlContent += `
-                            <span>📌 <span class="motivo">Motivo:</span> <span class="motivo-line">${event.motivo}</span></span>
+                            <span>📌 Motivo: ${event.motivo}</span>
                         `;
                     }
                     htmlContent += `
