@@ -121,26 +121,6 @@
             margin-right: 5px;
             margin-left: 10px;
         }
-        .legend-circle-red {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            background-color: red;
-            border-radius: 50%;
-            vertical-align: middle;
-            margin-right: 5px;
-            margin-left: 10px;
-        }
-        .legend-circle-blue {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            background-color: blue;
-            border-radius: 50%;
-            vertical-align: middle;
-            margin-right: 5px;
-            margin-left: 10px;
-        }
         .info-container {
             margin-top: 10px;
             margin-bottom: 40px;
@@ -202,9 +182,9 @@
         }
         li {
             margin: 0;
-            padding: 10px 0;
+            padding: 0;
             text-align: left;
-            line-height: 1.4;
+            line-height: 1.2;
             border-bottom: 1px solid #ccc;
             transition: border-color 0.3s;
         }
@@ -212,11 +192,25 @@
             border-bottom: none;
         }
         .suspension-item span {
+            display: inline;
+        }
+        .suspension-item .unidade {
+            font-weight: bold;
             display: block;
+            margin: 0;
+        }
+        .suspension-item .motivo-line {
+            display: block;
+            margin: 0;
+        }
+        .suspension-item .portaria-line {
+            display: block;
+            margin: 0;
         }
         .motivo {
             font-weight: bold;
             margin-right: 5px;
+            display: inline;
         }
 
         /* High Contrast Mode */
@@ -386,7 +380,7 @@
                 margin: 10px 0;
                 padding: 0;
             }
-            .legend-square-judiciario, .legend-circle-red, .legend-circle-blue {
+            .legend-square-judiciario {
                 width: 12px;
                 height: 12px;
             }
@@ -449,7 +443,7 @@
                 margin: 5px 0;
                 padding: 0;
             }
-            .legend-square-judiciario, .legend-circle-red, .legend-circle-blue {
+            .legend-square-judiciario {
                 width: 10px;
                 height: 10px;
             }
@@ -486,12 +480,6 @@
         <div class="legend-item">
             <span class="legend-square-judiciario"></span> Poder Judiciário do Estado do Pará
         </div>
-        <div class="legend-item">
-            <span class="legend-circle-red"></span> Suspensão de Prazos
-        </div>
-        <div class="legend-item">
-            <span class="legend-circle-blue"></span> Atendimento Remoto (Sem Suspensão de Prazo)
-        </div>
     </div>
     <div class="info-container" id="infoContainer">
         <h2>Informações da Suspensão de Expediente</h2>
@@ -501,7 +489,7 @@
         </div>
         <div class="info-details">
             <ul id="suspensionsList">
-                <!-- Itens serão preenchidos dinamicamente -->
+                <!-- Removido o texto estático -->
             </ul>
         </div>
     </div>
@@ -524,14 +512,14 @@
             const month = parseInt(parts[1], 10) - 1;
             const year = parseInt(parts[2], 10);
             const date = new Date(Date.UTC(year, month, day));
-            console.log(`Data parseada para calendário: ${dateStr} -> ${date}`);
+            console.log(Data parseada para calendário: ${dateStr} -> ${date});
             return date;
         }
 
         fetch('suspensions_2025_completo.json')
             .then(response => {
                 if (!response.ok) {
-                    throw new Error(`Erro ao carregar o JSON: ${response.status} ${response.statusText}`);
+                    throw new Error(Erro ao carregar o JSON: ${response.status} ${response.statusText});
                 }
                 return response.json();
             })
@@ -542,7 +530,7 @@
             })
             .catch(error => {
                 console.error('Erro ao carregar o JSON:', error);
-                document.getElementById('suspensionsList').innerHTML = `<li>Erro ao carregar os dados: ${error.message}</li>`;
+                document.getElementById('suspensionsList').innerHTML = <li>Erro ao carregar os dados: ${error.message}</li>;
             });
 
         function generateCalendar() {
@@ -560,7 +548,7 @@
                     let fimDate = parseDateForCalendar(event.fim);
 
                     if (!inicioDate || !fimDate) {
-                        console.log(`Data inválida: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade}`);
+                        console.log(Data inválida: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade});
                         return false;
                     }
 
@@ -598,7 +586,7 @@
                     }
                 });
 
-                let calendar = `<div class='calendar' onclick="loadSuspensions(${index}, '${month}')"><h3>${month} 2025</h3><table>`;
+                let calendar = <div class='calendar' onclick="loadSuspensions(${index}, '${month}')"><h3>${month} 2025</h3><table>;
                 calendar += "<tr><th>D</th><th>S</th><th>T</th><th>Q</th><th>Q</th><th>S</th><th>S</th></tr><tr>";
                 for (let i = 0; i < firstDay; i++) calendar += "<td></td>";
                 for (let day = 1; day <= daysInMonth; day++) {
@@ -609,7 +597,7 @@
                             highlightClass = 'highlight-judiciario';
                         }
                     }
-                    calendar += `<td ${highlightClass ? `class='${highlightClass}'` : ''}>${day}</td>`;
+                    calendar += <td ${highlightClass ? `class='${highlightClass}' : ''}>${day}</td>`;
                     if ((day + firstDay) % 7 === 0) calendar += "</tr><tr>";
                 }
                 calendar += "</tr></table></div>";
@@ -628,7 +616,7 @@
                 let fimDate = parseDateForCalendar(event.fim);
 
                 if (!inicioDate || !fimDate) {
-                    console.log(`Data inválida: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade}`);
+                    console.log(Data inválida: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade});
                     return false;
                 }
 
@@ -657,7 +645,7 @@
                 const day = String(date.getUTCDate()).padStart(2, '0');
                 const month = String(date.getUTCMonth() + 1).padStart(2, '0');
                 const year = date.getUTCFullYear();
-                return `${day}/${month}/${year}`;
+                return ${day}/${month}/${year};
             }
             return dateStr;
         }
@@ -679,19 +667,13 @@
                     li.className = 'suspension-item';
                     let inicio = formatDate(event.inicio);
                     let fim = formatDate(event.fim);
-                    const dateDisplay = inicio === fim ? inicio : `${inicio} a ${fim}`;
+                    const dateDisplay = inicio === fim ? inicio : ${inicio} a ${fim};
                     const portariaClean = event.portaria.replace(/Nº\s*Nº/g, 'Nº');
                     const edicaoClean = event.edicao.replace(/Nº\s*Nº/g, 'Nº');
-                    const situacao = event.motivo.includes("Feriado") || event.motivo.includes("Suspensão") 
-                        ? "🔴 Situação: Suspensão de Prazos" 
-                        : "🔵 Situação: Atendimento Remoto (Sem Suspensão de Prazo)";
-
                     li.innerHTML = `
-                        <span>⚖️ Unidade: ${event.unidade}</span>
-                        <span>📆 Data: ${dateDisplay}</span>
-                        <span>${situacao}</span>
-                        <span>📌 <span class="motivo">Motivo:</span> ${event.motivo}</span>
-                        <span>📄 Portaria: ${portariaClean} - DJE ${edicaoClean}</span>
+                        <span class="unidade">${event.unidade} - ${dateDisplay}</span>
+                        <span class="motivo-line"><span class="motivo">Motivo:</span> ${event.motivo}</span>
+                        <span class="portaria-line">Portaria ${portariaClean} - DJE ${edicaoClean}</span>
                     `;
                     suspensionsList.appendChild(li);
                 });
@@ -709,7 +691,7 @@
             const selectedMonthSpan = document.getElementById('selectedMonth');
 
             if (!input) {
-                suspensionsList.innerHTML = '';
+                suspensionsList.innerHTML = ''; // Remove qualquer texto padrão
                 selectedMonthSpan.textContent = '';
                 return;
             }
@@ -719,7 +701,7 @@
                 let fimDate = parseDateForCalendar(event.fim);
 
                 if (!inicioDate || !fimDate) {
-                    console.log(`Data inválida: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade}`);
+                    console.log(Data inválida: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade});
                     return false;
                 }
 
