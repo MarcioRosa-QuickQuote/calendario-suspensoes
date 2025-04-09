@@ -479,7 +479,6 @@
         </div>
     </div>
     <div class="info-container" id="infoContainer">
-        <!-- Removido o <h2>Informações da Suspensão de Expediente</h2> -->
         <div class="month-header" id="selectedMonth"></div>
         <div class="search-container">
             <input type="text" id="searchInput" placeholder="Pesquisar por unidade ou motivo..." onkeyup="searchSuspensions()">
@@ -626,7 +625,7 @@
                 }
 
                 const monthStart = new Date(Date.UTC(2025, monthIndex, 1));
-                const monthEnd = new Date(Date.UTC(2025, index + 1, 0));
+                const monthEnd = new Date(Date.UTC(2025, monthIndex + 1, 0)); // Corrigido: usar monthIndex em vez de index
                 return (inicioDate <= monthEnd && fimDate >= monthStart);
             });
 
