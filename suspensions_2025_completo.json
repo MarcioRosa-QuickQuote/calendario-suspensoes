@@ -5,270 +5,239 @@
     "inicio": "31/03/2025",
     "fim": "31/03/2025",
     "motivo": "Mudança dos servidores lotados na unidade para as novas instalações",
-    "portaria": "Portaria n.º 1809/2025-GP",
+    "portaria": "N° 1809/2025-GP",
     "edicao": "DJE n.º 8054/2025",
     "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
-    "portaria": "Portaria n.º 1767/2025-GP",
-    "motivo": "Interrupção no fornecimento de água ",
-    "edicao": "DJE n.º 8051/2025",
     "protocolo": "TJPA-MEM-2025/17048",
-    "fim": "26/03/2025",
     "unidade": "Fórum da Comarca de Redenção",
-    "inicio": "26/03/2025"
+    "inicio": "26/03/2025",
+    "fim": "26/03/2025",
+    "motivo": "Interrupção no fornecimento de água ",
+    "portaria": "N° 1767/2025-GP",
+    "edicao": "DJE n.º 8051/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
+    "protocolo": "TJPA-MEM-2025/15707",
     "unidade": "2ª Vara de Violência Doméstica e Familiar Contra Mulher",
     "inicio": "27/03/2025",
-    "motivo": "Prorrogação da Nº 369/2025-GP - reforma em andamento na unidade judicial",
-    "portaria": "Portaria n.º 1740/2025-GP",
     "fim": "25/05/2025",
+    "motivo": "Prorrogação da Nº 369/2025-GP - reforma em andamento na unidade judicial",
+    "portaria": "N° 1740/2025-GP",
     "edicao": "DJE n.º 8050/2025",
-    "protocolo": "TJPA-MEM-2025/15707"
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
+    "protocolo": "TJPA-MEM-2025/17412",
     "unidade": "Fórum da Comarca de Acará",
     "inicio": "29/03/2025",
-    "portaria": "Portaria n.º 1739/2025-GP",
-    "protocolo": "TJPA-MEM-2025/17412",
     "fim": "29/04/2025",
+    "motivo": "Reforma a ser realizada na unidade judiciária",
+    "portaria": "N° 1739/2025-GP",
     "edicao": "DJE n.º 8050/2025",
-    "motivo": "Reforma a ser realizada na unidade judiciária"
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
-    "motivo": "alteração do período de término dos serviços de reforma no prédio do Forúm",
-    "unidade": "Comarca de Anapú",
-    "fim": "28/02/2025",
-    "edicao": "DJE n.º 8011/2025",
     "protocolo": "TJPA-OFI-2025/00416",
-    "portaria": "Portaria n.º 0487/2025-GP",
-    "inicio": "01/02/2025"
+    "unidade": "Comarca de Anapú",
+    "inicio": "01/02/2025",
+    "fim": "28/02/2025",
+    "motivo": "alteração do período de término dos serviços de reforma no prédio do Forúm",
+    "portaria": "N° 0487/2025-GP",
+    "edicao": "DJE n.º 8011/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-MEM-2025/12602",
-    "fim": "21/03/2025",
-    "inicio": "01/03/2025",
-    "motivo": "Prorrogação da Nº 487/2025-GP - Continuidade dos serviços de manutenção no prédio do Fórum",
-    "edicao": "DJE n.º 8050/2025",
     "unidade": "Vara Única de Anapú",
-    "portaria": "Portaria n.º 1738/2025-GP"
+    "inicio": "01/03/2025",
+    "fim": "21/03/2025",
+    "motivo": "Prorrogação da Nº 487/2025-GP - Continuidade dos serviços de manutenção no prédio do Fórum",
+    "portaria": "N° 1738/2025-GP",
+    "edicao": "DJE n.º 8050/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
-    "inicio": "01/04/2025",
-    "motivo": "Obras de reforma do Fórum",
-    "portaria": "Portaria n.º 1735/2025-GP",
-    "edicao": "DJE n.º 8050/2025",
     "protocolo": "TJPA-OFI-2025/01398",
+    "unidade": "Fórum da Comarca de Limoeiro do Ajuru",
+    "inicio": "01/04/2025",
     "fim": "30/04/2025",
-    "unidade": "Fórum da Comarca de Limoeiro do Ajuru"
+    "motivo": "Obras de reforma do Fórum",
+    "portaria": "N° 1735/2025-GP",
+    "edicao": "DJE n.º 8050/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-MEM-2025/05276",
-    "portaria": "Portaria n.º 1030/2025-GP",
-    "fim": "05/04/2025",
-    "edicao": "DJE n.º 8019/2025",
-    "motivo": "Novo cronograma de conclusão dos serviços de reforma",
     "unidade": "Vara Única de São Miguel do Guamá",
-    "inicio": "01/02/2025"
+    "inicio": "01/02/2025",
+    "fim": "05/04/2025",
+    "motivo": "Novo cronograma de conclusão dos serviços de reforma",
+    "portaria": "N° 1030/2025-GP",
+    "edicao": "DJE n.º 8019/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
-    "edicao": "DJE n.º 8050/2025",
-    "motivo": "Prorrogação da Nº 1030/2025-GP - Continuidade dos serviços de manutenção no prédio do Fórum",
-    "portaria": "Portaria n.º 1733/2025-GP",
-    "unidade": "Vara Única de São Miguel do Guamá",
     "protocolo": "TJPA-MEM-2025/16754",
+    "unidade": "Vara Única de São Miguel do Guamá",
     "inicio": "06/04/2025",
-    "fim": "04/07/2025"
+    "fim": "04/07/2025",
+    "motivo": "Prorrogação da Nº 1030/2025-GP - Continuidade dos serviços de manutenção no prédio do Fórum",
+    "portaria": "N° 1733/2025-GP",
+    "edicao": "DJE n.º 8050/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-MEM-2025/13317",
-    "edicao": "DJE n.º 8050/2025",
-    "fim": "24/06/2025",
     "unidade": "Comarca de Jacundá",
     "inicio": "24/06/2025",
-    "portaria": "Portaria n.º 1732/2025-GP",
-    "motivo": "Calendário de feriados do Município"
+    "fim": "24/06/2025",
+    "motivo": "Calendário de feriados do Município",
+    "portaria": "N° 1732/2025-GP",
+    "edicao": "DJE n.º 8050/2025",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
-    "fim": "17/04/2025",
     "protocolo": "TJPA-MEM-2025/15225",
-    "motivo": "Prorrogação da Nº 1140/2025-GP - Reforma em andamento no Forúm",
     "unidade": "1ª Vara Cível da Comarca de Barcarena",
+    "inicio": "19/03/2025",
+    "fim": "17/04/2025",
+    "motivo": "Prorrogação da Nº 1140/2025-GP - Reforma em andamento no Forúm",
+    "portaria": "N° 1731/2025-GP",
     "edicao": "DJE n.º 8050/2025",
-    "portaria": "Portaria n.º 1731/2025-GP",
-    "inicio": "19/03/2025"
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-MEM-2025/09753",
-    "motivo": "Reforma em andamento na unidade judicial",
     "unidade": "3ª Vara de Execução Fiscal",
-    "edicao": "DJE n.º 8031/2025",
-    "fim": "19/03/2025",
     "inicio": "18/02/2025",
-    "portaria": "Portaria n.º 1311/2025-GP"
+    "fim": "19/03/2025",
+    "motivo": "Reforma em andamento na unidade judicial",
+    "portaria": "N° 1311/2025-GP",
+    "edicao": "DJE n.º 8031/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
-    "unidade": "Comarca de Altamira",
     "protocolo": "TJPA-MEM-2024/73847",
-    "portaria": "Portaria n.º 0002/2025-GP",
-    "fim": "06/11/2025",
+    "unidade": "Comarca de Altamira",
     "inicio": "06/11/2025",
+    "fim": "06/11/2025",
+    "motivo": "Calendário de feriados do Município",
+    "portaria": "N° 0002/2025-GP",
     "edicao": "DJE n.º 7991/2025",
-    "motivo": "Calendário de feriados do Município"
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "TJPA-MEM-2024/73847",
-    "fim": "20/01/2025",
-    "edicao": "DJE n.º 7991/2025",
-    "motivo": "Calendário de feriados do Município",
-    "portaria": "Portaria n.º 0002/2025-GP",
     "unidade": "Comarca de Altamira",
-    "inicio": "20/01/2025"
+    "inicio": "20/01/2025",
+    "fim": "20/01/2025",
+    "motivo": "Calendário de feriados do Município",
+    "portaria": "N° 0002/2025-GP",
+    "edicao": "DJE n.º 7991/2025",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
-    "inicio": "28/03/2025",
-    "protocolo": "",
-    "unidade": "1ª e 2ª Varas dos Juizados Especiais Cíveis da Fazenda Pública",
-    "portaria": "Portaria n.º 1674/2025-GP",
-    "motivo": "Interrupção do fornecimento do serviço de internet, causada pelo rompimento de fibras ópticas da PRODEPA",
-    "fim": "28/03/2025",
-    "edicao": "DJE n.º 8047/2025"
-  },
-  {
-    "protocolo": "",
-    "motivo": "Interrupção do fornecimento do serviço de internet, causada pelo rompimento de fibras ópticas da PRODEPA",
-    "inicio": "28/03/2025",
-    "unidade": "Juizado Especial Criminal do Meio Ambiente",
-    "portaria": "Portaria n.º 1674/2025-GP",
-    "edicao": "DJE n.º 8047/2025",
-    "fim": "28/03/2025"
-  },
-  {
-    "portaria": "Portaria n.º 1674/2025-GP",
-    "protocolo": "",
-    "fim": "28/03/2025",
-    "motivo": "Interrupção do fornecimento do serviço de internet, causada pelo rompimento de fibras ópticas da PRODEPA",
-    "unidade": "1ª à 4ª Vara dos Juizados Especiais Criminais da Capital",
-    "edicao": "DJE n.º 8047/2025",
-    "inicio": "28/03/2025"
-  },
-  {
-    "unidade": "1ª à 9ª Vara dos Juizados Especiais Cíveis da Capital",
-    "protocolo": "",
-    "inicio": "28/03/2025",
-    "portaria": "Portaria n.º 1674/2025-GP",
-    "edicao": "DJE n.º 8047/2025",
-    "motivo": "Interrupção do fornecimento do serviço de internet, causada pelo rompimento de fibras ópticas da PRODEPA",
-    "fim": "28/03/2025"
-  },
-  {
-    "inicio": "28/03/2025",
-    "motivo": "Interrupção do fornecimento do serviço de internet, causada pelo rompimento de fibras ópticas da PRODEPA",
-    "edicao": "DJE n.º 8047/2025",
-    "protocolo": "",
-    "unidade": "Unidades Judiciárias do Fórum Criminal da Capital",
-    "portaria": "Portaria n.º 1674/2025-GP",
-    "fim": "28/03/2025"
-  },
-  {
-    "motivo": "interrupção do fornecimento do serviço de internet, causada pelo rompimento de fibras ópticas da PRODEPA",
-    "portaria": "Portaria n.º 1674/2025-GP",
-    "unidade": "Unidades Judiciárias do Fórum Cível da Capital",
-    "edicao": "DJE n.º 8047/2025",
-    "fim": "28/03/2025",
-    "protocolo": "",
-    "inicio": "28/03/2025"
-  },
-  {
-    "motivo": "Prorrogação da Nº 1311/2025-GP - Reforma em andamento na unidade judicial",
-    "fim": "08/04/2025",
     "protocolo": "TJPA-MEM-2025/09753",
     "unidade": "3ª Vara de Execução Fiscal da Capital",
-    "portaria": "Portaria n.º 1647/2025-GP",
     "inicio": "20/03/2025",
-    "edicao": "DJE n.º 8045/2025"
+    "fim": "08/04/2025",
+    "motivo": "Prorrogação da Nº 1311/2025-GP - Reforma em andamento na unidade judicial",
+    "portaria": "N° 1647/2025-GP",
+    "edicao": "DJE n.º 8045/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
-    "unidade": "Comarca de São Sebastião da Boa Vista",
-    "fim": "20/04/2025",
-    "inicio": "21/03/2025",
-    "edicao": "DJE n.º 8045/2025",
-    "portaria": "Portaria n.º 1646/2025-GP",
     "protocolo": "TJPA-REQ-2025/03176",
-    "motivo": "Prorrogação da Nº 788/2025-GP - Atraso na execução da reforma do Forúm"
+    "unidade": "Comarca de São Sebastião da Boa Vista",
+    "inicio": "21/03/2025",
+    "fim": "20/04/2025",
+    "motivo": "Prorrogação da Nº 788/2025-GP - Atraso na execução da reforma do Forúm",
+    "portaria": "N° 1646/2025-GP",
+    "edicao": "DJE n.º 8045/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-MEM-2025/05429",
-    "edicao": "DJE n.º 8045/2025",
+    "unidade": "Comarca de São Domingos do Capim",
     "inicio": "09/12/2025",
     "fim": "09/12/2025",
-    "portaria": "Portaria n.º 1645/2025-GP",
-    "unidade": "Comarca de São Domingos do Capim",
-    "motivo": "Calendário de feriados do Município"
-  },
-  {
-    "unidade": "Comarca de São Domingos do Capim",
-    "edicao": "DJE n.º 8045/2025",
-    "fim": "08/09/2025",
-    "protocolo": "TJPA-MEM-2025/05429",
     "motivo": "Calendário de feriados do Município",
-    "portaria": "Portaria n.º 1645/2025-GP",
-    "inicio": "08/09/2025"
+    "portaria": "N° 1645/2025-GP",
+    "edicao": "DJE n.º 8045/2025",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
-    "inicio": "08/08/2025",
-    "portaria": "Portaria n.º 1645/2025-GP",
     "protocolo": "TJPA-MEM-2025/05429",
-    "edicao": "DJE n.º 8045/2025",
-    "fim": "08/08/2025",
     "unidade": "Comarca de São Domingos do Capim",
-    "motivo": "Calendário de feriados do Município"
+    "inicio": "08/09/2025",
+    "fim": "08/09/2025",
+    "motivo": "Calendário de feriados do Município",
+    "portaria": "N° 1645/2025-GP",
+    "edicao": "DJE n.º 8045/2025",
+    "suspensao": "Com suspensão de Prazo"
+  },
+  {
+    "protocolo": "TJPA-MEM-2025/05429",
+    "unidade": "Comarca de São Domingos do Capim",
+    "inicio": "08/08/2025",
+    "fim": "08/08/2025",
+    "motivo": "Calendário de feriados do Município",
+    "portaria": "N° 1645/2025-GP",
+    "edicao": "DJE n.º 8045/2025",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "TJPA-MEM-2025/15995",
-    "motivo": "Calendário de feriados do Município",
     "unidade": "Termo Judiciário de Bagre",
-    "fim": "25/03/2025",
-    "edicao": "DJE n.º 8045/2025",
     "inicio": "25/03/2025",
-    "portaria": "Portaria n.º 1630/2025-GP"
+    "fim": "25/03/2025",
+    "motivo": "Calendário de feriados do Município",
+    "portaria": "N° 1630/2025-GP",
+    "edicao": "DJE n.º 8045/2025",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "TJPA-MEM-2025/16219",
-    "inicio": "28/03/2025",
-    "portaria": "Portaria n.º 1629/2025-GP",
     "unidade": "Comarca de Augusto Corrêa",
+    "inicio": "28/03/2025",
     "fim": "28/03/2025",
+    "motivo": "Calendário de feriados do Município",
+    "portaria": "N° 1629/2025-GP",
     "edicao": "DJE n.º 8045/2025",
-    "motivo": "Calendário de feriados do Município"
+    "suspensao": "Com suspensão de Prazo"
   },
   {
-    "edicao": "DJE n.º 8045/2025",
-    "portaria": "Portaria n.º 1627/2025-GP",
-    "motivo": "Calendário de feriados do Município",
+    "protocolo": "TJPA-OFI-2025/01003",
     "unidade": "Comarca de Tucuruí",
     "inicio": "19/03/2025",
-    "protocolo": "TJPA-OFI-2025/01003",
-    "fim": "19/03/2025"
+    "fim": "19/03/2025",
+    "motivo": "Calendário de feriados do Município",
+    "portaria": "N° 1627/2025-GP",
+    "edicao": "DJE n.º 8045/2025",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
-    "fim": "03/04/2025",
-    "portaria": "Portaria n.º 1626/2025-GP",
+    "protocolo": "TJPA-OFI-2025/01117",
     "unidade": "Comarca de Afuá",
     "inicio": "14/03/2025",
+    "fim": "03/04/2025",
     "motivo": "Reforma em andamento na unidade judicial",
-    "protocolo": "TJPA-OFI-2025/01117",
-    "edicao": "DJE n.º 8045/2025"
+    "portaria": "N° 1626/2025-GP",
+    "edicao": "DJE n.º 8045/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
-    "portaria": "Portaria n.º 1487/2025-GP",
     "protocolo": "TJPA-EXT-2025/01588",
-    "edicao": "DJE n.º 8037/2025",
-    "inicio": "17/03/2025",
     "unidade": "Poder Judiciário do Estado do Pará - Processos em que figurem como parte o Estado do Pará",
+    "inicio": "17/03/2025",
     "fim": "21/03/2025",
-    "motivo": "Prorrogação -  Alteração do sistema de gestão e acompanhamento de processos utilizados pelo Estado do Pará"
+    "motivo": "Prorrogação -  Alteração do sistema de gestão e acompanhamento de processos utilizados pelo Estado do Pará",
+    "portaria": "N° 1487/2025-GP",
+    "edicao": "DJE n.º 8037/2025",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "TJPA-MEM-2024/73778",
@@ -277,7 +246,8 @@
     "fim": "18/12/2024",
     "motivo": "Interrupção no fornecimento de energia elétrica",
     "portaria": "Nº 3/2025-GP",
-    "edicao": "Nº 7991/2025"
+    "edicao": "Nº 7991/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-MEM-2024/73778",
@@ -286,7 +256,8 @@
     "fim": "18/12/2024",
     "motivo": "Interrupção no fornecimento de energia elétrica",
     "portaria": "Nº 3/2025-GP",
-    "edicao": "Nº 7991/2025"
+    "edicao": "Nº 7991/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-MEM-2024/66074",
@@ -295,7 +266,8 @@
     "fim": "12/11/2024",
     "motivo": "Interrupção no fornecimento de energia elétrica",
     "portaria": "Nº 4/2025-GP",
-    "edicao": "Nº 7991/2025"
+    "edicao": "Nº 7991/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-MEM-2024/68172",
@@ -304,7 +276,8 @@
     "fim": "31/01/2025",
     "motivo": "Atraso na execução da reforma do Fórum",
     "portaria": "Nº 5/2025-GP",
-    "edicao": "Nº 7991/2025"
+    "edicao": "Nº 7991/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-MEM-2024/73087",
@@ -313,7 +286,8 @@
     "fim": "28/01/2025",
     "motivo": "Atraso na execução da reforma do Fórum",
     "portaria": "Nº 6/2025-GP",
-    "edicao": "Nº 7991/2025"
+    "edicao": "Nº 7991/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-MEM-2024/73193",
@@ -322,7 +296,8 @@
     "fim": "21/01/2025",
     "motivo": "Atraso na execução da reforma do Fórum",
     "portaria": "Nº 21/2025-GP",
-    "edicao": "Nº 7991/2025"
+    "edicao": "Nº 7991/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-REQ-2024/13458",
@@ -331,7 +306,8 @@
     "fim": "31/01/2025",
     "motivo": "Atraso na execução da reforma do Fórum",
     "portaria": "Nº 143/2025-GP",
-    "edicao": "Nº 7996/2025"
+    "edicao": "Nº 7996/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-MEM-2025/01486",
@@ -340,7 +316,8 @@
     "fim": "10/01/2025",
     "motivo": "Interrupção no fornecimento de energia elétrica",
     "portaria": "Nº 146/2025-GP",
-    "edicao": "Nº 7996/2025"
+    "edicao": "Nº 7996/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-MEM-2025/00857",
@@ -349,7 +326,8 @@
     "fim": "13/05/2025",
     "motivo": "Calendário de feriados do Município",
     "portaria": "Nº 172/2025-GP",
-    "edicao": "Nº 7998/2025"
+    "edicao": "Nº 7998/2025",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "TJPA-REQ-2025/00264",
@@ -358,7 +336,8 @@
     "fim": "04/02/2025",
     "motivo": "Atraso na execução da reforma do Fórum",
     "portaria": "Nº 175/2025-GP",
-    "edicao": "Nº 7998/2025"
+    "edicao": "Nº 7998/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-OFI-2025/00071",
@@ -367,7 +346,8 @@
     "fim": "20/01/2025",
     "motivo": "Calendário de feriados do Município",
     "portaria": "Nº 176/2025-GP",
-    "edicao": "Nº 7998/2025"
+    "edicao": "Nº 7998/2025",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "TJPA-OFI-2025/00071",
@@ -376,7 +356,8 @@
     "fim": "10/05/2025",
     "motivo": "Calendário de feriados do Município",
     "portaria": "Nº 176/2025-GP",
-    "edicao": "Nº 7998/2025"
+    "edicao": "Nº 7998/2025",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "TJPA-MEM-2025/02818",
@@ -385,7 +366,8 @@
     "fim": "13/05/2025",
     "motivo": "Calendário de feriados do Município",
     "portaria": "Nº 363/2025-GP",
-    "edicao": "Nº 8003/2025"
+    "edicao": "Nº 8003/2025",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "TJPA-MEM-2025/03615",
@@ -394,7 +376,8 @@
     "fim": "27/01/2025",
     "motivo": "Cerimônia de inauguração das instalações do novo Fórum",
     "portaria": "Nº 367/2025-GP",
-    "edicao": "Nº 8003/2025"
+    "edicao": "Nº 8003/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-OFI-2025/00237",
@@ -403,7 +386,8 @@
     "fim": "01/05/2025",
     "motivo": "Calendário de feriados do Município",
     "portaria": "Nº 368/2025-GP",
-    "edicao": "Nº 8003/2025"
+    "edicao": "Nº 8003/2025",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "TJPA-OFI-2025/00237",
@@ -412,7 +396,8 @@
     "fim": "13/05/2025",
     "motivo": "Calendário de feriados do Município",
     "portaria": "Nº 368/2025-GP",
-    "edicao": "Nº 8003/2025"
+    "edicao": "Nº 8003/2025",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "TJPA-MEM-2025/03169",
@@ -421,7 +406,8 @@
     "fim": "26/03/2025",
     "motivo": "Execução das obras de engenharia e outros serviços",
     "portaria": "Nº 369/2025-GP",
-    "edicao": "Nº 8003/2025"
+    "edicao": "Nº 8003/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-MEM-2025/03127",
@@ -430,7 +416,8 @@
     "fim": "17/01/2025",
     "motivo": "Interrupção no fornecimento de água",
     "portaria": "Nº 401/2025-GP",
-    "edicao": "Nº 8005/2025"
+    "edicao": "Nº 8005/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-OFI-2025/00150",
@@ -439,7 +426,8 @@
     "fim": "28/01/2025",
     "motivo": "Calendário de feriados do Município",
     "portaria": "Nº 419/2025-GP",
-    "edicao": "Nº 8005/2025"
+    "edicao": "Nº 8005/2025",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "TJPA-OFI-2025/00150",
@@ -448,16 +436,18 @@
     "fim": "19/03/2025",
     "motivo": "Calendário de feriados do Município",
     "portaria": "Nº 419/2025-GP",
-    "edicao": "Nº 8005/2025"
+    "edicao": "Nº 8005/2025",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
-    "portaria": "Nº 420/2025-GP",
+    "protocolo": "TJPA-MEM-2025/04077",
+    "unidade": "Comarca de Alenquer",
     "inicio": "22/01/2025",
     "fim": "04/02/2025",
     "motivo": "Prorrogação da Nº 21/2025-GP - Atraso na execução da reforma do Fórum",
-    "protocolo": "TJPA-MEM-2025/04077",
+    "portaria": "Nº 420/2025-GP",
     "edicao": "Nº 8005/2025",
-    "unidade": "Comarca de Alenquer"
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-OFI-2025/00222",
@@ -466,7 +456,8 @@
     "fim": "14/04/2025",
     "motivo": "Calendário de feriados do Município",
     "portaria": "Nº 491/2025-GP",
-    "edicao": "Nº 8009/2025"
+    "edicao": "Nº 8009/2025",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "TJPA-OFI-2025/00224",
@@ -475,7 +466,8 @@
     "fim": "20/06/2025",
     "motivo": "Calendário de feriados do Município",
     "portaria": "Nº 492/2025-GP",
-    "edicao": "Nº 8009/2025"
+    "edicao": "Nº 8009/2025",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "TJPA-MEM-2025/05852",
@@ -484,7 +476,8 @@
     "fim": "31/01/2025",
     "motivo": "Interrupção no fornecimento de energia elétrica",
     "portaria": "Nº 790/2025-GP",
-    "edicao": "Nº 8012/2025"
+    "edicao": "Nº 8012/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-MEM-2025/05852",
@@ -493,7 +486,8 @@
     "fim": "31/01/2025",
     "motivo": "Interrupção no fornecimento de energia elétrica",
     "portaria": "Nº 790/2025-GP",
-    "edicao": "Nº 8012/2025"
+    "edicao": "Nº 8012/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-REQ-2025/01241",
@@ -502,25 +496,28 @@
     "fim": "16/02/2025",
     "motivo": "Conclusão das obras de engenharia",
     "portaria": "Nº 779/2025-GP",
-    "edicao": "Nº 8013/2025"
-  },
-  {
-    "fim": "20/03/2025",
-    "portaria": "Nº 788/2025-GP",
-    "motivo": "Prorrogação da Nº 175/2025-GP - Atraso na finalização da reforma do Fórum",
-    "protocolo": "TJPA-REQ-2025/01282",
     "edicao": "Nº 8013/2025",
-    "unidade": "Comarca de São Sebastião da Boa Vista",
-    "inicio": "05/02/2025"
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
-    "inicio": "06/02/2025",
+    "protocolo": "TJPA-REQ-2025/01282",
+    "unidade": "Comarca de São Sebastião da Boa Vista",
+    "inicio": "05/02/2025",
+    "fim": "20/03/2025",
+    "motivo": "Prorrogação da Nº 175/2025-GP - Atraso na finalização da reforma do Fórum",
+    "portaria": "Nº 788/2025-GP",
+    "edicao": "Nº 8013/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
+  },
+  {
+    "protocolo": "TJPA-MEM-2025/05541",
     "unidade": "Comarca de Porto de Moz",
+    "inicio": "06/02/2025",
+    "fim": "05/03/2025",
+    "motivo": "Realização de serviços de reforma do prédio do Fórum",
     "portaria": "Nº 789/2025-GP",
     "edicao": "Nº 8013/2025",
-    "protocolo": "TJPA-MEM-2025/05541",
-    "fim": "05/03/2025",
-    "motivo": "Realização de serviços de reforma do prédio do Fórum"
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-REQ-2025/00941",
@@ -529,7 +526,8 @@
     "fim": "24/02/2025",
     "motivo": "Atraso na execução da reforma do Fórum",
     "portaria": "Nº 791/2025-GP",
-    "edicao": "Nº 8013/2025"
+    "edicao": "Nº 8013/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-MEM-2025/08572",
@@ -538,7 +536,8 @@
     "fim": "12/02/2025",
     "motivo": "Interrupção no fornecimento de energia elétrica",
     "portaria": "Nº 972/2025-GP",
-    "edicao": "Nº 8017/2025"
+    "edicao": "Nº 8017/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-MEM-2025/08572",
@@ -547,7 +546,8 @@
     "fim": "12/02/2025",
     "motivo": "Interrupção no fornecimento de energia elétrica",
     "portaria": "Nº 972/2025-GP",
-    "edicao": "Nº 8017/2025"
+    "edicao": "Nº 8017/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-MEM-2025/08572",
@@ -556,7 +556,8 @@
     "fim": "12/02/2025",
     "motivo": "Interrupção no fornecimento de energia elétrica",
     "portaria": "Nº 972/2025-GP",
-    "edicao": "Nº 8017/2025"
+    "edicao": "Nº 8017/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-MEM-2025/08572",
@@ -565,7 +566,8 @@
     "fim": "12/02/2025",
     "motivo": "Interrupção no fornecimento de energia elétrica",
     "portaria": "Nº 972/2025-GP",
-    "edicao": "Nº 8017/2025"
+    "edicao": "Nº 8017/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-MEM-2025/08572",
@@ -574,7 +576,8 @@
     "fim": "12/02/2025",
     "motivo": "Interrupção no fornecimento de energia elétrica",
     "portaria": "Nº 972/2025-GP",
-    "edicao": "Nº 8017/2025"
+    "edicao": "Nº 8017/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-MEM-2025/08572",
@@ -583,7 +586,8 @@
     "fim": "12/02/2025",
     "motivo": "Interrupção no fornecimento de energia elétrica",
     "portaria": "Nº 972/2025-GP",
-    "edicao": "Nº 8017/2025"
+    "edicao": "Nº 8017/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-MEM-2025/08572",
@@ -592,7 +596,8 @@
     "fim": "12/02/2025",
     "motivo": "Interrupção no fornecimento de energia elétrica",
     "portaria": "Nº 972/2025-GP",
-    "edicao": "Nº 8017/2025"
+    "edicao": "Nº 8017/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-MEM-2025/08572",
@@ -601,7 +606,8 @@
     "fim": "12/02/2025",
     "motivo": "Interrupção no fornecimento de energia elétrica",
     "portaria": "Nº 972/2025-GP",
-    "edicao": "Nº 8017/2025"
+    "edicao": "Nº 8017/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-MEM-2025/08572",
@@ -610,7 +616,8 @@
     "fim": "12/02/2025",
     "motivo": "Interrupção no fornecimento de energia elétrica",
     "portaria": "Nº 972/2025-GP",
-    "edicao": "Nº 8017/2025"
+    "edicao": "Nº 8017/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-MEM-2025/08572",
@@ -619,7 +626,8 @@
     "fim": "12/02/2025",
     "motivo": "Interrupção no fornecimento de energia elétrica",
     "portaria": "Nº 972/2025-GP",
-    "edicao": "Nº 8017/2025"
+    "edicao": "Nº 8017/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-MEM-2025/08572",
@@ -628,7 +636,8 @@
     "fim": "12/02/2025",
     "motivo": "Interrupção no fornecimento de energia elétrica",
     "portaria": "Nº 972/2025-GP",
-    "edicao": "Nº 8017/2025"
+    "edicao": "Nº 8017/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-MEM-2025/08572",
@@ -637,7 +646,8 @@
     "fim": "12/02/2025",
     "motivo": "Interrupção no fornecimento de energia elétrica",
     "portaria": "Nº 972/2025-GP",
-    "edicao": "Nº 8017/2025"
+    "edicao": "Nº 8017/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-OFI-2025/00649",
@@ -646,16 +656,18 @@
     "fim": "14/02/2025",
     "motivo": "Manutenção no prédio com pinturas internas",
     "portaria": "Nº 1028/2025-GP",
-    "edicao": "Nº 8019/2025"
+    "edicao": "Nº 8019/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
-    "fim": "11/03/2025",
-    "inicio": "10/02/2025",
-    "portaria": "Nº 1034/2025-GP *Republicada por retificação",
-    "motivo": "Obra de reparo no sistema de esgotamento da fossa",
     "protocolo": "TJPA-REQ-2025/01736",
     "unidade": "Fórum da Comarca de Castanhal",
-    "edicao": "DJE n.º 8024/2025"
+    "inicio": "10/02/2025",
+    "fim": "11/03/2025",
+    "motivo": "Obra de reparo no sistema de esgotamento da fossa",
+    "portaria": "Nº 1034/2025-GP *Republicada por retificação",
+    "edicao": "DJE n.º 8024/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-MEM-2025/09795",
@@ -664,7 +676,8 @@
     "fim": "18/02/2025",
     "motivo": "Interrupção no fornecimento de energia elétrica",
     "portaria": "Nº 1108/2025-GP",
-    "edicao": "Nº 8022/2025"
+    "edicao": "Nº 8022/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-MEM-2025/08195",
@@ -673,16 +686,18 @@
     "fim": "14/03/2025",
     "motivo": "Realização de serviços de reforma do Fórum",
     "portaria": "Nº 1109/2025-GP",
-    "edicao": "Nº 8022/2025"
+    "edicao": "Nº 8022/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
-    "edicao": "DJE n.º 8052/2025",
-    "unidade": "1ª Vara Cível da Comarca de Barcarena",
-    "motivo": "Reforma em andamento no Fórum",
-    "fim": "18/03/2025",
-    "portaria": "Nº 1140/2025-GP *Republicada por retificação",
     "protocolo": "TJPA-REQ-2025/01765",
-    "inicio": "17/02/2025"
+    "unidade": "1ª Vara Cível da Comarca de Barcarena",
+    "inicio": "17/02/2025",
+    "fim": "18/03/2025",
+    "motivo": "Reforma em andamento no Fórum",
+    "portaria": "Nº 1140/2025-GP *Republicada por retificação",
+    "edicao": "DJE n.º 8052/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-MEM-2025/09187",
@@ -691,7 +706,8 @@
     "fim": "07/06/2025",
     "motivo": "Execução dos serviços de reforma e manutenção predial",
     "portaria": "Nº 1142/2025-GP",
-    "edicao": "Nº 8024/2025"
+    "edicao": "Nº 8024/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "Portaria",
@@ -700,7 +716,8 @@
     "fim": "01/01/2025",
     "motivo": "Confraternização Universal - Feriado Nacional",
     "portaria": "Nº 5750/2024-GP",
-    "edicao": "Nº 7978/2024"
+    "edicao": "Nº 7978/2024",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "Portaria",
@@ -709,7 +726,8 @@
     "fim": "03/03/2025",
     "motivo": "Segunda - Feira de Carnaval - Ponto Facultativo",
     "portaria": "Nº 5750/2024-GP",
-    "edicao": "Nº 7978/2024"
+    "edicao": "Nº 7978/2024",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "Portaria",
@@ -718,7 +736,8 @@
     "fim": "04/03/2025",
     "motivo": "Carnaval - Suspensão Nacional do Expediente Forense",
     "portaria": "Nº 5750/2024-GP",
-    "edicao": "Nº 7978/2024"
+    "edicao": "Nº 7978/2024",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "Portaria",
@@ -727,7 +746,8 @@
     "fim": "05/03/2025",
     "motivo": "Quarta - Feira de Cinzas - Ponto Facultativo",
     "portaria": "Nº 5750/2024-GP",
-    "edicao": "Nº 7978/2024"
+    "edicao": "Nº 7978/2024",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "Portaria",
@@ -736,7 +756,8 @@
     "fim": "17/04/2025",
     "motivo": "Quinta - Feira Santa - Ponto Facultativo",
     "portaria": "Nº 5750/2024-GP",
-    "edicao": "Nº 7978/2024"
+    "edicao": "Nº 7978/2024",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "Portaria",
@@ -745,7 +766,8 @@
     "fim": "18/04/2025",
     "motivo": "Sexta - Feira Santa - Feriado Nacional",
     "portaria": "Nº 5750/2024-GP",
-    "edicao": "Nº 7978/2024"
+    "edicao": "Nº 7978/2024",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "Portaria",
@@ -754,7 +776,8 @@
     "fim": "21/04/2025",
     "motivo": "Tiradentes - Feriado Nacional",
     "portaria": "Nº 5750/2024-GP",
-    "edicao": "Nº 7978/2024"
+    "edicao": "Nº 7978/2024",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "Portaria",
@@ -763,7 +786,8 @@
     "fim": "01/05/2025",
     "motivo": "Dia do Trabalho - Feriado Nacional",
     "portaria": "Nº 5750/2024-GP",
-    "edicao": "Nº 7978/2024"
+    "edicao": "Nº 7978/2024",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "Portaria",
@@ -772,7 +796,8 @@
     "fim": "02/05/2025",
     "motivo": "Ponto Facultativo com compensação",
     "portaria": "Nº 5750/2024-GP",
-    "edicao": "Nº 7978/2024"
+    "edicao": "Nº 7978/2024",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "Portaria",
@@ -781,7 +806,8 @@
     "fim": "19/06/2025",
     "motivo": "Corpus Christi - Feriado Nacional",
     "portaria": "Nº 5750/2024-GP",
-    "edicao": "Nº 7978/2024"
+    "edicao": "Nº 7978/2024",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "Portaria",
@@ -790,7 +816,8 @@
     "fim": "20/06/2025",
     "motivo": "Ponto Facultativo",
     "portaria": "Nº 5750/2024-GP",
-    "edicao": "Nº 7978/2024"
+    "edicao": "Nº 7978/2024",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "Portaria",
@@ -799,7 +826,8 @@
     "fim": "15/08/2025",
     "motivo": "Adesão do Grão-Pará à Independência do Brasil - Feriado Estadual",
     "portaria": "Nº 5750/2024-GP",
-    "edicao": "Nº 7978/2024"
+    "edicao": "Nº 7978/2024",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "Portaria",
@@ -808,7 +836,8 @@
     "fim": "07/09/2025",
     "motivo": "Independência do Brasil - Feriado Nacional",
     "portaria": "Nº 5750/2024-GP",
-    "edicao": "Nº 7978/2024"
+    "edicao": "Nº 7978/2024",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "Portaria",
@@ -817,7 +846,8 @@
     "fim": "12/10/2025",
     "motivo": "Nossa Senhora Aparecida – Padroeira do Brasil - Feriado Nacional",
     "portaria": "Nº 5750/2024-GP",
-    "edicao": "Nº 7978/2024"
+    "edicao": "Nº 7978/2024",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "Portaria",
@@ -826,7 +856,8 @@
     "fim": "13/10/2025",
     "motivo": "Segunda - Feira após Círio - Ponto Facultativo",
     "portaria": "Nº 5750/2024-GP",
-    "edicao": "Nº 7978/2024"
+    "edicao": "Nº 7978/2024",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "Portaria",
@@ -835,7 +866,8 @@
     "fim": "27/10/2025",
     "motivo": "Recírio - Ponto Facultativo",
     "portaria": "Nº 5750/2024-GP",
-    "edicao": "Nº 7978/2024"
+    "edicao": "Nº 7978/2024",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "Portaria",
@@ -844,7 +876,8 @@
     "fim": "28/10/2025",
     "motivo": "Dia do Servidor Público - Ponto Facultativo",
     "portaria": "Nº 5750/2024-GP",
-    "edicao": "Nº 7978/2024"
+    "edicao": "Nº 7978/2024",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "Portaria",
@@ -853,7 +886,8 @@
     "fim": "02/11/2025",
     "motivo": "Finados - Feriado Nacional",
     "portaria": "Nº 5750/2024-GP",
-    "edicao": "Nº 7978/2024"
+    "edicao": "Nº 7978/2024",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "Portaria",
@@ -862,7 +896,8 @@
     "fim": "15/11/2025",
     "motivo": "Proclamação da República - Feriado Nacional",
     "portaria": "Nº 5750/2024-GP",
-    "edicao": "Nº 7978/2024"
+    "edicao": "Nº 7978/2024",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "Portaria",
@@ -871,7 +906,8 @@
     "fim": "20/11/2025",
     "motivo": "Dia Nacional de Zumbi e da Consciência Negra - Feriado Nacional",
     "portaria": "Nº 5750/2024-GP",
-    "edicao": "Nº 7978/2024"
+    "edicao": "Nº 7978/2024",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "Portaria",
@@ -880,7 +916,8 @@
     "fim": "21/11/2025",
     "motivo": "Ponto Facultativo com compensação",
     "portaria": "Nº 5750/2024-GP",
-    "edicao": "Nº 7978/2024"
+    "edicao": "Nº 7978/2024",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "Portaria",
@@ -889,7 +926,8 @@
     "fim": "08/12/2025",
     "motivo": "Dia da Justiça - Feriado Forense Nacional",
     "portaria": "Nº 5750/2024-GP",
-    "edicao": "Nº 7978/2024"
+    "edicao": "Nº 7978/2024",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "TJPA-MEM-2025/09803",
@@ -898,16 +936,18 @@
     "fim": "07/03/2025",
     "motivo": "Reforma em andamento no Fórum",
     "portaria": "Nº 1188/2025-GP",
-    "edicao": "Nº 8026/2025"
+    "edicao": "Nº 8026/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
-    "fim": "16/03/2025",
-    "portaria": "N° 1207/2025-GP",
-    "unidade": "Poder Judiciário do Estado do Pará - Processos em que figurem como parte o Estado do Pará",
     "protocolo": "TJPA-EXT-2025/01130",
+    "unidade": "Poder Judiciário do Estado do Pará - Processos em que figurem como parte o Estado do Pará",
+    "inicio": "05/03/2025",
+    "fim": "16/03/2025",
     "motivo": "Alteração do sistema de gestão e acompanhamento de processos utilizados pelo Estado do Pará",
+    "portaria": "N° 1207/2025-GP",
     "edicao": "Nº  8027/2025",
-    "inicio": "05/03/2025"
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "TJPA-MEM-2025/05785",
@@ -916,7 +956,8 @@
     "fim": "22/09/2025",
     "motivo": "Calendário de feriados do Município",
     "portaria": "Nº 1210/2025-GP",
-    "edicao": "Nº 8028/2025"
+    "edicao": "Nº 8028/2025",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "TJPA-MEM-2025/07632",
@@ -925,7 +966,8 @@
     "fim": "13/05/2025",
     "motivo": "Calendário de feriados do Município",
     "portaria": "Nº 1212/2025-GP",
-    "edicao": "Nº 8028/2025"
+    "edicao": "Nº 8028/2025",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "TJPA-MEM-2025/07632",
@@ -934,7 +976,8 @@
     "fim": "14/09/2025",
     "motivo": "Calendário de feriados do Município",
     "portaria": "Nº 1212/2025-GP",
-    "edicao": "Nº 8028/2025"
+    "edicao": "Nº 8028/2025",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "TJPA-OFI-2025/00540",
@@ -943,7 +986,8 @@
     "fim": "08/07/2025",
     "motivo": "Calendário de feriados do Município",
     "portaria": "Nº 1213/2025-GP",
-    "edicao": "Nº 8028/2025"
+    "edicao": "Nº 8028/2025",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "TJPA-OFI-2025/00540",
@@ -952,7 +996,8 @@
     "fim": "01/10/2025",
     "motivo": "Calendário de feriados do Município",
     "portaria": "Nº 1213/2025-GP",
-    "edicao": "Nº 8028/2025"
+    "edicao": "Nº 8028/2025",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "TJPA-OFI-2025/00540",
@@ -961,7 +1006,8 @@
     "fim": "07/10/2025",
     "motivo": "Calendário de feriados do Município",
     "portaria": "Nº 1213/2025-GP",
-    "edicao": "Nº 8028/2025"
+    "edicao": "Nº 8028/2025",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "TJPA-OFI-2025/00540",
@@ -970,7 +1016,8 @@
     "fim": "10/11/2025",
     "motivo": "Calendário de feriados do Município",
     "portaria": "Nº 1213/2025-GP",
-    "edicao": "Nº 8028/2025"
+    "edicao": "Nº 8028/2025",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "TJPA-OFI-2025/00401",
@@ -979,7 +1026,8 @@
     "fim": "29/09/2025",
     "motivo": "Calendário de feriados do Município",
     "portaria": "Nº 1312/2025-GP",
-    "edicao": "Nº 8031/2025"
+    "edicao": "Nº 8031/2025",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "TJPA-REQ-2025/02479",
@@ -988,7 +1036,8 @@
     "fim": "07/03/2025",
     "motivo": "Reforma realizada na unidade judiciária",
     "portaria": "Nº 1376/2025-GP",
-    "edicao": "Nº 8033/2025"
+    "edicao": "Nº 8033/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-MEM-2025/10292",
@@ -997,7 +1046,8 @@
     "fim": "02/05/2025",
     "motivo": "Reforma em andamento na unidade judiciária",
     "portaria": "Nº 1377/2025-GP",
-    "edicao": "Nº 8033/2025"
+    "edicao": "Nº 8033/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPAOFI-2025/00659",
@@ -1006,7 +1056,8 @@
     "fim": "10/12/2025",
     "motivo": "Calendário de feriados do Município",
     "portaria": "Nº 1378/2025-GP",
-    "edicao": "Nº 8033/2025"
+    "edicao": "Nº 8033/2025",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "TJPA-MEM-2025/09803",
@@ -1015,16 +1066,18 @@
     "fim": "14/03/2025",
     "motivo": "Prorrogação da Nº 1188/2025-GP - Serviços complementares de manutenção predial",
     "portaria": "Nº 1453/2025-GP ",
-    "edicao": "Nº 8038/2025"
+    "edicao": "Nº 8038/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
-    "fim": "11/04/2025",
-    "inicio": "06/03/2025",
+    "protocolo": "TJPA-MEM-2025/10383",
     "unidade": "Comarca de Porto de Moz",
+    "inicio": "06/03/2025",
+    "fim": "11/04/2025",
     "motivo": "Prorrogação da Nº 789/2025-GP - Novo cronograma de conclusão dos serviços de reforma",
-    "edicao": "DJE n.º 8046/2025",
     "portaria": "Nº 1454/2025-GP *Republicada por retificação",
-    "protocolo": "TJPA-MEM-2025/10383"
+    "edicao": "DJE n.º 8046/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-REQ-2025/02890",
@@ -1033,7 +1086,8 @@
     "fim": "12/03/2025",
     "motivo": "Prorrogação da Nº 1376/2025-GP - Atraso na conclusão da reforma",
     "portaria": "Nº 1490/2025-GP",
-    "edicao": "Nº 8038/2025"
+    "edicao": "Nº 8038/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-REQ-2025/10757",
@@ -1042,7 +1096,8 @@
     "fim": "29/03/2025",
     "motivo": "Prorrogação da Nº 791/2025-GP - Novo cronograma de conclusão dos serviços de reforma",
     "portaria": "Nº 1491/2025-GP",
-    "edicao": "Nº 8038/2025"
+    "edicao": "Nº 8038/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   },
   {
     "protocolo": "TJPA-MEM-2025/14103",
@@ -1051,7 +1106,8 @@
     "fim": "19/03/2025",
     "motivo": "Calendário de feriados do Município",
     "portaria": "Nº 1502/2025-GP",
-    "edicao": "Nº 8038/2025"
+    "edicao": "Nº 8038/2025",
+    "suspensao": "Com suspensão de Prazo"
   },
   {
     "protocolo": "TJPA-MEM-2025/08102",
@@ -1060,6 +1116,7 @@
     "fim": "01/04/2025",
     "motivo": "Prorrogação da Nº 5/2025-GP - Atraso na execução da reforma do Fórum",
     "portaria": "Nº 1533/2025-GP",
-    "edicao": "Nº 8040/2025"
+    "edicao": "Nº 8040/2025",
+    "suspensao": "Atendimento Remoto (Sem suspensão de Prazo)"
   }
 ]
