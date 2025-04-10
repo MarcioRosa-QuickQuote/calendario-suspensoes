@@ -207,7 +207,7 @@
         .suspension-item span {
             display: block;
             line-height: 1.4;
-            white-space: normal; /* Permite quebra de linha se o conteúdo for muito longo */
+            white-space: normal;
         }
 
         /* High Contrast Mode */
@@ -512,129 +512,90 @@
             return date;
         }
 
-        fetch('suspensions_2025_completo.json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Erro ao carregar o JSON: ${response.status} ${response.statusText}`);
+        function generateCalendar() {
+            let container = document.getElementById("calendarContainer");
+            container.innerHTML = "";
+            const months = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+
+            months.forEach((month, index) => {
+                let firstDay = new Date(2025, index, 1).getDay();
+                let daysInMonth = new Date(2025, index + 1, 0).getDate();
+                let suspensionDays = {};
+
+                const events = allSuspensions.filter(event => {
+                    let inicioDate = parseDateForCalendar(event.inicio);
+                    let fimDate = parseDateForCalendar(event.fim);
+
+                    if (!inicioDate || !fimDate) {
+                        console.log(`Data inválida: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade}`);
+                        return false;
+                    }
+
+                    const startYear = inicioDate.getUTCFullYear();
+                    const endYear = fimDate.getUTCFullYear();
+                    const intersects2025 = startYear <= 2025 && endYear >= 2025;
+
+                    if (!intersects2025 && endYear < 2025) {
+                        return false;
+                    }
+
+                    const monthStart = new Date(Date.UTC(2025, index, 1));
+                    const monthEnd = new Date(Date.UTC(2025, index + 1, 0));
+                    return (inicioDate <= monthEnd && fimDate >= monthStart);
+                });
+
+                events.forEach(event => {
+                    let inicioDate = parseDateForCalendar(event.inicio);
+                    let fimDate = parseDateForCalendar(event.fim);
+
+                    const monthStart = new Date(Date.UTC(2025, index, 1));
+                    const monthEnd = new Date(Date.UTC(2025, index + 1, 0));
+                    const start = inicioDate < monthStart ? monthStart : inicioDate;
+                    const end = fimDate > monthEnd ? monthEnd : fimDate;
+
+                    if (start.getUTCFullYear() === 2025 && end.getUTCFullYear() === 2025) {
+                        const startDay = start.getUTCDate();
+                        const endDay = end.getUTCDate();
+                        for (let day = startDay; day <= endDay; day++) {
+                            if (!suspensionDays[day]) {
+                                suspensionDays[day] = [];
+                            }
+                            suspensionDays[day].push(event.unidade);
+                        }
+                    }
+                });
+
+                let calendar = `<div class='calendar' onclick="loadSuspensions(${index}, '${month}')"><h3>${month} 2025</h3><table>`;
+                calendar += "<tr><th>D</th><th>S</th><th>T</th><th>Q</th><th>Q</th><th>S</th><th>S</th></tr><tr>";
+                for (let i = 0; i < firstDay; i++) calendar += "<td></td>";
+                for (let day = 1; day <= daysInMonth; day++) {
+                    let highlightClass = '';
+                    if (suspensionDays[day]) {
+                        const unidades = suspensionDays[day];
+                        if (unidades.includes("Poder Judiciário do Estado do Pará")) {
+                            highlightClass = 'highlight-judiciario';
+                        }
+                    }
+                    calendar += `<td ${highlightClass ? `class='${highlightClass}'` : ''}>${day}</td>`;
+                    if ((day + firstDay) % 7 === 0) calendar += "</tr><tr>";
                 }
-                return response.json();
-            })
-            .then(data => {
-                console.log('JSON carregado com sucesso:', data);
-                allSuspensions = data;
-                generateCalendar();
-            })
-            .catch(error => {
-                console.error('Erro ao carregar o JSON:', error);
-                document.getElementById('suspensionsList').innerHTML = `<li>Erro ao carregar os dados: ${error.message}</li>`;
+                calendar += "</tr></table></div>";
+                container.innerHTML += calendar;
             });
 
-function generateCalendar() {
-    let container = document.getElementById("calendarContainer");
-    container.innerHTML = "";
-    const months = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+            // Selecionar o mês atual automaticamente ao carregar a página, sem rolagem
+            const currentDate = new Date();
+            const currentMonthIndex = currentDate.getMonth();
+            const currentYear = currentDate.getFullYear();
 
-    months.forEach((month, index) => {
-        let firstDay = new Date(2025, index, 1).getDay();
-        let daysInMonth = new Date(2025, index + 1, 0).getDate();
-        let suspensionDays = {};
-
-        const events = allSuspensions.filter(event => {
-            let inicioDate = parseDateForCalendar(event.inicio);
-            let fimDate = parseDateForCalendar(event.fim);
-
-            if (!inicioDate || !fimDate) {
-                console.log(`Data inválida: Início=${event.inicio}, Fim=${event.fim}, Unidade=${event.unidade}`);
-                return false;
+            if (currentYear === 2025 && currentMonthIndex >= 0 && currentMonthIndex < 12) {
+                loadSuspensions(currentMonthIndex, months[currentMonthIndex], false);
+            } else {
+                loadSuspensions(0, "Janeiro", false);
             }
-
-            const startYear = inicioDate.getUTCFullYear();
-            const endYear = fimDate.getUTCFullYear();
-            const intersects2025 = startYear <= 2025 && endYear >= 2025;
-
-            if (!intersects2025 && endYear < 2025) {
-                return false;
-            }
-
-            const monthStart = new Date(Date.UTC(2025, index, 1));
-            const monthEnd = new Date(Date.UTC(2025, index + 1, 0));
-            return (inicioDate <= monthEnd && fimDate >= monthStart);
-        });
-
-        events.forEach(event => {
-            let inicioDate = parseDateForCalendar(event.inicio);
-            let fimDate = parseDateForCalendar(event.fim);
-
-            const monthStart = new Date(Date.UTC(2025, index, 1));
-            const monthEnd = new Date(Date.UTC(2025, index + 1, 0));
-            const start = inicioDate < monthStart ? monthStart : inicioDate;
-            const end = fimDate > monthEnd ? monthEnd : fimDate;
-
-            if (start.getUTCFullYear() === 2025 && end.getUTCFullYear() === 2025) {
-                const startDay = start.getUTCDate();
-                const endDay = end.getUTCDate();
-                for (let day = startDay; day <= endDay; day++) {
-                    if (!suspensionDays[day]) {
-                        suspensionDays[day] = [];
-                    }
-                    suspensionDays[day].push(event.unidade);
-                }
-            }
-        });
-
-        let calendar = `<div class='calendar' onclick="loadSuspensions(${index}, '${month}')"><h3>${month} 2025</h3><table>`;
-        calendar += "<tr><th>D</th><th>S</th><th>T</th><th>Q</th><th>Q</th><th>S</th><th>S</th></tr><tr>";
-        for (let i = 0; i < firstDay; i++) calendar += "<td></td>";
-        for (let day = 1; day <= daysInMonth; day++) {
-            let highlightClass = '';
-            if (suspensionDays[day]) {
-                const unidades = suspensionDays[day];
-                if (unidades.includes("Poder Judiciário do Estado do Pará")) {
-                    highlightClass = 'highlight-judiciario';
-                }
-            }
-            calendar += `<td ${highlightClass ? `class='${highlightClass}'` : ''}>${day}</td>`;
-            if ((day + firstDay) % 7 === 0) calendar += "</tr><tr>";
         }
-        calendar += "</tr></table></div>";
-        container.innerHTML += calendar;
-    });
 
-    // Selecionar o mês atual automaticamente ao carregar a página
-    const currentDate = new Date(); // Data atual (ex.: 10 de abril de 2025)
-    const currentMonthIndex = currentDate.getMonth(); // Índice do mês (0-11)
-    const currentYear = currentDate.getFullYear();
-
-    // Verificar se estamos em 2025; caso contrário, default para janeiro
-    if (currentYear === 2025 && currentMonthIndex >= 0 && currentMonthIndex < 12) {
-        loadSuspensions(currentMonthIndex, months[currentMonthIndex]);
-    } else {
-        // Se o ano for diferente de 2025, carregar Janeiro como padrão
-        loadSuspensions(0, "Janeiro");
-    }
-}
-
-// Adicionar evento para carregar o calendário e o mês atual ao iniciar
-document.addEventListener('DOMContentLoaded', () => {
-    fetch('suspensions_2025_completo.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Erro ao carregar o JSON: ${response.status} ${response.statusText}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('JSON carregado com sucesso:', data);
-            allSuspensions = data;
-            generateCalendar(); // Gera o calendário e seleciona o mês atual
-        })
-        .catch(error => {
-            console.error('Erro ao carregar o JSON:', error);
-            document.getElementById('suspensionsList').innerHTML = `<li>Erro ao carregar os dados: ${error.message}</li>`;
-        });
-});
-
-        function loadSuspensions(monthIndex, monthName) {
+        function loadSuspensions(monthIndex, monthName, scroll = true) {
             const suspensionsList = document.getElementById('suspensionsList');
             const selectedMonthSpan = document.getElementById('selectedMonth');
             suspensionsList.innerHTML = '<li>Carregando...</li>';
@@ -658,11 +619,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 const monthStart = new Date(Date.UTC(2025, monthIndex, 1));
-                const monthEnd = new Date(Date.UTC(2025, monthIndex + 1, 0)); // Corrigido: usar monthIndex em vez de index
+                const monthEnd = new Date(Date.UTC(2025, monthIndex + 1, 0));
                 return (inicioDate <= monthEnd && fimDate >= monthStart);
             });
 
-            populateSuspensions(events);
+            populateSuspensions(events, scroll);
         }
 
         function formatDate(dateStr) {
@@ -679,7 +640,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return dateStr;
         }
 
-        function populateSuspensions(events) {
+        function populateSuspensions(events, scroll = true) {
             const suspensionsList = document.getElementById('suspensionsList');
             suspensionsList.innerHTML = '';
             if (events.length === 0) {
@@ -725,7 +686,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     suspensionsList.appendChild(li);
                 });
             }
-            document.getElementById('infoContainer').scrollIntoView({ behavior: 'smooth' });
+            if (scroll) {
+                document.getElementById('infoContainer').scrollIntoView({ behavior: 'smooth' });
+            }
         }
 
         function normalizeText(text) {
@@ -767,6 +730,25 @@ document.addEventListener('DOMContentLoaded', () => {
         function toggleContrast() {
             document.body.classList.toggle('high-contrast');
         }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('suspensions_2025_completo.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Erro ao carregar o JSON: ${response.status} ${response.statusText}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('JSON carregado com sucesso:', data);
+                    allSuspensions = data;
+                    generateCalendar();
+                })
+                .catch(error => {
+                    console.error('Erro ao carregar o JSON:', error);
+                    document.getElementById('suspensionsList').innerHTML = `<li>Erro ao carregar os dados: ${error.message}</li>`;
+                });
+        });
     </script>
 </body>
 </html>
